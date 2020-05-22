@@ -1,0 +1,343 @@
+/*style.css*/
+
+#battery{
+    font-size: 200px;
+    position: absolute;
+}
+
+body{
+    
+}
+
+.main-container{
+    
+    margin: 0;
+    
+    background-color: gray;
+    
+}
+
+.banner-font{
+
+    font-family: Impact;
+    
+}
+
+.index-intro{
+    
+    
+    width: 100%;
+    background-color: gray;
+    
+}
+
+.index-intro .jumbotron{
+    
+    
+    padding: 100px 60px;
+    margin: 0px;
+    background-image: url(../../assets/img/banner.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.index-intro .jumbotron h1{
+    
+    font-size: 50px;
+    
+}
+
+
+.index-gallery{
+    
+    margin: 0;
+    width: 100%;
+    background-color: gray;
+    padding-top: 30px;
+    padding-bottom: 60px;
+    
+}
+
+.index-gallery h2{
+    
+    text-align: center;
+}
+
+.index-gallery p{
+    
+    text-align: center;
+}
+
+.nodots{
+    list-style-type: none;
+    
+}
+
+.index-information{
+    
+    text-align: center;
+}
+.index-information p{
+    
+    text-align: center;
+    font-size: 20px;
+}
+
+.index-information p1{
+    
+    text-align: center;
+    font-size: 30px;
+    color: green;
+}
+
+.show-bottom p{
+    
+    font-size: 25px;
+}
+
+footer{
+    
+    background-color: black;
+    color: white;
+}
+
+button {
+
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+
+
+}
+
+.footer button {
+    background: #5d8ffc;
+    color: #fff;
+    border: 0px;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 10px;
+    display: block;
+    width: 100%;
+    transition: 0.3s;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+}
+
+.footer button:hover {
+
+    background: #fff;
+    color: #5d8ffc;
+    border: 1px solid #5d8ffc;
+    cursor: pointer;
+
+
+}
+
+#mapdiv {
+    height: 500px;
+    width: 100%;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    
+}
+
+ul>li{
+    padding: 10px;
+}
+
+
+
+
+
+
+@font-face { font-family: atlantic;
+      
+    src: url('../../assets/fonts/Atlantic Bentley.ttf')}
+
+@font-face { font-family: bang;
+      
+    src: url('../../assets/fonts/bang whack pow.ttf')}
+
+@font-face { font-family: Dopestyle;
+      
+    src: url('../../assets/fonts/Dopestyle.ttf')}
+
+    /*Fine style.css*/
+
+    /*Style button*/
+
+    .btn {
+        position: relative;
+      
+        display: block;
+        margin: 0px auto;
+        padding: 0;
+      
+        overflow: hidden;
+      
+        border-width: 0;
+        outline: none;
+        border-radius: 2px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+        
+        background-color: #2ecc71;
+        color: #ecf0f1;
+        
+        transition: background-color .3s;
+      }
+      
+      .btn:hover, .btn:focus {
+        background-color: #27ae60;
+      }
+      
+      .btn > * {
+        position: relative;
+      }
+      
+      .btn span {
+        display: block;
+        padding: 5px 15px;
+      }
+      
+      .btn:before {
+        content: "";
+        
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        
+        display: block;
+        width: 0;
+        padding-top: 0;
+          
+        border-radius: 100%;
+        
+        background-color: rgba(236, 240, 241, .3);
+        
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+      }
+      
+      .btn:active:before {
+        width: 120%;
+        padding-top: 120%;
+        
+        transition: width .2s ease-out, padding-top .2s ease-out;
+      }
+      
+      /* Styles, not important */
+      *, *:before, *:after {
+        box-sizing: border-box;
+      }
+      
+     
+      
+      .btn.orange {
+        background-color: #e67e22;
+      }
+    
+      .btn.transparent {
+        background-color: transparent;
+      }
+      
+      .btn.orange:hover, .btn.orange:focus {
+        background-color: #d35400;
+      }
+      
+      .btn.red {
+        background-color: #e74c3c;
+      }
+      
+      .btn.red:hover, .btn.red:focus {
+        background-color: #c0392b;
+      }
+    
+      .scrollable{
+    
+        width: 510px;
+        height: 510px;
+      
+      overflow: scroll;
+      }
+
+      /*Fine style button*/
+
+      /*Style bar */
+
+      /*Barre percentuali*/
+
+.percentage{
+    list-style: none;
+    width: 500px;
+    margin: 60px auto;
+    color: white;
+}
+
+.percentage li{
+    margin: 20px 0;
+     
+}
+
+.bar-fren {
+    background: #483535;
+    display: block;
+    height: 20px;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 0 10px #e72121b3;
+
+}
+
+.bar-fren span{
+    height: 20px;
+    float: left;
+    background: red;
+}
+
+.bar-acc {
+    background: #483535;
+    display: block;
+    height: 20px;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 3px;
+    overflow: hidden;
+    /*Bagliore esterno*/
+    box-shadow: 0 0 10px #2135e7b3;
+
+}
+
+.bar-acc span{
+    height: 20px;
+    float: left;
+    /*Colore riempimento*/
+    background: rgb(0, 162, 255);
+}
+
+/*Fine style bar */
+
+/*Style car*/
+
+@media (max-width: 800px)
+{
+    .carStyle{
+     width: 500px;
+     height: 500px;
+    }
+}
+
+@media (max-width: 1920px)
+{
+.carStyle{
+  width: 900px;
+  height: 300px;
+  }
+}
+
+/*Fine style car*/
