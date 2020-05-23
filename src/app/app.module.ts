@@ -10,6 +10,7 @@ import { AngularFireDatabase } from '@angular/fire/database'
 
 import { AngularFireAuth } from '@Angular/fire/auth'
 
+
 import { AngularFireModule } from '@angular/fire'
 
 import { environment } from '../environments/environment';
@@ -22,7 +23,8 @@ import { ArticleIndexGalleryComponent } from './article-index-gallery/article-in
 import { BatterySectionComponent } from './battery-section/battery-section.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SpeedometerSectionComponent } from './speedometer-section/speedometer-section.component';
-import { MapSectionComponent } from './map-section/map-section.component'
+import { MapSectionComponent } from './map-section/map-section.component';
+import { NewBatteryComponent } from './new-battery/new-battery.component'
 
 
 
@@ -35,7 +37,8 @@ import { MapSectionComponent } from './map-section/map-section.component'
     ArticleIndexGalleryComponent,
     BatterySectionComponent,
     SpeedometerSectionComponent,
-    MapSectionComponent
+    MapSectionComponent,
+    NewBatteryComponent
   ],
   imports: [
     BrowserModule,
