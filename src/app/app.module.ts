@@ -25,6 +25,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SpeedometerSectionComponent } from './speedometer-section/speedometer-section.component';
 import { MapSectionComponent } from './map-section/map-section.component';
 import { NewBatteryComponent } from './new-battery/new-battery.component'
+import {SpeedometerService} from "./speedometer.service";
 
 
 
@@ -56,7 +57,7 @@ import { NewBatteryComponent } from './new-battery/new-battery.component'
     ]),
     FontAwesomeModule
   ],
-  providers: [],
+  providers: [SpeedometerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
