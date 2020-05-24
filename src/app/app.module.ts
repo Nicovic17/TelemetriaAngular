@@ -26,6 +26,7 @@ import { SpeedometerSectionComponent } from './speedometer-section/speedometer-s
 import { MapSectionComponent } from './map-section/map-section.component';
 import { NewBatteryComponent } from './new-battery/new-battery.component'
 
+import { BatteryserviceService } from '../app/batteryservice.service'
 
 
 @NgModule({
@@ -56,7 +57,9 @@ import { NewBatteryComponent } from './new-battery/new-battery.component'
     ]),
     FontAwesomeModule
   ],
-  providers: [],
+  providers: [
+    BatteryserviceService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

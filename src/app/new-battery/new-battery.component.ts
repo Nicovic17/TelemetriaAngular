@@ -1,11 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, WrappedValue } from '@angular/core';
 
+import { AngularFirestore } from '@angular/fire/firestore'
+import { AngularFireDatabase } from '@angular/fire/database'
+import { AngularFireAuth } from '@angular/fire/auth'
 
-declare var newBattery: any;
+import { Observable, from } from 'rxjs'
+
+import { BatteryserviceService } from '../batteryservice.service'
+
+//Per utilizzare jQuery in TS
 declare var $: any;
 
+//Variabile per aggiornare la carica della batteria
 var charge=50;
+//Variabile per aggiornare la vista della batteria
 var col;
+
 
 const url="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
 
@@ -16,13 +26,45 @@ const url="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
 })
 export class NewBatteryComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _interactionService: BatteryserviceService) {
 
+    
+    
+   }
+
+   
+
+ 
   ngOnInit(): void {
+    //Carica lo script presente in "url" [non necessario]
     this.loadScript()
-    this.batUpdate()
+    
   }
 
+  ngAfterViewInit()
+  {
+
+    this._interactionService.chargeen$.subscribe(
+      data => {
+        console.log("Charge ottenuta: "+data);
+        charge=Number(data);
+        this.batUpdate()
+        
+      }
+    )
+  }
+
+/*Implementato in service
+  ascoltaBatteria() {
+    //Utilizza l'oggetto AngularFireDatabase per mettersi in ascolto su un determinato campo e fare operazioni
+    //nel momento in cui il campo subisce variazioni
+    this.db.object("Batteria").snapshotChanges().subscribe(action => {
+      charge=Number(action.payload.val())
+      this.batUpdate();
+    });
+  }*/
+
+  //Carica script hostato online
   public loadScript() {
     console.log('preparing to load...')
     let node = document.createElement('script');
@@ -34,7 +76,11 @@ export class NewBatteryComponent implements OnInit {
   }
 
   
+  //Tramite la variabile charge si occupa di aggiornare la vista della batteria
  batUpdate(){
+
+  let lvlBattery = document.getElementById("lvlBattery");
+    lvlBattery.innerHTML = "Batteria: " + charge + "%"
   //console.log("Charge: ",charge);
   if(charge<20){
     // Red - Danger!

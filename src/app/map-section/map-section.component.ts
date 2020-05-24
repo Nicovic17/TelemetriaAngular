@@ -28,6 +28,7 @@ var lat;
 })
 export class MapSectionComponent implements OnInit {
 
+
   database:AngularFireDatabase;
 
   array:Number[];
@@ -38,13 +39,18 @@ export class MapSectionComponent implements OnInit {
 
 
   constructor(db:AngularFireDatabase) {
+    
     this.database=db;
+    //Mette in ascolto la classe sulle coordinate presenti nel database
     this.ascoltaMap()
    }
 
   ngOnInit(): void {
 
+    //Appena si carica la pagina carica lo script in "url"
     this.loadScript()
+    //Appena si carica la pagina la mappa viene settata automaticamente con un click
+    //Questo perché il settaggio automatico diretto porta problemi con OpenLayer
     document.getElementById("setUp").click()
    
   }
@@ -54,44 +60,46 @@ export class MapSectionComponent implements OnInit {
     
   }
 
+  //Converte l'oggetto restituito dal firebase in un Number
+  //Dopodiché ne effettua lo spostamento a quelle coordinate
   convLat(lat:Object)
   {
     this.lat=Number(lat);
     if(this.lat!=undefined)
     {
       console.log("Lati: "+this.lat)
-      this.move2(this.lat,this.long)
+      this.moveWithLongAndLat(this.lat,this.long)
     }
     
   }
 
+  //Converte l'oggetto restituito dal firebase in un Number
+  //Dopodiché ne effettua lo spostamento a quelle coordinate
   convLong(long:Object)
   {
     this.long=Number(long);
     if(this.long!=undefined)
     {
       console.log("Long: "+this.long)
-      this.move2(this.lat,this.long)
+      this.moveWithLongAndLat(this.lat,this.long)
 
     }
     
   }
 
-  /*writeVal(val1:Object,val2:Object)
-  {
-    
-    this.xxx=Number(val1);
-    console.log("VAL1: "+this.xxx);
-  }*/
+ 
 
   ascoltaMap()
   {
+    //Mi metto in ascolto sul campo Map/Lat 
     this.database.object("Map/Lat").snapshotChanges().subscribe(action => {
-      lat=action.payload.val()
+      //Effettuo conversione e movimento
       this.convLat(action.payload.val());
     });
 
+    //Mi metto in ascolto sul campo Map/Long
     this.database.object("Map/Long").snapshotChanges().subscribe(action => {
+      //Effettuo conversione e movimento
       this.convLong(action.payload.val())
     });
 
@@ -100,6 +108,7 @@ export class MapSectionComponent implements OnInit {
 
 
 
+  //Si occupa di inizializzare la mappa
   public setUpMap() {
 
     document.getElementById("setUp").style.display="none";
@@ -112,6 +121,7 @@ export class MapSectionComponent implements OnInit {
         mappa.getProjectionObject() // to Spherical Mercator Projection
       );
 
+      //Distanza visiva dalla mappa
     zoom = 16;
 
     markers = new OpenLayers.Layer.Markers("Markers");
@@ -154,7 +164,8 @@ export class MapSectionComponent implements OnInit {
 
   }
 
-  move2(long, lat) {
+  //Si occupa di spostare il MARKER nella posizione (long/lat) definita
+  moveWithLongAndLat(long, lat) {
 
     //window.alert("Got: "+long+","+lat);
 
@@ -166,6 +177,7 @@ export class MapSectionComponent implements OnInit {
 
   }
 
+  //Crea MARKER sulla mappa e lo posiziona nelle ccoordinate passate
   newMarker(lon, lat) {
 
     var lonLat = new OpenLayers.LonLat(lon, lat)
