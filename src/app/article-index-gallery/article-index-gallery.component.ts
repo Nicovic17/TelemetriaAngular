@@ -5,6 +5,9 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './article-index-gallery.component.html',
   styleUrls: ['./article-index-gallery.component.css']
 })
+
+//Classe principale che contiene tutte le componenti della pagina
+
 export class ArticleIndexGalleryComponent implements OnInit {
 
   constructor() { 

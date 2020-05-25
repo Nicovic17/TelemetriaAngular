@@ -5,6 +5,9 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './section-banner.component.html',
   styleUrls: ['./section-banner.component.css']
 })
+
+//Per la visualizzazione del banner iniziale
+
 export class SectionBannerComponent implements OnInit {
 
   constructor() { }
