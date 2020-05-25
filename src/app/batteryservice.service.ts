@@ -23,19 +23,27 @@ var col;
 export class BatteryserviceService {
 
 
-  public _charge= new BehaviorSubject<Number>(10);
+  //Creo oggetto Observable che su cui si poggia la vista Batteria
+  public _charge= new BehaviorSubject<Number>(100);
   chargeen$= this._charge.asObservable();
+
+  public _chargeLv=new BehaviorSubject<Number>(100)
+  chargeLv$=this._chargeLv.asObservable()
 
   constructor(public db: AngularFireDatabase) {
     this.ascoltaBatteria()
+    this.ascoltaBatteriaLv()
    }
 
+   
   sendCharge(charge : Number)
   {
     console.log("Invio DATIIII"+charge)
     this._charge.next(charge)
   }
 
+  //Ogni volta che la batteria cambia nel DB , il nuovo valore viene inviato all'oggetto Observable e aggiornato poi 
+  //nella vista
   ascoltaBatteria() {
     //Utilizza l'oggetto AngularFireDatabase per mettersi in ascolto su un determinato campo e fare operazioni
     //nel momento in cui il campo subisce variazioni
@@ -46,5 +54,14 @@ export class BatteryserviceService {
     });
   }
 
+  ascoltaBatteriaLv() {
+    //Utilizza l'oggetto AngularFireDatabase per mettersi in ascolto su un determinato campo e fare operazioni
+    //nel momento in cui il campo subisce variazioni
+    this.db.object("BatteriaLv").snapshotChanges().subscribe(action => {
+      //charge=Number(action.payload.val())
+      console.log("Invio da DB LV : "+action.payload.val())
+      this._chargeLv.next(Number(action.payload.val()))
+    });
+  }
 
 }
