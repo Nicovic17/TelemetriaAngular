@@ -5,6 +5,8 @@ import { AngularFirestore } from '@angular/fire/firestore'
 import { AngularFireDatabase } from '@angular/fire/database'
 import { AngularFireAuth } from '@angular/fire/auth'
 
+import {SpeedometerService} from "../speedometer.service";
+
 import { Observable, from } from 'rxjs'
 
 var c;
@@ -20,9 +22,8 @@ export class SpeedometerSectionComponent implements OnInit {
 
   database: AngularFireDatabase;
 
-  constructor(db: AngularFireDatabase) {
+  constructor(private _speedservice: SpeedometerService) {
 
-    this.database = db;
     this.ascoltaSpeed()
   }
 
@@ -45,9 +46,9 @@ export class SpeedometerSectionComponent implements OnInit {
   }
 
   ascoltaSpeed() {
-    this.database.object("Speed").snapshotChanges().subscribe(action => {
-      this.drawSpeedo(action.payload.val());
-    });
+
+    this._speedservice.getSpeed().subscribe(value => this.drawSpeedo(value));
+    
   }
 
 

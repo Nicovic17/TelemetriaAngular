@@ -26,7 +26,8 @@ import { SpeedometerSectionComponent } from './speedometer-section/speedometer-s
 import { MapSectionComponent } from './map-section/map-section.component';
 import { NewBatteryComponent } from './new-battery/new-battery.component'
 
-import { BatteryserviceService } from '../app/batteryservice.service'
+import { BatteryserviceService } from '../app/batteryservice.service';
+import { RotazioneVolanteComponent } from './rotazione-volante/rotazione-volante.component'
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { BatteryserviceService } from '../app/batteryservice.service'
     BatterySectionComponent,
     SpeedometerSectionComponent,
     MapSectionComponent,
-    NewBatteryComponent
+    NewBatteryComponent,
+    RotazioneVolanteComponent
   ],
   imports: [
     BrowserModule,

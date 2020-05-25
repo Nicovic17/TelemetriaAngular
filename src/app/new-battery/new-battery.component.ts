@@ -12,9 +12,9 @@ import { BatteryserviceService } from '../batteryservice.service'
 declare var $: any;
 
 //Variabile per aggiornare la carica della batteria
-var charge=50;
+var charge=50, chargeLv=75;
 //Variabile per aggiornare la vista della batteria
-var col;
+var col, colLv;
 
 
 const url="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
@@ -44,12 +44,22 @@ export class NewBatteryComponent implements OnInit {
   ngAfterViewInit()
   {
 
+    //Metto in ascolto su oggetto Observable ed effettuo aggiornamento vista
+    //Chargeen è per la batteria HighVoltage
     this._interactionService.chargeen$.subscribe(
       data => {
         console.log("Charge ottenuta: "+data);
         charge=Number(data);
         this.batUpdate()
         
+      }
+    )
+
+    this._interactionService.chargeLv$.subscribe(
+      data=>{
+        console.log("Charge LV ottenuta: "+data);
+        chargeLv=Number(data);
+        this.batUpdateLowVoltage()
       }
     )
   }
@@ -80,7 +90,7 @@ export class NewBatteryComponent implements OnInit {
  batUpdate(){
 
   let lvlBattery = document.getElementById("lvlBattery");
-    lvlBattery.innerHTML = "Batteria: " + charge + "%"
+    lvlBattery.innerHTML = "HW: " + charge + "%    -" + " "+"LW"+ "";
   //console.log("Charge: ",charge);
   if(charge<20){
     // Red - Danger!
@@ -94,6 +104,24 @@ export class NewBatteryComponent implements OnInit {
   }
  
   $("#battery").css("background-image","linear-gradient(to right, transparent 5%, "+col[0]+" 5%, "+col[0]+" 7%, "+col[1]+" 8%, "+col[1]+" 10%, "+col[2]+" 11%, "+col[2]+" "+ (charge-3) +"%, "+col[3]+" "+ (charge-2) +"%, "+col[3]+" "+ charge +"%, "+col[4]+" "+ charge +"%, black "+ (charge+5) +"%, black 95%, transparent 95%), linear-gradient(to bottom, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.4) 4%, rgba(255,255,255,0.2) 7%, rgba(255,255,255,0.2) 14%, rgba(255,255,255,0.8) 14%, rgba(255,255,255,0.2) 40%, rgba(255,255,255,0) 41%, rgba(255,255,255,0) 80%, rgba(255,255,255,0.2) 80%, rgba(255,255,255,0.4) 86%, rgba(255,255,255,0.6) 90%, rgba(255,255,255,0.1) 92%, rgba(255,255,255,0.1) 95%, rgba(255,255,255,0.5) 98%)");
+}
+batUpdateLowVoltage(){
+
+  let lvlBattery = document.getElementById("lvlBattery");
+    lvlBattery.innerHTML = "HighVolt: " + charge + "%    -" + " "+"LowVolt"+ chargeLv+"%";
+  //console.log("Charge: ",charge);
+  if(chargeLv<20){
+    // Red - Danger!
+    colLv = ["#750900","#c6462b", "#b74424", "#df0a00", "#590700"];
+  }else if(chargeLv<40){
+    // Yellow - Might wanna charge soon...
+    colLv = ["#754f00","#f2bb00", "#dbb300", "#df8f00", "#593c00"];
+  }else{
+    // Green - All good!
+    colLv = ["#316d08","#60b939", "#51aa31", "#64ce11", "#255405"];
+  }
+ 
+  $("#battery2").css("background-image","linear-gradient(to right, transparent 5%, "+colLv[0]+" 5%, "+colLv[0]+" 7%, "+colLv[1]+" 8%, "+colLv[1]+" 10%, "+colLv[2]+" 11%, "+colLv[2]+" "+ (chargeLv-3) +"%, "+colLv[3]+" "+ (chargeLv-2) +"%, "+colLv[3]+" "+ chargeLv +"%, "+colLv[4]+" "+ chargeLv +"%, black "+ (chargeLv+5) +"%, black 95%, transparent 95%), linear-gradient(to bottom, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.4) 4%, rgba(255,255,255,0.2) 7%, rgba(255,255,255,0.2) 14%, rgba(255,255,255,0.8) 14%, rgba(255,255,255,0.2) 40%, rgba(255,255,255,0) 41%, rgba(255,255,255,0) 80%, rgba(255,255,255,0.2) 80%, rgba(255,255,255,0.4) 86%, rgba(255,255,255,0.6) 90%, rgba(255,255,255,0.1) 92%, rgba(255,255,255,0.1) 95%, rgba(255,255,255,0.5) 98%)");
 }
 
 }
