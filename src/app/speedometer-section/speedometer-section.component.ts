@@ -20,7 +20,6 @@ var speedGradient;
 })
 export class SpeedometerSectionComponent implements OnInit {
 
-  database: AngularFireDatabase;
 
   constructor(private _speedservice: SpeedometerService) {
 

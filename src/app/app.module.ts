@@ -27,7 +27,9 @@ import { MapSectionComponent } from './map-section/map-section.component';
 import { NewBatteryComponent } from './new-battery/new-battery.component'
 
 import { BatteryserviceService } from '../app/batteryservice.service';
-import { RotazioneVolanteComponent } from './rotazione-volante/rotazione-volante.component'
+import { RotazioneVolanteComponent } from './rotazione-volante/rotazione-volante.component';
+import { SpieControlloComponent } from './spie-controllo/spie-controllo.component';
+import { VisionemacchinaComponent } from './visionemacchina/visionemacchina.component'
 
 
 @NgModule({
@@ -41,7 +43,9 @@ import { RotazioneVolanteComponent } from './rotazione-volante/rotazione-volante
     SpeedometerSectionComponent,
     MapSectionComponent,
     NewBatteryComponent,
-    RotazioneVolanteComponent
+    RotazioneVolanteComponent,
+    SpieControlloComponent,
+    VisionemacchinaComponent
   ],
   imports: [
     BrowserModule,
