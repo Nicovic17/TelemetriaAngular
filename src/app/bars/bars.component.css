@@ -1,0 +1,49 @@
+/*Barre percentuali*/
+
+.percentage{
+    list-style: none;
+    width: 300px;
+    margin: 60px auto;
+    color: white;
+}
+
+.percentage li{
+    margin: 20px 0;
+
+}
+
+.bar-fren {
+    background: #483535;
+    display: block;
+    height: 20px;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 0 10px #e72121b3;
+
+}
+
+.bar-fren span{
+    height: 20px;
+    float: left;
+    background: red;
+}
+
+.bar-acc {
+    background: #483535;
+    display: block;
+    height: 20px;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-radius: 3px;
+    overflow: hidden;
+    /*Bagliore esterno*/
+    box-shadow: 0 0 10px #2135e7b3;
+
+}
+
+.bar-acc span{
+    height: 20px;
+    float: left;
+    /*Colore riempimento*/
+    background: rgb(0, 162, 255);
+}

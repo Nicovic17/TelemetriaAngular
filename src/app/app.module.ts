@@ -20,7 +20,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { SectionBannerComponent } from './section-banner/section-banner.component';
 import { ArticleIndexGalleryComponent } from './article-index-gallery/article-index-gallery.component';
-import { BatterySectionComponent } from './battery-section/battery-section.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SpeedometerSectionComponent } from './speedometer-section/speedometer-section.component';
 import { MapSectionComponent } from './map-section/map-section.component';
@@ -42,7 +41,6 @@ import {VisionemacchinaComponent} from "./visionemacchina/visionemacchina.compon
     NavBarComponent,
     SectionBannerComponent,
     ArticleIndexGalleryComponent,
-    BatterySectionComponent,
     SpeedometerSectionComponent,
     MapSectionComponent,
     NewBatteryComponent,
