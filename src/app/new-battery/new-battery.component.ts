@@ -6,7 +6,7 @@ import { AngularFireAuth } from '@angular/fire/auth'
 
 import { Observable, from } from 'rxjs'
 
-import { BatteryserviceService } from '../batteryservice.service'
+import { BatteryService } from '../battery.service'
 
 //Per utilizzare jQuery in TS
 declare var $: any;
@@ -24,7 +24,7 @@ export class NewBatteryComponent implements OnInit {
     public dataHV; //Variabile che riferisce alla carica della batteria high voltage
     public dataLV; //Variabile che riferisce alla carica della batteria low voltage
 
-    constructor(private _interactionService: BatteryserviceService) {}
+    constructor(private _interactionService: BatteryService) {}
 
     ngOnInit(): void {
         //Carica lo script presente in "url" [non necessario]

@@ -20,7 +20,7 @@ var col;
   providedIn: 'root'
 })
 
-export class BatteryserviceService {
+export class BatteryService {
 
 
   //Creo oggetto Observable che su cui si poggia la vista Batteria
@@ -30,7 +30,7 @@ export class BatteryserviceService {
   public _chargeLv=new BehaviorSubject<Number>(100)
   chargeLv$=this._chargeLv.asObservable()
 
-  constructor(public db: AngularFireDatabase) {
+  constructor(private db: AngularFireDatabase) {
     this.ascoltaBatteria()
     this.ascoltaBatteriaLv()
    }

@@ -26,7 +26,7 @@ import { MapSectionComponent } from './map-section/map-section.component';
 import { NewBatteryComponent } from './new-battery/new-battery.component'
 import {SpeedometerService} from "./speedometer.service";
 
-import { BatteryserviceService } from '../app/batteryservice.service';
+import { BatteryService } from './battery.service';
 import { RotazioneVolanteComponent } from './rotazione-volante/rotazione-volante.component'
 import {FormsModule} from "@angular/forms";
 import { BarsComponent } from './bars/bars.component';
@@ -68,7 +68,7 @@ import {BarsService} from "./bars.service";
     FormsModule
   ],
 
-  providers: [SpeedometerService, BatteryserviceService, BarsService],
+  providers: [SpeedometerService, BatteryService, BarsService],
   
   bootstrap: [AppComponent]
 })
