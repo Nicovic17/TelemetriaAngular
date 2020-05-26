@@ -31,6 +31,8 @@ import { BatteryserviceService } from '../app/batteryservice.service';
 import { RotazioneVolanteComponent } from './rotazione-volante/rotazione-volante.component'
 import {FormsModule} from "@angular/forms";
 import { BarsComponent } from './bars/bars.component';
+import {SpieControlloComponent} from "./spie-controllo/spie-controllo.component";
+import {VisionemacchinaComponent} from "./visionemacchina/visionemacchina.component";
 
 
 @NgModule({
@@ -45,7 +47,9 @@ import { BarsComponent } from './bars/bars.component';
     MapSectionComponent,
     NewBatteryComponent,
     RotazioneVolanteComponent,
-    BarsComponent
+    BarsComponent,
+    SpieControlloComponent,
+    VisionemacchinaComponent
   ],
   imports: [
     BrowserModule,
