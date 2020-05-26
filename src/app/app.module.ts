@@ -33,6 +33,7 @@ import { BarsComponent } from './bars/bars.component';
 import {SpieControlloComponent} from "./spie-controllo/spie-controllo.component";
 import {VisionemacchinaComponent} from "./visionemacchina/visionemacchina.component";
 import {BarsService} from "./bars.service";
+import { BatteryindicatorComponent } from './batteryindicator/batteryindicator.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import {BarsService} from "./bars.service";
     RotazioneVolanteComponent,
     BarsComponent,
     SpieControlloComponent,
-    VisionemacchinaComponent
+    VisionemacchinaComponent,
+    BatteryindicatorComponent
   ],
   imports: [
     BrowserModule,

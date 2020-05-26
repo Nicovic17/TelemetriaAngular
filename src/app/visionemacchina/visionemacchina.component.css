@@ -1,12 +1,12 @@
-.car{
-    
-    
 
-}
 
 .btn.empty{
     
     background-color: transparent;
+}
+
+.btn.empty:hover{
+  background-color: transparent;
 }
 
 

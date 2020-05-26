@@ -34,6 +34,7 @@ export class RotazioneVolanteComponent implements OnInit {
 
   ruotaVolante()
   {
+    document.getElementById("degrees").innerHTML="Rotazione: "+gradi+"°";
     document.getElementById("volante").style.webkitTransitionDuration="1s"
     document.getElementById("volante").style.webkitTransform="rotate("+gradi+"deg)"
   }
