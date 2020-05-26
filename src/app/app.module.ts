@@ -32,6 +32,7 @@ import {FormsModule} from "@angular/forms";
 import { BarsComponent } from './bars/bars.component';
 import {SpieControlloComponent} from "./spie-controllo/spie-controllo.component";
 import {VisionemacchinaComponent} from "./visionemacchina/visionemacchina.component";
+import {BarsService} from "./bars.service";
 
 
 @NgModule({
@@ -67,7 +68,7 @@ import {VisionemacchinaComponent} from "./visionemacchina/visionemacchina.compon
     FormsModule
   ],
 
-  providers: [SpeedometerService, BatteryserviceService],
+  providers: [SpeedometerService, BatteryserviceService, BarsService],
   
   bootstrap: [AppComponent]
 })
