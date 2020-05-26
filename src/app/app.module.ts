@@ -29,6 +29,7 @@ import {SpeedometerService} from "./speedometer.service";
 
 import { BatteryserviceService } from '../app/batteryservice.service';
 import { RotazioneVolanteComponent } from './rotazione-volante/rotazione-volante.component'
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -52,13 +53,14 @@ import { RotazioneVolanteComponent } from './rotazione-volante/rotazione-volante
     AngularFirestoreModule,
     RouterModule.forRoot([
       {
-        path:'uninacorse', component:UninacorseComponent
+        path: 'uninacorse', component: UninacorseComponent
       },
       {
-        path:'login', component: AppComponent
+        path: 'login', component: AppComponent
       },
     ]),
-    FontAwesomeModule
+    FontAwesomeModule,
+    FormsModule
   ],
 
   providers: [SpeedometerService, BatteryserviceService],

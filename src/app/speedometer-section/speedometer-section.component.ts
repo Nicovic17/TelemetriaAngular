@@ -22,6 +22,7 @@ export class SpeedometerSectionComponent implements OnInit {
 
   ngOnInit(): void {
     this.setUpSpeed();
+    this.ascoltaSpeed();
   }
 
   setUpSpeed() {
@@ -35,6 +36,9 @@ export class SpeedometerSectionComponent implements OnInit {
     this.speedGradient = this.ctx.createLinearGradient(0, 0, 500, 500);
     this.speedGradient.addColorStop(0, '#00b8fe');
     this.speedGradient.addColorStop(1, 'red');
+  }
+
+  ascoltaSpeed(){
     this._speedservice.getSpeed().subscribe(value => this.drawSpeedo(value));
   }
 
