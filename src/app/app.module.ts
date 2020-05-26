@@ -30,6 +30,7 @@ import {SpeedometerService} from "./speedometer.service";
 import { BatteryserviceService } from '../app/batteryservice.service';
 import { RotazioneVolanteComponent } from './rotazione-volante/rotazione-volante.component'
 import {FormsModule} from "@angular/forms";
+import { BarsComponent } from './bars/bars.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import {FormsModule} from "@angular/forms";
     SpeedometerSectionComponent,
     MapSectionComponent,
     NewBatteryComponent,
-    RotazioneVolanteComponent
+    RotazioneVolanteComponent,
+    BarsComponent
   ],
   imports: [
     BrowserModule,
