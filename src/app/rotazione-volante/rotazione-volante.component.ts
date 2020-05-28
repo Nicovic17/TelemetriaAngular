@@ -1,42 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AngularFireDatabase } from '@angular/fire/database'
+import { AngularFireDatabase } from '@angular/fire/database';
 
-import { VolanteserviceService } from '../volanteservice.service'
+import { VolanteserviceService } from '../volanteservice.service';
 
 
-var gradi=10
 @Component({
   selector: 'app-rotazione-volante',
   templateUrl: './rotazione-volante.component.html',
   styleUrls: ['./rotazione-volante.component.css']
 })
 export class RotazioneVolanteComponent implements OnInit {
+  public gradi: number;
 
-  constructor(private _interactionService:VolanteserviceService) { }
+  constructor(private _interactionService: VolanteserviceService) { }
 
   ngOnInit(): void {
-  }
-
-
-  ngAfterViewInit()
-  {
-
     this._interactionService.gradi$.subscribe(
-      data => {
-        console.log("Gradi ottenuti: "+data);
-        gradi=Number(data);
-        this.ruotaVolante()
-        
-      })
-
+        data => {
+          this.gradi = Number(data);
+        });
   }
-
-  ruotaVolante()
-  {
-    document.getElementById("degrees").innerHTML="Rotazione: "+gradi+"°";
-    document.getElementById("volante").style.webkitTransitionDuration="1s"
-    document.getElementById("volante").style.webkitTransform="rotate("+gradi+"deg)"
-  }
-
 }
