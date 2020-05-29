@@ -77,6 +77,8 @@ export class AppComponent {
   }
 
   mostraStorico(){
+    document.getElementById("user_div").style.display="none";
+    document.getElementById("router").style.display="block";
 
   }
 

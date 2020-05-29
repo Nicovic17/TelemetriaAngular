@@ -34,6 +34,7 @@ import {SpieControlloComponent} from "./spie-controllo/spie-controllo.component"
 import {VisionemacchinaComponent} from "./visionemacchina/visionemacchina.component";
 import {BarsService} from "./bars.service";
 import { BatteryindicatorComponent } from './batteryindicator/batteryindicator.component';
+import { StoricoComponent } from './storico/storico.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { BatteryindicatorComponent } from './batteryindicator/batteryindicator.c
     BarsComponent,
     SpieControlloComponent,
     VisionemacchinaComponent,
-    BatteryindicatorComponent
+    BatteryindicatorComponent,
+    StoricoComponent
   ],
   imports: [
     BrowserModule,
@@ -65,6 +67,9 @@ import { BatteryindicatorComponent } from './batteryindicator/batteryindicator.c
       {
         path: 'login', component: AppComponent
       },
+      {
+        path: 'storico', component: StoricoComponent
+      }
     ]),
     FontAwesomeModule,
     FormsModule
