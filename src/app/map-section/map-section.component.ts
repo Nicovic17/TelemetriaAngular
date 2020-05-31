@@ -8,10 +8,14 @@ import { Observable, from } from 'rxjs'
 
 import { map } from 'rxjs/operators';
 
+import Map from 'ol/Map';
+
 
 declare var OpenLayers: any;
+declare var testMarker:any;
+declare var loadTest:any;
 
-const url = "https://www.openlayers.org/api/OpenLayers.js";
+const url = "https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js";
 
 let markers;
 let trimmer;

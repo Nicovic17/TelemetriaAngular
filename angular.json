@@ -21,13 +21,16 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/assets/js/OpenLayers-2.13.1/img"
             ],
             "styles": [
               "src/styles.css"
             ],
             "scripts": [
-              "src/assets/js/OpenLayers.js",
+              
+              "src/assets/js/OpenLayers-2.13.1/OpenLayers.js",
+              "src/assets/js/testMarker.js",
               "node_modules/jquery/dist/jquery.min.js"
             ]
           },
@@ -93,7 +96,11 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/OpenLayers-2.13.1/OpenLayers.js",
+              "src/assets/js/testMarker.js",
+              "node_modules/jquery/dist/jquery.min.js"
+            ]
           }
         },
         "lint": {

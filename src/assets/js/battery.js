@@ -1,4 +1,6 @@
-
+function testo(){
+    window.alert("testo")
+}
 
 function myBattery(lvl)
 {

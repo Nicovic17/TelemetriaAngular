@@ -18,7 +18,10 @@ button{
 
 
 .test{
-    color: blueviolet;
+    
+        margin-right: 30px;
+        display: inline-block;
+    
 }
 
 
@@ -47,6 +50,10 @@ button{
 
 }
 
+
+li > p{
+    display: inline;
+}
 
 
 .bodyStorico{
