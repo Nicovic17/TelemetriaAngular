@@ -11,19 +11,17 @@ import { FormsModule } from "@angular/forms";
 import { BarsService } from "./bars.service";
 import { SpeedometerService } from "./speedometer.service";
 import { BatteryService } from './battery.service';
-import {VolanteService} from "./volante.service";
+import { VolanteService } from "./volante.service";
 // UNUSED SERVONO ?
 import { AngularFireDatabase } from '@angular/fire/database'
 import { AngularFireAuth } from '@Angular/fire/auth';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
 
-//ATTENZIONE NON IMPORTARE QUA I COMPONENT, VANNO IN --> app-routing.module.ts
+// ATTENZIONE NON IMPORTARE QUA I COMPONENT, VANNO IN --> app-routing.module.ts
 
 @NgModule({
   declarations: [
     AppComponent,
-    routingComponents,
-    PageNotFoundComponent //Array collocato in app-routing.module.ts in esso vanno dichiarati i Component
+    routingComponents, // Array collocato in app-routing.module.ts in esso vanno dichiarati i Component
   ],
   imports: [
     BrowserModule,
@@ -36,7 +34,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
   ],
 
   providers: [SpeedometerService, BatteryService, BarsService, VolanteService],
-  
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

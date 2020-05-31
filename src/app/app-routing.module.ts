@@ -45,5 +45,6 @@ export const routingComponents = [
     SpieControlloComponent,
     VisionemacchinaComponent,
     BatteryindicatorComponent,
-    StoricoComponent
+    StoricoComponent,
+    PageNotFoundComponent
 ]
