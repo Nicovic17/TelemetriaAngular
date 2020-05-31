@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
-import { AngularFireDatabase } from '@angular/fire/database';
-
 import { VolanteserviceService } from '../volanteservice.service';
 
 
@@ -12,6 +9,7 @@ import { VolanteserviceService } from '../volanteservice.service';
 })
 export class RotazioneVolanteComponent implements OnInit {
   public gradi: number;
+  public rotation;
 
   constructor(private _interactionService: VolanteserviceService) { }
 
@@ -19,6 +17,7 @@ export class RotazioneVolanteComponent implements OnInit {
     this._interactionService.gradi$.subscribe(
         data => {
           this.gradi = Number(data);
+          this.rotation = `rotate(${data}deg)`
         });
   }
 }
