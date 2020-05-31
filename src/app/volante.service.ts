@@ -16,7 +16,7 @@ const steerWheelAngDBPath = 'realTime/001/value';
 @Injectable({
   providedIn: 'root'
 })
-export class VolanteserviceService {
+export class VolanteService {
 
   public _gradi= new BehaviorSubject<Number>(0);
   gradi$= this._gradi.asObservable();
