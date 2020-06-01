@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VolanteserviceService } from '../volanteservice.service';
+import { VolanteService } from '../volante.service';
 
 
 @Component({
@@ -11,7 +11,7 @@ export class RotazioneVolanteComponent implements OnInit {
   public gradi: number;
   public rotation;
 
-  constructor(private _interactionService: VolanteserviceService) { }
+  constructor(private _interactionService: VolanteService) { }
 
   ngOnInit(): void {
     this._interactionService.gradi$.subscribe(

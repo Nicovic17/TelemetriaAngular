@@ -1,13 +1,21 @@
 .banner-font{
 
-    font-family: "Cambria Math";
+    font-family: "Arial";
 
     font-size: x-large;
 
 }
 
 .sections-font{
-    font-family: "fantasy";
+    font-family: "Arial";
 
     font-size: x-large;
+}
+
+.routerActive{
+    background-color: lightgrey;
+
+    font-family: Arial;
+
+    
 }
