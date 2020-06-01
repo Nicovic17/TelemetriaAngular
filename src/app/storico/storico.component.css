@@ -11,7 +11,7 @@ button{
 .button_div{
     width: 20%;
     margin: 0px auto;
-    margin-top: 150px;
+    margin-top: 10px;
     padding: 20px;
     text-align: center;
 }
@@ -75,6 +75,7 @@ li > p{
     padding: 0;
     box-sizing: border-box;
     margin-left: 40px;
+    margin-right: 40px;
     width: 90%;
 
     border-bottom: 20px solid #03a9f4;
