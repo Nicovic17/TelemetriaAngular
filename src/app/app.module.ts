@@ -12,6 +12,8 @@ import { BarsService } from "./bars.service";
 import { SpeedometerService } from "./speedometer.service";
 import { BatteryService } from './battery.service';
 import { VolanteService } from "./volante.service";
+import { MapService } from "./map.service";
+
 // UNUSED SERVONO ?
 import { AngularFireDatabase } from '@angular/fire/database'
 import { AngularFireAuth } from '@Angular/fire/auth';
@@ -33,7 +35,7 @@ import { AngularFireAuth } from '@Angular/fire/auth';
     FormsModule
   ],
 
-  providers: [SpeedometerService, BatteryService, BarsService, VolanteService],
+  providers: [SpeedometerService, BatteryService, BarsService, VolanteService, MapService],
 
   bootstrap: [AppComponent]
 })

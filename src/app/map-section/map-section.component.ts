@@ -1,14 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-import { AngularFirestore } from '@angular/fire/firestore'
-import { AngularFireDatabase } from '@angular/fire/database'
-import { AngularFireAuth } from '@angular/fire/auth'
-
-import { Observable, from } from 'rxjs'
-
-import { map } from 'rxjs/operators';
-
-import Map from 'ol/Map';
+import {MapService} from "../map.service";
 
 
 declare var OpenLayers: any;
@@ -17,13 +8,6 @@ declare var loadTest:any;
 
 const url = "https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js";
 
-let markers;
-let trimmer;
-var mappa;
-var lonLat;
-var zoom;
-var lon
-var lat;
 
 @Component({
   selector: 'app-map-section',
@@ -31,110 +15,55 @@ var lat;
   styleUrls: ['./map-section.component.css']
 })
 export class MapSectionComponent implements OnInit {
-
-
-  database:AngularFireDatabase;
-
-  array:Number[];
-  lat:Number;
-  long:Number;
+  private markers;
+  private trimmer;
+  private mappa;
+  private lonlat;
+  private zoom;
+  private lon;
+  private lat;
 
   loadAPI: Promise<any>;
-
-
-  constructor(db:AngularFireDatabase) {
-    
-    this.database=db;
-    //Mette in ascolto la classe sulle coordinate presenti nel database
-    this.ascoltaMap()
-   }
+  constructor(private _mapService: MapService) {}
 
   ngOnInit(): void {
-
     //Appena si carica la pagina carica lo script in "url"
     this.loadScript()
     //Appena si carica la pagina la mappa viene settata automaticamente con un click
     //Questo perché il settaggio automatico diretto porta problemi con OpenLayer
-    document.getElementById("setUp").click()
+    //document.getElementById("setUp").click()
+    this.setUpMap();
+
+    this._mapService.getLatitude().subscribe(value => {
+      this.lat = value;
+      this.newMarker();
+    })
+
+    this._mapService.getLongitude().subscribe(value => {
+      this.lon = value;
+      this.newMarker();
+    })
    
   }
-
-  ngAfterViewInit(){
-    
-    
-  }
-
-  //Converte l'oggetto restituito dal firebase in un Number
-  //Dopodiché ne effettua lo spostamento a quelle coordinate
-  convLat(lat:Object)
-  {
-    this.lat=Number(lat);
-    if(this.lat!=undefined)
-    {
-      console.log("Lati: "+this.lat)
-      this.moveWithLongAndLat(this.lat,this.long)
-    }
-    
-  }
-
-  //Converte l'oggetto restituito dal firebase in un Number
-  //Dopodiché ne effettua lo spostamento a quelle coordinate
-  convLong(long:Object)
-  {
-    this.long=Number(long);
-    if(this.long!=undefined)
-    {
-      console.log("Long: "+this.long)
-      this.moveWithLongAndLat(this.lat,this.long)
-
-    }
-    
-  }
-
- 
-
-  ascoltaMap()
-  {
-    //Mi metto in ascolto sul campo Map/Lat 
-    this.database.object("Map/Lat").snapshotChanges().subscribe(action => {
-      //Effettuo conversione e movimento
-      this.convLat(action.payload.val());
-    });
-
-    //Mi metto in ascolto sul campo Map/Long
-    this.database.object("Map/Long").snapshotChanges().subscribe(action => {
-      //Effettuo conversione e movimento
-      this.convLong(action.payload.val())
-    });
-
-    
-  }
-
 
 
   //Si occupa di inizializzare la mappa
   public setUpMap() {
-
-    document.getElementById("setUp").style.display="none";
-
-    mappa = new OpenLayers.Map("mapdiv");
-    mappa.addLayer(new OpenLayers.Layer.OSM());
-    lonLat = new OpenLayers.LonLat(14.4475, 40.88141666666667)
-      .transform(
-        new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-        mappa.getProjectionObject() // to Spherical Mercator Projection
-      );
+    this.mappa = new OpenLayers.Map("mapdiv");
+    this.mappa.addLayer(new OpenLayers.Layer.OSM());
+    this.lonlat = new OpenLayers.LonLat(this.lonlat, this.zoom)
+    .transform(
+      new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+      this.mappa.getProjectionObject() // to Spherical Mercator Projection
+    );
 
       //Distanza visiva dalla mappa
-    zoom = 16;
-
-    markers = new OpenLayers.Layer.Markers("Markers");
-    mappa.addLayer(markers);
-
-    markers.addMarker(new OpenLayers.Marker(lonLat));
-
-    mappa.setCenter(lonLat, zoom);
-    trimmer = 0;
+    this.zoom = 16;
+    this.markers = new OpenLayers.Layer.Markers("Markers");
+    this.mappa.addLayer(this.markers);
+    this.markers.addMarker(new OpenLayers.Marker(this.lonlat));
+    this.mappa.setCenter(this.lonlat, this.zoom);
+    this.trimmer = 0;
 
   }
 
@@ -148,59 +77,72 @@ export class MapSectionComponent implements OnInit {
     document.getElementsByTagName('head')[0].appendChild(node);
   }
 
-  move() {
-
-
-    markers.destroy();
-
-
-    if (trimmer == 1) {
-
-      this.newMarker(10.022154, 44.680667);
-      trimmer--;
-    }
-    else
-      if (trimmer == 0) {
-
-        this.newMarker(10.027399, 44.681493);
-        trimmer++;
-      }
-
-  }
-
-  //Si occupa di spostare il MARKER nella posizione (long/lat) definita
-  moveWithLongAndLat(long, lat) {
-
-    //window.alert("Got: "+long+","+lat);
-
-    markers.destroy();
-
-
-    this.newMarker(lat, long);
-
-
-  }
 
   //Crea MARKER sulla mappa e lo posiziona nelle ccoordinate passate
-  newMarker(lon, lat) {
+  newMarker() {
+    this.markers.destroy();
 
-    var lonLat = new OpenLayers.LonLat(lon, lat)
+    this.lonlat = new OpenLayers.LonLat(this.lon, this.lat)
       .transform(
         new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-        mappa.getProjectionObject() // to Spherical Mercator Projection
+        this.mappa.getProjectionObject() // to Spherical Mercator Projection
       );
 
-    var zoom = 16;
+    this.zoom = 30;
 
-    markers = new OpenLayers.Layer.Markers("Markers");
-    mappa.addLayer(markers);
+    this.markers = new OpenLayers.Layer.Markers("Markers");
+    this.mappa.addLayer(this.markers);
 
-    markers.addMarker(new OpenLayers.Marker(lonLat));
-    mappa.setCenter(lonLat, zoom);
+    this.markers.addMarker(new OpenLayers.Marker(this.lonlat));
+    this.mappa.setCenter(this.lonlat, this.zoom);
   }
-
-
-
-
 }
 
+/*
+  //Converte l'oggetto restituito dal firebase in un Number
+  //Dopodiché ne effettua lo spostamento a quelle coordinate
+  convLat(lat:Object)
+  {
+    this.lat=Number(lat);
+    if(this.lat!=undefined)
+    {
+      console.log("Lati: "+this.lat)
+      this.moveWithLongAndLat(this.lat,this.long)
+    }
+  }
+
+  //Converte l'oggetto restituito dal firebase in un Number
+  //Dopodiché ne effettua lo spostamento a quelle coordinate
+  convLong(long:Object)
+  {
+    this.long=Number(long);
+    if(this.long!=undefined)
+    {
+      console.log("Long: "+this.long)
+      this.moveWithLongAndLat(this.lat,this.long)
+
+    }
+ }*/
+
+/*//Si occupa di spostare il MARKER nella posizione (long/lat) definita
+moveWithLongAndLat(long, lat) {
+
+  this.markers.destroy();
+
+  this.newMarker(lat, long);
+}*/
+
+
+/*move() {
+  this.markers.destroy();
+  if (this.trimmer == 1) {
+    this.newMarker(10.022154, 44.680667);
+    this.trimmer--;
+  }
+  else
+    if (this.trimmer == 0) {
+
+      this.newMarker(10.027399, 44.681493);
+      this.trimmer++;
+    }
+}*/
