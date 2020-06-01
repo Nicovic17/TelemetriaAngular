@@ -35,16 +35,30 @@
 
     </div>
 
-    <div id="box" class="box">
-        <h2 id="titleBox">Seleziona istanti di tempo</h2>
-        <ul id="listaDate">
-            </ul>
+    <div class="row">
+
+        <div class="col">
+
+            <div id="box" class="box">
+                <h2 id="titleBox">Seleziona istanti di tempo</h2>
+                <ul id="listaDate">
+                    </ul>
+            </div>
+
+        </div>
+
+        
+
+    
+
     </div>
+    
+    
     <div class="button_div">
         <button>Annulla</button>
         <button id="btnAvanti" (click)="aggiungiData()">Conferma selezione</button>
         <button id="btnJson" (click)="creaJson()">Mostra sensori</button>
-        <button id="btnConfermaID" (click)="aggiungiData()">Conferma selezione ID</button>
+        <button id="btnConfermaID" (click)="aggiungiID()">Conferma selezione ID</button>
         <button id="btnMostraValID" (click)="creaJson()">Mostra valori sensori</button>
     </div>
 
