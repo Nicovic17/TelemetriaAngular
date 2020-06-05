@@ -1,4 +1,10 @@
 
+.scrollable{
+
+    height: 200px;
+    width: 95%;
+    overflow: auto;
+}
 
 button{
 
@@ -50,6 +56,9 @@ button{
 
 }
 
+ul#idPlot li{
+    display: inline;
+}
 
 li > p{
     display: inline;

@@ -31,7 +31,8 @@
               
               "src/assets/js/OpenLayers-2.13.1/OpenLayers.js",
               "src/assets/js/testMarker.js",
-              "node_modules/jquery/dist/jquery.min.js"
+              "node_modules/jquery/dist/jquery.min.js",
+              "src/assets/js/plotly.js"
             ]
           },
           "configurations": {
@@ -99,7 +100,8 @@
             "scripts": [
               "src/assets/js/OpenLayers-2.13.1/OpenLayers.js",
               "src/assets/js/testMarker.js",
-              "node_modules/jquery/dist/jquery.min.js"
+              "node_modules/jquery/dist/jquery.min.js",
+              "src/assets/js/plotly.js"
             ]
           }
         },
