@@ -8,16 +8,23 @@ import { VolanteService } from '../volante.service';
   styleUrls: ['./rotazione-volante.component.css']
 })
 export class RotazioneVolanteComponent implements OnInit {
-  public gradi: number;
+  public gradi;
   public rotation;
 
-  constructor(private _interactionService: VolanteService) { }
+  constructor(private _volanteService: VolanteService) { }
 
-  ngOnInit(): void {
-    this._interactionService.gradi$.subscribe(
-        data => {
-          this.gradi = Number(data);
-          this.rotation = `rotate(${data}deg)`
-        });
+  ngOnInit(){
+      this.ascoltaVolante();
+  }
+
+
+  ascoltaVolante(){
+      this._volanteService.getGradiVolante().subscribe(value => this.updateValues(value) );
+  }
+  updateValues(value){
+      this.gradi = value;
+      this.rotation = `rotate(${value}deg)`;
+      console.log(this.rotation);
+      document.getElementById("deg").innerHTML="Volante " + value + "°"
   }
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {BarsService} from "../bars.service";
-import validate = WebAssembly.validate;
 
 @Component({
   selector: 'app-bars-section',

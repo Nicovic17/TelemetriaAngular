@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {AngularFireDatabase} from '@angular/fire/database';
+import {Observable} from "rxjs";
 
-const speedDBPath = 'realTime/004/value';
+const speedDBPath = '/storico/004';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,12 @@ export class SpeedometerService {
 
   constructor(private db: AngularFireDatabase) { }
 
-  getSpeed(){
-    return this.db.object(speedDBPath).valueChanges();
+  getSpeed(): Observable<number>{
+    return new Observable(subscriber => {
+      this.db.database.ref(speedDBPath).on("child_added", child => {
+        subscriber.next(child.val());
+      });
+    })
+
   }
 }
