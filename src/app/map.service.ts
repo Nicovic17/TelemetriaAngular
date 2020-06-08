@@ -1,20 +1,29 @@
 import { Injectable } from '@angular/core';
 import {AngularFireDatabase} from "@angular/fire/database";
+import {Observable} from "rxjs";
+
+const gpsDBPath = '/storico/010/';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapService {
-  private tempLat;
-  private tempLong;
   constructor(private db: AngularFireDatabase) { }
 
-  getLongitude(){
-    return this.db.object('/realTime/010/longitude').valueChanges();
+  getLongitude(): Observable<number>{
+    return new Observable(subscriber => {
+      this.db.database.ref(gpsDBPath).limitToLast(1).on("child_added", child => {
+        subscriber.next(child.child('long').val());
+      });
+    });
   }
 
-  getLatitude(){
-    return this.db.object('/realTime/010/latitude').valueChanges();
+  getLatitude(): Observable<number>{
+    return new Observable(subscriber => {
+      this.db.database.ref(gpsDBPath).limitToLast(1).on("child_added", child => {
+        subscriber.next(child.child('lat').val());
+      });
+    });
   }
 
 }

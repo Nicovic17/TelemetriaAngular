@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import {AngularFireDatabase} from "@angular/fire/database";
+import {Observable} from "rxjs";
 
 
-const throttleDBPath = 'realTime/011/value';
-const breakDBPath = 'realTime/012/value';
+const throttleDBPath = 'storico/011';
+const breakDBPath = 'storico/012';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,18 @@ export class BarsService {
 
   constructor(private db: AngularFireDatabase) { }
 
-  getThrottleValue(){
-    return this.db.object(throttleDBPath).valueChanges();
+  getThrottleValue(): Observable<number>{
+    return new Observable(subscriber => {
+      this.db.database.ref(throttleDBPath).limitToLast(1).on("child_added", child => {
+        subscriber.next(child.val());
+      });
+    });
   }
-  getBreakValue(){
-    return this.db.object(breakDBPath).valueChanges();
+  getBreakValue(): Observable<number>{
+    return new Observable(subscriber => {
+      this.db.database.ref(breakDBPath).limitToLast(1).on("child_added", child => {
+        subscriber.next(child.val());
+      });
+    });
   }
 }

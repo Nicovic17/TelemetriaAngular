@@ -39,7 +39,9 @@ export class SpeedometerSectionComponent implements OnInit {
   }
 
   ascoltaSpeed(){
-    this._speedservice.getSpeed().subscribe(value => this.drawSpeedo(value));
+    this._speedservice.getSpeed().subscribe(value => {
+      this.drawSpeedo(value);
+    });
   }
 
   drawSpeedo(speed) {
