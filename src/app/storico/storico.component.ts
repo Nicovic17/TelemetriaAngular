@@ -8,21 +8,12 @@ import { ViewEncapsulation } from '@angular/core';
 import { StoricoService } from '../storico.service'
 
 
-var arrayDate = [], arrayID = [];
+var arrayDate = [], arrayID = [], arrayForDropDown = [];
 var idSelezionati = [];
 var arrayTrace = [];
 var datiGrafico;
 var traceSelezionate = [];
 var trace;
-
-
-//var dateSelezionate = [];
-//var arraySensori = [];
-//var sensoriSelezionati = [];
-//var arrayIdSalvati = [];
-//var arrayPath = [];
-//var arrayValori = []
-//var arrayNumeroSensoriPerOgniData = []
 
 
 var layout = {
@@ -82,6 +73,7 @@ export class StoricoComponent implements OnInit {
     document.getElementById("load").innerHTML = "<p>Caricamento dati...</p>";
     //this._storicoService.getDate()
     this._storicoService.getID();
+
   }
 
   private date = [];
@@ -92,34 +84,59 @@ export class StoricoComponent implements OnInit {
     document.getElementById("btnAvanti").style.display = "block"
 
     arrayID = this._storicoService.getArrayID();
+    arrayForDropDown = this._storicoService.getJsonObjectForDropDown()
+
     this.setUpList();
+    this.setUpDropDown();
 
   }
 
+  /*
   getDate() {
     document.getElementById("btnCaricaDate").style.display = "none"
     document.getElementById("btnAvanti").style.display = "block"
 
     arrayDate = this._storicoService.getArray()
     this.setUpList()
-  }
+  }*/
 
 
 
   setUpList() {
+
+
 
     document.getElementById("box").style.display = "block"
     var i = 0;
     for (i = 0; i < arrayID.length; i++) {
 
 
-      $("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + arrayID[i] + "</p></li>")
-      $("#idPlot").append("<li name='item'><span><input type='checkbox'></span><p name='itemPlot'>" + arrayID[i] + "</p></li>")
+      $("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + arrayID[i] + "</p> <label >Data inizio</label>  <select name='dataInizio' id='dataInizio" + arrayID[i] + "' ></select> <label>Data fine</label> <select  id='dataFine" + arrayID[i] + "' ></select> </li>")
 
     }
 
   }
 
+  setUpDropDown() {
+    var k = 0;
+    var i = 0;
+    for (i = 0; i < arrayID.length; i++) {
+      for (k = 0; k < arrayForDropDown.length; k++) {
+        // window.alert("In drop: " + arrayForDropDown[k]["tempo"])
+        if (arrayForDropDown[k]["id"] == arrayID[i]) {
+          var nomeDropDown = "#dataInizio" + arrayID[i];
+          $(nomeDropDown).append("<option value='test'>" + arrayForDropDown[k]["tempo"] + "</option>")
+          var nomeDropDownFine = "#dataFine" + arrayID[i];
+          $(nomeDropDownFine).append("<option value='test'>" + arrayForDropDown[k]["tempo"] + "</option>")
+        }
+
+
+      }
+    }
+
+  }
+
+  flag: Boolean;
   public aggiungiID() {
 
     idSelezionati = [];
@@ -131,42 +148,27 @@ export class StoricoComponent implements OnInit {
     for (i = 0; i < lis.length; i++) {
       if (lis[i].checked) {
         //Aggiungi a ID selezionati
-        idSelezionati.push(innerID[i].innerHTML)
+        var obj = {};
 
-        /*const index = idSelezionati.indexOf(innerID[i].innerHTML);
+        //idSelezionati.push(innerID[i].innerHTML)
+        //Prendo data inizio e fine:
+        var dataInizio = $("#dataInizio" + innerID[i].innerHTML + " :selected").text();
+        var dataFine = $("#dataFine" + innerID[i].innerHTML + " :selected").text();
+        obj["id"] = innerID[i].innerHTML;
+        obj["dataInizio"] = dataInizio;
+        obj["dataFine"] = dataFine;
 
-        if (index == -1) //ID non trovato , effettuo PUSH
-        {
-          //window.alert("Aggiungo ID: " + innerID[i].innerHTML)
-          idSelezionati.push(innerID[i].innerHTML)
-        }
+        this.flag = this.compareDate(dataInizio, dataFine);
+
+        if (this.flag == true)
+          idSelezionati.push(obj);
         else {
-
-          window.alert("ID già presente in selezionati");
-        }*/
-      }
-      /*
-      else//Not checked
-      {
-        //Se la checkbox è unchecked e ID si trova in array
-        //Rimuovi ID
-
-        const index = idSelezionati.indexOf(innerID[i].innerHTML);
-
-        if (index > -1) {
-          //Trovato
-          window.alert("Rimuovo: " + innerID[i].innerHTML);
-          if (idSelezionati.length == 1) {
-            //C'è solo un ID
-            window.alert("Stai rimuovendo tutti gli ID selezionati");
-            idSelezionati = [];
-          }
-          else {
-            idSelezionati.splice(index, 1);
-          }
+          window.alert("Data per sensore " + innerID[i].innerHTML + " non valida");
         }
 
-      }*/
+
+      }
+
     }
 
     if (idSelezionati.length == 0) {
@@ -180,12 +182,44 @@ export class StoricoComponent implements OnInit {
     }
   }
 
+  compareDate(dataInizio: String, dataFine: String) {
+
+    //Utilizzando un sistema orario basato su 24 ore
+    //Si può effettuare un confronto tra orari differenti
+    //Semplicemente confrontando i valori delle stringhe:
+
+    //1: DataInizio deve essere <= di DataFine
+
+    if (dataInizio >= dataFine)
+      return false;
+
+    return true;
+
+  }
+
+  createCheckableIdPlot() {
+
+    $("#idPlot").empty();
+
+    idSelezionati.forEach(element => {
+
+
+
+      $("#idPlot").append("<li name='item'><span><input type='checkbox'></span><p name='itemPlot'>" + element["id"] + "</p></li>")
+
+
+    });
+
+  }
 
   public startPlot() {
 
+    document.getElementById("btnJson").style.display = "none"
     document.getElementById("btnConfermaID").style.display = "block"
-    document.getElementById("btnAvanti").style.display = "none"
+    document.getElementById("btnAvanti").style.display = "block"
+    document.getElementById("btnAvanti").innerHTML = "Aggiorna sensori selezionati"
     document.getElementById("idPerPlot").style.display = "block"
+    this.createCheckableIdPlot()
 
     datiGrafico = this._storicoService.getJsonObject()
 
@@ -200,12 +234,7 @@ export class StoricoComponent implements OnInit {
       if (ID != currID) //Grafico diverso
       {
 
-        trace = {
-          x: asseX,
-          y: asseY,
-          type: 'scatter',
-          name: "00" + (ID - 1)
-        };
+
 
         arrayTrace.push(trace);
 
@@ -216,7 +245,7 @@ export class StoricoComponent implements OnInit {
       }
       else //Stesso grafico
       {
-        window.alert("Aggiorno grafico di ID: " + ID);
+        //window.alert("Aggiorno grafico di ID: " + ID);
         asseX.push(datiGrafico[i]["tempo"]);
         asseY.push(datiGrafico[i]["valore"]);
       }
@@ -283,65 +312,19 @@ export class StoricoComponent implements OnInit {
         var j = 0;
         for (j = 0; j < arrayTrace.length; j++) {
 
+          window.alert("Confronto: " + innerID[i].innerHTML + " con " + arrayTrace[j]["name"])
           if (innerID[i].innerHTML == arrayTrace[j]["name"]) {
 
-            //Controllo se innerID è già è in traceSelezionate
-
-            var index;
-            if (traceSelezionate.length > 0) {
-              var k = 0;
-              for (k = 0; k < traceSelezionate.length; k++) {
-                index = traceSelezionate[k]["name"].indexOf(innerID[i].innerHTML);
-
-                if (index > -1)//trovato
-                {
-                  window.alert("Traccia già presente.")
-                  break;
-                }
-                else
-                  if (index == -1)//Non trovato, effettuo push
-                  {
-                    window.alert("Effettuo push")
-                    traceSelezionate.push(arrayTrace[j]);
-                    break;
-                  }
-              }
-
-            }
-            else {
-              window.alert("Effettuo push qua");
-              traceSelezionate.push(arrayTrace[j]);
-            }
-
+            traceSelezionate.push(arrayTrace[j]);
           }
+          else {
+            window.alert("Traccia non presente")
+          }
+
         }
       }
-      /*else
-      if(!lis[i].checked)
-      {
-        //Controllo se innerID è in traceSelezionate
-        var h=0;
-        for(h=0;h<traceSelezionate.length;h++)
-        {
-          if(innerID[i].innerHTML == traceSelezionate[h]["name"])
-          {
-            //Trovato, devo rimuoevere
-            if(traceSelezionate.length==1)
-            {
-              window.alert("Stai rimuovendo tutto")
-              traceSelezionate=[]
-            }
-            else{
-              window.alert("Rimuovo"+innerID[i].innerHTML)
-              traceSelezionate.splice(h,1);
-            }
-          }
-          
-        }
-        
-      }*/
-
     }
+
 
     if (traceSelezionate.length == 0) {
       window.alert("Seleziona almeno un ID")
@@ -356,328 +339,6 @@ export class StoricoComponent implements OnInit {
 
 
   }
-
-  /*
-  public aggiungiData() {
-    var lis = document.getElementById("listaDate").getElementsByTagName("input")
-    var innerText = document.getElementsByName("itemText");
-
-    var i = 0;
-    for (i = 0; i < lis.length; i++) {
-      if (lis[i].checked) {
-        //Aggiungi alle date selezionate
-
-        const index = dateSelezionate.indexOf(innerText[i].innerHTML);
-
-        if (index == -1) //Non ho trovato la data, quindi faccio il push
-        {
-          window.alert("Checked, aggiungo " + innerText[i].innerHTML)
-          dateSelezionate.push(innerText[i].innerHTML);
-
-        }
-        else {
-          window.alert("Data già presente");
-
-
-        }
-      }
-      else {
-        // Se la checkbox è unchecked e la data si trova
-        //nell'array, allora la devo eliminare
-
-
-        const index = dateSelezionate.indexOf(innerText[i].innerHTML);
-        if (index > -1) {//Trovata
-          window.alert("Devo rimuovere" + innerText[i].innerHTML)
-          if (dateSelezionate.length == 1) {//C'è solo una data
-            window.alert("Stai eliminando tutte le selezioni")
-            dateSelezionate = [];
-
-          }
-          else
-            dateSelezionate.splice(index, 1);
-        }
-
-      }
-
-
-    }
-
-
-    if (dateSelezionate.length == 0) {
-      window.alert("Seleziona almeno un istante temporale")
-    }
-    else {
-      window.alert("Vado avanti, carico sensori. Num Date: " + dateSelezionate.length)
-      this.effettuaQueryeMostraSensoriInIstantiDiTempo()
-      document.getElementById("btnJson").style.display = "block"
-      document.getElementById("btnAvanti").innerHTML = "Aggiorna selezione"
-    }
-
-
-  }
-
-
-  effettuaQueryeMostraSensoriInIstantiDiTempo() {
-    //Per ogni data in dateSelezionate recupera gli ID dei sensori
-    //Aggiunge i sensori in arraySensori
-
-    arraySensori = [];
-
-    var i = 0;
-    document.getElementById("load").innerHTML = "Carico sensori..."
-    for (i = 0; i < dateSelezionate.length; i++) {
-      var ref = this.firebase.database.ref("Sensori").child(dateSelezionate[i]);
-
-      ref.once("value", snap => {
-        snap.forEach(function (child) {
-          //window.alert(child.key + "")
-          arraySensori.push(child.key);
-        })
-
-
-
-        document.getElementById("load").innerHTML = "Caricamento sensori completato"
-
-      })
-
-
-    }
-
-
-  }
-
-  creaJson() {
-
-    window.alert("Sensori caricati: " + arraySensori.length + " arrayDateSelezionate: " + dateSelezionate.length)
-
-    arrayNumeroSensoriPerOgniData = this._storicoService.returnNumChildren();
-
-    window.alert("Dim sens" + arraySensori.length)
-    var jsonObjectFinale = [];
-    var i = 0;
-    for (i = 0; i < dateSelezionate.length; i++) {
-
-      var fine = {}
-      fine["tempo"] = dateSelezionate[i];
-      var j = 0;
-      for (j = 0; j < arrayNumeroSensoriPerOgniData[j]; j++) //Supponendo numero sensori gestiti = numeroSensori
-      {
-        fine["id" + j] = arraySensori[j];
-      }
-
-      jsonObjectFinale.push(fine);
-    }
-
-    var jsonObjectFinaleString = JSON.stringify(jsonObjectFinale);
-    window.alert(jsonObjectFinaleString);
-    var obj = JSON.parse(jsonObjectFinaleString);
-
-
-    var k = 0;
-    $("#listaDate").html("");
-    document.getElementById("btnAvanti").style.display = "none"
-    document.getElementById("btnJson").style.display = "none"
-    document.getElementById("btnConfermaID").style.display = "block"
-    document.getElementById("btnJsonID").style.display = "block"
-    document.getElementById("titleBox").innerHTML = "Seleziona ID interessati"
-    for (k = 0; k < obj.length; k++) {
-      var fess = 0;
-      var ids = "";
-      for (fess = 0; fess < arrayNumeroSensoriPerOgniData[fess]; fess++) {
-        ids += "<input type='checkbox'>ID" + (fess + 1) + ": <p name='itemText'>" + obj[k]["id" + fess] + "</p>"
-      }
-      //<li><span>Data</span><input type="checkbox"><span>ID</span></li>
-      $("#listaDate").append("<li><span name='itemTemp'>" + obj[k]["tempo"] + "</span><br>" + ids)
-
-    }
-
-
-  }
-
-
-
-  /*public aggiungiID() {
-
-    arrayPath=[]
-
-    //Deve aggiungere i path da cercare ad un array di path
-    var lis = document.getElementById("listaDate").getElementsByTagName("input") //Prendo le checkbox
-    var innerTemp = document.getElementsByName("itemTemp"); //Prendo tempo corrispondente
-    var innerText = document.getElementsByName("itemText"); //Prendo valore in checkbox (ID)
-    
-    window.alert("Numero di checkbox: "+lis.length);
-    window.alert("Numero di Tempo: "+innerTemp.length);
-    window.alert("Numero di ID : "+innerText.length);
-    //Ad ogni tempo corrispondono numeroSensori sensori con relative checkbox
-
-    //Per ogni tempo
-    //Per ogni checkbox in quel tempo
-    //Se checkbox, aggiungi tempo/id ad array
-
-    var i=0;
-    for(i=0;i<innerTemp.length;i++)
-    {
-      window.alert("Tempo trovato: "+innerTemp[i].innerHTML)
-      var j=0;
-      for(j=0;j<lis.length;j++)
-      {
-        window.alert("ID curr: "+innerText[j].innerHTML)
-        var path=innerTemp[i].innerHTML+"/"+innerText[j].innerHTML;
-        if(lis[j].checked)
-        {
-          //Controlla se presente path innerTemp[i]/lis[j]
-          
-          const index = arrayPath.indexOf(path);
-          //Se non presente , push
-          if(index==-1)
-          {
-            arrayPath.push(path);
-          }
-          //Se presente allora niente
-          else{
-            window.alert("Path già presente");
-          }
-          
-        }
-        else{
-          //Controlla se presente path
-          const index=arrayPath.indexOf(path);
-          //Se presente, rimuovi
-          if(index>-1)
-          {
-            //Rimuovo
-            if(arrayPath.length==1)
-            {
-              window.alert("Rimozione di tutti i sensori da cercare");
-              arrayPath=[];
-            }
-            else{
-              arrayPath.splice(index,1);
-            }
-          }
-        //Se non presente, niente
-          
-        }
-      }
-
-    }
-
-    if(arrayPath.length==0)
-    {
-      window.alert("Seleziona almeno un ID")
-    }
-    else
-    {
-      //Effettua query
-      this.effettuaQueryMostraValoriIDSelezionati()
-    }
-
-  
-    
-
-
-  }*/
-  /*
-    effettuaQueryMostraValoriIDSelezionati() {
-      arrayValori = [];
-  
-  
-      var i = 0;
-      document.getElementById("load").innerHTML = "Carico valore sensori..."
-      for (i = 0; i < arrayPath.length; i++) {
-        window.alert("Effettuo query: " + arrayPath[i] + "/valore")
-        var ref = this.firebase.database.ref("Sensori").child(arrayPath[i]);
-  
-        ref.once("value", snap => {
-          window.alert(snap.child("Nome").val())
-          window.alert(snap.child("valore").val())
-  
-          document.getElementById("load").innerHTML = "Caricamento valori completato"
-  
-        })
-  
-  
-      }
-  
-    }
-  
-    printPath() {
-  
-      var i = 0;
-      for (i = 0; i < arrayPath.length; i++) {
-        window.alert("Path: " + arrayPath[i]);
-      }
-  
-    }
-    creaJsonID() {
-  
-      // window.alert("Sensori caricati: " + arraySensori.length + " arrayDateSelezionate: " + dateSelezionate.length)
-      // this.numeroSensori = arraySensori.length / dateSelezionate.length;
-      //window.alert("Sensori ogni data: " + this.numeroSensori)
-  
-      // window.alert("Dim sens" + arraySensori.length)
-      var jsonDaRicercare = [];
-      var i = 0;
-      for (i = 0; i < dateSelezionate.length; i++) {
-        var fine = {}
-        fine["tempo"] = dateSelezionate[i];
-        var j = 0;
-        for (j = 0; j < arrayNumeroSensoriPerOgniData[i]; j++) //Supponendo numero sensori gestiti = numeroSensori
-        {
-          fine["id" + j] = arraySensori[j];
-        }
-  
-        jsonDaRicercare.push(fine);
-      }
-  
-      var jsonObjectFinaleString = JSON.stringify(jsonDaRicercare);
-      window.alert(jsonObjectFinaleString);
-      var obj = JSON.parse(jsonObjectFinaleString);
-  
-      var k = 0;
-      for (k = 0; k < obj.length; k++) {
-        var numId = 0;
-        for (numId = 0; numId < arraySensori.length; numId++) {
-          window.alert("Path search: " + obj[k]["tempo"] + "/" + obj[k]["id" + numId])
-        }
-  
-      }
-  
-      /*var k = 0;
-      $("#listaDate").html("");
-      document.getElementById("btnAvanti").style.display = "none"
-      document.getElementById("btnJson").style.display = "none"
-      document.getElementById("btnConfermaID").style.display = "block"
-      document.getElementById("btnJsonID").style.display = "block"
-      document.getElementById("titleBox").innerHTML = "Seleziona ID interessati"
-      for (k = 0; k < obj.length; k++) {
-        var fess = 0;
-        var ids = "";
-        for (fess = 0; fess < this.numeroSensori; fess++) {
-          ids += "<input type='checkbox'>ID" + (fess + 1) + ": <p name='itemText'>" + obj[k]["id" + fess] + "</p>"
-        }
-        //<li><span>Data</span><input type="checkbox"><span>ID</span></li>
-        $("#listaDate").append("<li><span>" + obj[k]["tempo"] + "</span><br>" + ids)
-  
-      }*/
-  /*
-  
-    }
-    printSensSelezionati() {
-      var j = 0;
-      for (j = 0; j < dateSelezionate.length; j++) {
-        var i = 0;
-        for (i = 0; i < sensoriSelezionati.length; i++) {
-          window.alert("Tempo: " + dateSelezionate[j] + " Sensori selezionati; " + sensoriSelezionati[i])
-        }
-      }
-  
-    }
-  
-  */
-
-
 
   checkIfUserIsLogged() {
     this.auth.onAuthStateChanged(function (user) {
