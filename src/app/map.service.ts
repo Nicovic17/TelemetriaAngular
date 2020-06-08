@@ -12,7 +12,7 @@ export class MapService {
 
   getLongitude(): Observable<number>{
     return new Observable(subscriber => {
-      this.db.database.ref(gpsDBPath).on("child_added", child => {
+      this.db.database.ref(gpsDBPath).limitToLast(1).on("child_added", child => {
         subscriber.next(child.child('long').val());
       });
     });
@@ -20,7 +20,7 @@ export class MapService {
 
   getLatitude(): Observable<number>{
     return new Observable(subscriber => {
-      this.db.database.ref(gpsDBPath).on("child_added", child => {
+      this.db.database.ref(gpsDBPath).limitToLast(1).on("child_added", child => {
         subscriber.next(child.child('lat').val());
       });
     });

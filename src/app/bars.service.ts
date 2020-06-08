@@ -15,14 +15,14 @@ export class BarsService {
 
   getThrottleValue(): Observable<number>{
     return new Observable(subscriber => {
-      this.db.database.ref(throttleDBPath).on("child_added", child => {
+      this.db.database.ref(throttleDBPath).limitToLast(1).on("child_added", child => {
         subscriber.next(child.val());
       });
     });
   }
   getBreakValue(): Observable<number>{
     return new Observable(subscriber => {
-      this.db.database.ref(breakDBPath).on("child_added", child => {
+      this.db.database.ref(breakDBPath).limitToLast(1).on("child_added", child => {
         subscriber.next(child.val());
       });
     });
