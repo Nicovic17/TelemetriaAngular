@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import { VolanteService } from '../volante.service';
 
 
@@ -8,16 +8,22 @@ import { VolanteService } from '../volante.service';
   styleUrls: ['./rotazione-volante.component.css']
 })
 export class RotazioneVolanteComponent implements OnInit {
-  public gradi: number;
+  public gradi;
   public rotation;
 
-  constructor(private _interactionService: VolanteService) { }
+  constructor(private _volanteService: VolanteService, private ngZone: NgZone) { }
 
-  ngOnInit(): void {
-    this._interactionService.gradi$.subscribe(
-        data => {
-          this.gradi = Number(data);
-          this.rotation = `rotate(${data}deg)`
-        });
+  ngOnInit(){
+      this.ascoltaVolante();
+  }
+
+
+  ascoltaVolante(){
+      this._volanteService.getGradiVolante().subscribe(value => {
+          this.ngZone.run(() => {
+              this.gradi = value;
+              this.rotation = `rotate(${value}deg)`;
+          })
+      } );
   }
 }
