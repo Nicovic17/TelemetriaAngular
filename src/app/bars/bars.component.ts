@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {BarsService} from "../bars.service";
 
 @Component({
@@ -10,11 +10,19 @@ export class BarsComponent implements OnInit {
   throttleValue;
   breakValue;
 
-  constructor(private _barsService: BarsService) { }
+  constructor(private _barsService: BarsService, private ngZone: NgZone) { }
 
   ngOnInit(): void {
-    this._barsService.getThrottleValue().subscribe(value => this.throttleValue = value + "%");
-    this._barsService.getBreakValue().subscribe(value => this.breakValue = value + "%");
+    this._barsService.getThrottleValue().subscribe(value => {
+      this.ngZone.run(() => {
+        this.throttleValue = value + "%";
+      })
+    });
+    this._barsService.getBreakValue().subscribe(value => {
+      this.ngZone.run(() => {
+        this.breakValue = value + "%";
+      })
+    });
   }
 
 }
