@@ -1,4 +1,8 @@
-<div class="col-sm-4">
-    <img id="pointer" class="image sotto" src="../../assets/img/pointer.png" alt="" width="188" height="188" [style.left]="x_axis" [style.bottom]="y_axis">
-    <img id="grafico" class="image sopra" src="../../assets/img/Gforce.png" alt="" width="188" height="188">
+<div class="col-sm-4" style="position: absolute; left: 53%; top: 25%">
+    <img id="pointer" class="sotto" src="../../assets/img/pointer.png" alt="" width="188" height="188" [style.left]="x_axis" [style.bottom]="y_axis">
+    <img id="grafico" class="sopra" src="../../assets/img/Gforce.png" alt="" width="188" height="188">
+    <div style="position: absolute; left: 60px; top: 190px" >
+        <button class="btn " type="button"><span class="spanBar" [textContent]="longitudinal"></span>m/s2</button>
+        <button class="btn " type="button"><span class="spanBar" [textContent]="lateral"></span>m/s2</button>
+    </div>
 </div>

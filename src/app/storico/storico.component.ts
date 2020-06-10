@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { HostListener } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore'
 import { AngularFireDatabase } from '@angular/fire/database'
 import { Observable, from } from 'rxjs'
 import { ViewEncapsulation } from '@angular/core';
