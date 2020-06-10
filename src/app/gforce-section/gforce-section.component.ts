@@ -11,6 +11,7 @@ export class GforceSectionComponent implements OnInit {
   public y_axis;  //CENTER -1PX
   public longitudinal;
   public lateral;
+  public latDir;
 
   constructor(private _gforceService: GforceService, private ngZone: NgZone) { }
 
@@ -30,7 +31,14 @@ export class GforceSectionComponent implements OnInit {
   ascoltaAccLat(){
     this._gforceService.getLateralAcc().subscribe(value => {
       this.ngZone.run(() => {
-        this.lateral = value;
+        if(value==0){
+          this.latDir='';
+        }else if(value>0){
+          this.latDir='R';
+        }else{
+          this.latDir='L';
+        }
+        this.lateral = Math.abs(value);
         this.updateGForce();
       });
 
@@ -39,12 +47,16 @@ export class GforceSectionComponent implements OnInit {
   updateGForce(){
     const zeroLat = 16;
     const zeroLong = -1;
-
-    let tempLat = this.lateral * 6.78;
+    let tempLat;
+    if(this.latDir=='L'){
+      tempLat = this.lateral * -6.78;
+    }else{
+      tempLat = this.lateral * 6.78;
+    }
     let tempLong = this.longitudinal * -6.78;
 
-      this.x_axis = zeroLat + tempLat + 'px';
-      this.y_axis = zeroLong + tempLong + 'px';
+    this.x_axis = zeroLat + tempLat + 'px';
+    this.y_axis = zeroLong + tempLong + 'px';
 
   }
 
