@@ -28,7 +28,7 @@ transition: .8s;
 }
 
 #logo.clickit .st2{
-	fill: red;
+	fill: yellow;
 	stroke: black;
 }
 

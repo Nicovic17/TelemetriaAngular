@@ -68,12 +68,24 @@ export class StoricoService {
           aggiungi["id"] = element;
           //window.alert("Aggiungo TEMPO: "+child.key) //Tempo
           //window.alert("h"+child.key); 
+          var g = new Date(parseInt(child.key)).getDate()
+          var month = new Date(parseInt(child.key)).getMonth() + 1
+          var monthString;
+          if (month > 0 && month < 10) 
+          {
+            monthString = "0" + month;
+          }
+          else
+          monthString=month+"";
+
+          var y = new Date(parseInt(child.key)).getFullYear()
+
           var h = new Date(parseInt(child.key)).getHours();
           var m = new Date(parseInt(child.key)).getMinutes();
           var s = new Date(parseInt(child.key)).getSeconds();
           var e = new Date(parseInt(child.key)).getMilliseconds();
 
-          aggiungi["tempo"] = h + ":" + m + ":" + s + ":" + e;
+          aggiungi["tempo"] =g+"-"+monthString+"-"+y+"-"+" "+ h + ":" + m + ":" + s + ":" + e;
           //window.alert("Aggiungo VAL ID: "+child.child("value").val()) //Valore ID in quel tempo
           aggiungi["valore"] = child.val();
           jsonDateForDropDown.push(aggiungi);

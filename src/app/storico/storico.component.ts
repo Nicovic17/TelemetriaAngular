@@ -6,6 +6,7 @@ import { Observable, from } from 'rxjs'
 import { ViewEncapsulation } from '@angular/core';
 import { StoricoService } from '../storico.service'
 import { exit } from 'process';
+import { typeSourceSpan } from '@angular/compiler';
 
 
 var arrayDate = [], arrayID = [], arrayForDropDown = [];
@@ -17,6 +18,23 @@ var trace;
 
 
 var layout = {
+
+  xaxis: {
+    title: "Tempo"
+  },
+  yaxis: {
+    title: "ID"
+  },
+  paper_bgcolor: "#6d6d6d",
+  plot_bgcolor: "#fff"
+
+
+};
+
+
+
+var layoutGenerale = {
+  title: "Grafico generale: ",
 
   xaxis: {
     title: "Tempo"
@@ -80,6 +98,8 @@ export class StoricoComponent implements OnInit {
     //document.getElementById("idPerPlot").style.display = "none"
     this._storicoService.nascondiView(document.getElementById("idPerPlot"));
 
+    this._storicoService.nascondiView(document.getElementById("filtraggio"));
+
     document.getElementById("load").innerHTML = "<p>Caricamento dati...</p>";
     //this._storicoService.getDate()
     this._storicoService.getID();
@@ -93,12 +113,13 @@ export class StoricoComponent implements OnInit {
     //document.getElementById("btnCaricaDate").style.display = "none"
     this._storicoService.nascondiView(document.getElementById("btnCaricaDate"))
     this._storicoService.mostraView(document.getElementById("btnAvanti"));
+    this._storicoService.mostraView(document.getElementById("filtraggio"))
 
     arrayID = this._storicoService.getArrayID();
     arrayForDropDown = this._storicoService.getJsonObjectForDropDown()
 
     this.setUpList();
-    //this.setUpDropDown();
+    this.setUpDropDown();
 
   }
 
@@ -113,6 +134,8 @@ export class StoricoComponent implements OnInit {
 
 
 
+
+
   setUpList() {
 
 
@@ -121,15 +144,15 @@ export class StoricoComponent implements OnInit {
     var i = 0;
     for (i = 0; i < arrayID.length; i++) {
 
-
-      //$("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + arrayID[i] + "</p> <label >Data inizio</label>  <select name='dataInizio' id='dataInizio" + arrayID[i] + "' ></select> <label>Data fine</label> <select  id='dataFine" + arrayID[i] + "' ></select> </li>")
-      $("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + arrayID[i] + "</p> </li>")
+ 
+      $("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + arrayID[i] + "</p> <label >Date disponibili</label>  <select name='dataInizio' id='dataInizio" + arrayID[i] + "' ></select>  </li>")
+      //$("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + arrayID[i] + "</p> </li>")
 
     }
 
   }
 
-  /*setUpDropDown() {
+  setUpDropDown() {
     var k = 0;
     var i = 0;
     for (i = 0; i < arrayID.length; i++) {
@@ -138,15 +161,15 @@ export class StoricoComponent implements OnInit {
         if (arrayForDropDown[k]["id"] == arrayID[i]) {
           var nomeDropDown = "#dataInizio" + arrayID[i];
           $(nomeDropDown).append("<option value='test'>" + arrayForDropDown[k]["tempo"] + "</option>")
-          var nomeDropDownFine = "#dataFine" + arrayID[i];
-          $(nomeDropDownFine).append("<option value='test'>" + arrayForDropDown[k]["tempo"] + "</option>")
+          /*var nomeDropDownFine = "#dataFine" + arrayID[i];
+          $(nomeDropDownFine).append("<option value='test'>" + arrayForDropDown[k]["tempo"] + "</option>")*/
         }
 
 
       }
     }
 
-  }*/
+  }
 
 
   flag: Boolean;
@@ -396,18 +419,23 @@ export class StoricoComponent implements OnInit {
       if (lis[i].checked) {
 
         var j = 0;
-        for (j = 0; j < arrayTrace.length; j++) {
+        traceSelezionate.push(arrayTrace[i]);
+        /*for (j = 0; j < arrayTrace.length; j++) {
 
-          window.alert("Confronto: " + innerID[i].innerHTML + " con " + arrayTrace[j]["name"])
+          //window.alert("Confronto: " + innerID[i].innerHTML + " con " + arrayTrace[j]["name"])
           if (innerID[i].innerHTML == arrayTrace[j]["name"]) {
 
+            const index=traceSelezionate.indexOf(arrayTrace[j]["name"]);
+            if(index==-1)
             traceSelezionate.push(arrayTrace[j]);
+            else
+            {window.alert("Traccia doppione evitata")}
           }
           else {
             window.alert("Traccia non presente")
           }
 
-        }
+        }*/
       }
     }
 
@@ -418,7 +446,7 @@ export class StoricoComponent implements OnInit {
     }
     else {
       $("#grafici").append("<div id='myDivUniti'></div>")
-      Plotly.newPlot('myDivUniti', traceSelezionate, layout);
+      Plotly.newPlot('myDivUniti', traceSelezionate, layoutGenerale); 
 
     }
 
