@@ -6,6 +6,7 @@ import { AngularFireDatabase } from '@angular/fire/database'
 import { Observable, from } from 'rxjs'
 import { ViewEncapsulation } from '@angular/core';
 import { StoricoService } from '../storico.service'
+import { exit } from 'process';
 
 
 var arrayDate = [], arrayID = [], arrayForDropDown = [];
@@ -65,11 +66,21 @@ export class StoricoComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    document.getElementById("box").style.display = "none"
-    document.getElementById("btnJson").style.display = "none"
-    document.getElementById("btnConfermaID").style.display = "none"
-    document.getElementById("btnAvanti").style.display = "none"
-    document.getElementById("idPerPlot").style.display = "none"
+    //document.getElementById("box").style.display = "none"
+    this._storicoService.nascondiView(document.getElementById("box"))
+
+    //document.getElementById("btnJson").style.display = "none"
+    this._storicoService.nascondiView(document.getElementById("btnJson"));
+
+    //document.getElementById("btnConfermaID").style.display = "none"
+    this._storicoService.nascondiView(document.getElementById("btnConfermaID"))
+
+    //document.getElementById("btnAvanti").style.display = "none"
+    this._storicoService.nascondiView(document.getElementById("btnAvanti"))
+
+    //document.getElementById("idPerPlot").style.display = "none"
+    this._storicoService.nascondiView(document.getElementById("idPerPlot"));
+
     document.getElementById("load").innerHTML = "<p>Caricamento dati...</p>";
     //this._storicoService.getDate()
     this._storicoService.getID();
@@ -80,14 +91,15 @@ export class StoricoComponent implements OnInit {
 
   getID() {
 
-    document.getElementById("btnCaricaDate").style.display = "none"
-    document.getElementById("btnAvanti").style.display = "block"
+    //document.getElementById("btnCaricaDate").style.display = "none"
+    this._storicoService.nascondiView(document.getElementById("btnCaricaDate"))
+    this._storicoService.mostraView(document.getElementById("btnAvanti"));
 
     arrayID = this._storicoService.getArrayID();
     arrayForDropDown = this._storicoService.getJsonObjectForDropDown()
 
     this.setUpList();
-    this.setUpDropDown();
+    //this.setUpDropDown();
 
   }
 
@@ -111,13 +123,14 @@ export class StoricoComponent implements OnInit {
     for (i = 0; i < arrayID.length; i++) {
 
 
-      $("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + arrayID[i] + "</p> <label >Data inizio</label>  <select name='dataInizio' id='dataInizio" + arrayID[i] + "' ></select> <label>Data fine</label> <select  id='dataFine" + arrayID[i] + "' ></select> </li>")
+      //$("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + arrayID[i] + "</p> <label >Data inizio</label>  <select name='dataInizio' id='dataInizio" + arrayID[i] + "' ></select> <label>Data fine</label> <select  id='dataFine" + arrayID[i] + "' ></select> </li>")
+      $("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + arrayID[i] + "</p> </li>")
 
     }
 
   }
 
-  setUpDropDown() {
+  /*setUpDropDown() {
     var k = 0;
     var i = 0;
     for (i = 0; i < arrayID.length; i++) {
@@ -134,10 +147,12 @@ export class StoricoComponent implements OnInit {
       }
     }
 
-  }
+  }*/
+
 
   flag: Boolean;
   public aggiungiID() {
+    this.flag=false;
 
     idSelezionati = [];
 
@@ -152,13 +167,22 @@ export class StoricoComponent implements OnInit {
 
         //idSelezionati.push(innerID[i].innerHTML)
         //Prendo data inizio e fine:
-        var dataInizio = $("#dataInizio" + innerID[i].innerHTML + " :selected").text();
-        var dataFine = $("#dataFine" + innerID[i].innerHTML + " :selected").text();
-        obj["id"] = innerID[i].innerHTML;
-        obj["dataInizio"] = dataInizio;
-        obj["dataFine"] = dataFine;
+        //var dataInizio = $("#dataInizio" + innerID[i].innerHTML + " :selected").text();
+        //var dataFine = $("#dataFine" + innerID[i].innerHTML + " :selected").text();
+        var giornoInizio = (<HTMLInputElement>document.getElementById("giornoInizioGenerale")).value;
+        var oraInizio = (<HTMLInputElement>document.getElementById("oraInizioGenerale")).value;
+        window.alert("Ora Ini<io sel: " + oraInizio)
+        var dataInizio = giornoInizio + " " + oraInizio;
 
-        this.flag = this.compareDate(dataInizio, dataFine);
+        var oraFine = (<HTMLInputElement>document.getElementById("oraFineGenerale")).value;
+        var dataFine = giornoInizio + " " + oraFine;
+
+        obj["id"] = innerID[i].innerHTML;
+        obj["giornoScelto"] = giornoInizio;
+        obj["dataInizio"] = oraInizio;
+        obj["dataFine"] = oraFine;
+
+        this.flag = this.compareDate(oraInizio, oraFine);
 
         if (this.flag == true)
           idSelezionati.push(obj);
@@ -201,11 +225,17 @@ export class StoricoComponent implements OnInit {
 
     $("#idPlot").empty();
 
-    idSelezionati.forEach(element => {
+    var next = datiGrafico[0]["id"]
+    $("#idPlot").append("<li name='item'><span><input type='checkbox'></span><p name='itemPlot'>" + next + "</p></li>")
 
+    datiGrafico.forEach(element => {
 
+      if (element["id"] != next) {
+        next = element["id"]
+        $("#idPlot").append("<li name='item'><span><input type='checkbox'></span><p name='itemPlot'>" + next + "</p></li>")
 
-      $("#idPlot").append("<li name='item'><span><input type='checkbox'></span><p name='itemPlot'>" + element["id"] + "</p></li>")
+      }
+
 
 
     });
@@ -215,26 +245,83 @@ export class StoricoComponent implements OnInit {
   public startPlot() {
 
     document.getElementById("btnJson").style.display = "none"
-    document.getElementById("btnConfermaID").style.display = "block"
+    //document.getElementById("btnConfermaID").style.display = "block"
+    this._storicoService.mostraView(document.getElementById("btnConfermaID"))
     document.getElementById("btnAvanti").style.display = "block"
     document.getElementById("btnAvanti").innerHTML = "Aggiorna sensori selezionati"
     document.getElementById("idPerPlot").style.display = "block"
-    this.createCheckableIdPlot()
+
+    $("#grafici").empty()
+
 
     datiGrafico = this._storicoService.getJsonObject()
+    this.createCheckableIdPlot()
 
+    if (datiGrafico.length == 0) {
+      window.alert("Esco");
+      exit;
+    }
 
     var i = 0;
     var asseX = [];
     var asseY = []
     var currID = datiGrafico[0]["id"];
-    for (i = 0; i < datiGrafico.length; i++) {
+
+    datiGrafico.forEach(element => {
+
+      var ID = element["id"];
+
+      if (ID != currID) {
+        //Cambio grafico
+        arrayTrace.push(trace);
+        currID = ID;
+        asseX = [element["tempo"]];
+        asseY = [element["valore"]];
+      }
+      else {
+        //Stesso grafico
+        asseX.push(element["tempo"]);
+        asseY.push(element["valore"]);
+      }
+
+      var layout = {
+        title: "Grafico ID: " + ID,
+        xaxis: {
+          title: "Tempo"
+        },
+        yaxis: {
+          title: "ID"
+        },
+        paper_bgcolor: "#6d6d6d",
+        plot_bgcolor: "#fff"
+
+      };
+
+      trace = {
+        x: asseX,
+        y: asseY,
+        type: 'scatter',
+        name: "" + ID
+      };
+
+      var data = [trace];
+
+      //Crea nuova DIV
+      $("#grafici").append("<div id='myDiv" + ID + "'></div>")
+
+
+      Plotly.newPlot('myDiv' + ID, data, layout);
+
+    });
+
+    arrayTrace.push(trace)
+
+
+    /*for (i = 0; i < datiGrafico.length; i++) {
 
       var ID = datiGrafico[i]["id"];
       if (ID != currID) //Grafico diverso
       {
-
-
 
         arrayTrace.push(trace);
 
@@ -282,7 +369,7 @@ export class StoricoComponent implements OnInit {
     }
 
 
-    arrayTrace.push(trace)
+    arrayTrace.push(trace)*/
 
     //window.alert("Post plot")
 
