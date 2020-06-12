@@ -13,17 +13,16 @@ import { SpeedometerService } from "./speedometer.service";
 import { BatteryService } from './battery.service';
 import { VolanteService } from "./volante.service";
 import { MapService } from "./map.service";
-
-// UNUSED SERVONO ?
-import { AngularFireDatabase } from '@angular/fire/database'
-import { AngularFireAuth } from '@Angular/fire/auth';
+import {StoricoService} from "./storico.service";
+import { GforceSectionComponent } from './gforce-section/gforce-section.component';
 
 // ATTENZIONE NON IMPORTARE QUA I COMPONENT, VANNO IN --> app-routing.module.ts
 
 @NgModule({
   declarations: [
     AppComponent,
-    routingComponents, // Array collocato in app-routing.module.ts in esso vanno dichiarati i Component
+    routingComponents,
+    GforceSectionComponent, // Array collocato in app-routing.module.ts in esso vanno dichiarati i Component
   ],
   imports: [
     BrowserModule,
@@ -35,7 +34,7 @@ import { AngularFireAuth } from '@Angular/fire/auth';
     FormsModule
   ],
 
-  providers: [SpeedometerService, BatteryService, BarsService, VolanteService, MapService],
+  providers: [SpeedometerService, BatteryService, BarsService, VolanteService, MapService, StoricoService],
 
   bootstrap: [AppComponent]
 })

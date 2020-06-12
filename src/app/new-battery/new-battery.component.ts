@@ -1,10 +1,4 @@
-import { Component, OnInit, WrappedValue } from '@angular/core';
-
-import { AngularFirestore } from '@angular/fire/firestore'
-import { AngularFireDatabase } from '@angular/fire/database'
-import { AngularFireAuth } from '@angular/fire/auth'
-
-import { Observable, from } from 'rxjs'
+import { Component, OnInit } from '@angular/core';
 
 import { BatteryService } from '../battery.service'
 
@@ -27,41 +21,15 @@ export class NewBatteryComponent implements OnInit {
     constructor(private _interactionService: BatteryService) {}
 
     ngOnInit(): void {
-        //Carica lo script presente in "url" [non necessario]
-        //this.loadScript();
-        //Metto in ascolto su oggetto Observable ed effettuo aggiornamento vista
-        //Chargeen è per la batteria HighVoltage
-        this._interactionService.chargeen$.subscribe(
-            data => {
-                console.log("Charge ottenuta: "+data);
-                this.dataHV=Number(data);
-                this.batUpdate()
-
-            }
-        )
-
-        this._interactionService.chargeLv$.subscribe(
-            data=>{
-                console.log("Charge LV ottenuta: "+data);
-                this.dataLV=Number(data);
-                this.batUpdateLowVoltage()
-            }
-        )
+        this._interactionService.ascoltaBatteriaHighVoltage().subscribe(data => {
+            this.dataHV=Number(data);
+            this.batUpdate()
+        });
+        this._interactionService.ascoltaBatteriaLowVoltage().subscribe(data => {
+            this.dataLV=Number(data);
+            this.batUpdateLowVoltage()
+        });
     }
-
-    ngAfterViewInit(){
-
-    }
-    //Carica script hostato online
-    /*public loadScript() {
-        console.log('preparing to load...')
-        let node = document.createElement('script');
-        node.src = url;
-        node.type = 'text/javascript';
-        node.async = true;
-        node.charset = 'utf-8';
-        document.getElementsByTagName('head')[0].appendChild(node);
-    }*/
     //Tramite la variabile this.dataHV si occupa di aggiornare la vista della batteria
     batUpdate(){
         if(this.dataHV<20){

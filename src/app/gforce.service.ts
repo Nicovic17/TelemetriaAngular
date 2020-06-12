@@ -1,30 +1,29 @@
 import { Injectable } from '@angular/core';
 
 import { AngularFireDatabase } from '@angular/fire/database'
+import {Observable} from "rxjs";
 
-import { Observable } from 'rxjs'
-
-const lvDBPath = 'storico/016';
-const hvDBPath = 'storico/015';
+const longAccDBPath = 'storico/002';
+const latAccDBPath = 'storico/003';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BatteryService {
+export class GforceService {
 
   constructor(private db: AngularFireDatabase) { }
 
-  ascoltaBatteriaLowVoltage(): Observable<number>{
+  getLongitudinalAcc(): Observable<number>{
     return new Observable<number>(subscriber => {
-      this.db.database.ref(lvDBPath).limitToLast(1).on("child_added", child => {
+      this.db.database.ref(longAccDBPath).limitToLast(1).on("child_added", child => {
         subscriber.next(child.val());
       })
     })
   }
 
-  ascoltaBatteriaHighVoltage(): Observable<number>{
+  getLateralAcc(): Observable<number>{
     return new Observable<number>(subscriber => {
-      this.db.database.ref(hvDBPath).limitToLast(1).on("child_added", child => {
+      this.db.database.ref(latAccDBPath).limitToLast(1).on("child_added", child => {
         subscriber.next(child.val());
       })
     })
