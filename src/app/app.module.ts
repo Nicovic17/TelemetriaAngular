@@ -14,15 +14,14 @@ import { BatteryService } from './battery.service';
 import { VolanteService } from "./volante.service";
 import { MapService } from "./map.service";
 import {StoricoService} from "./storico.service";
-import { GforceSectionComponent } from './gforce-section/gforce-section.component';
+import {EngineService} from "./engine.service";
 
 // ATTENZIONE NON IMPORTARE QUA I COMPONENT, VANNO IN --> app-routing.module.ts
 
 @NgModule({
   declarations: [
     AppComponent,
-    routingComponents,
-    GforceSectionComponent, // Array collocato in app-routing.module.ts in esso vanno dichiarati i Component
+    routingComponents, // Array collocato in app-routing.module.ts in esso vanno dichiarati i Component
   ],
   imports: [
     BrowserModule,
@@ -34,7 +33,7 @@ import { GforceSectionComponent } from './gforce-section/gforce-section.componen
     FormsModule
   ],
 
-  providers: [SpeedometerService, BatteryService, BarsService, VolanteService, MapService, StoricoService],
+  providers: [SpeedometerService, BatteryService, BarsService, VolanteService, MapService, StoricoService, EngineService],
 
   bootstrap: [AppComponent]
 })

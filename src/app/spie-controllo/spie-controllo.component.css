@@ -36,10 +36,16 @@
     background-color: #d30000;
   }
 
-  .banner-font{
+  .banner-font {
 
+      font-family: Impact;
+      position: relative;
+      top: -20px;
+  }
+.banner-font-small{
     font-family: Impact;
-    
+    font-size: 20px;
+    text-align: center;
 }
 
  

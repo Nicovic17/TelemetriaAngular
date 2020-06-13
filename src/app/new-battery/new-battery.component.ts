@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 
 import { BatteryService } from '../battery.service'
 
@@ -17,18 +17,64 @@ var col, colLv;
 export class NewBatteryComponent implements OnInit {
     public dataHV; //Variabile che riferisce alla carica della batteria high voltage
     public dataLV; //Variabile che riferisce alla carica della batteria low voltage
+    public correnteHV;
+    public correnteLV;
+    public tensioneHV;
+    public tensioneLV;
 
-    constructor(private _interactionService: BatteryService) {}
+    constructor(private _interactionService: BatteryService, private ngZone: NgZone) {}
 
     ngOnInit(): void {
-        this._interactionService.ascoltaBatteriaHighVoltage().subscribe(data => {
-            this.dataHV=Number(data);
+        this.ascoltaBatteriaHighVoltage();
+        this.ascoltaBatteriaLowVoltage();
+        this.ascoltaCorrenteHighVoltage();
+        this.ascoltaCorrenteLowVoltage();
+        this.ascoltaTensioneHighVoltage();
+        this.ascoltaTensioneLowVoltage();
+    }
+    ascoltaBatteriaHighVoltage(){
+        this._interactionService.getBatteriaHighVoltage().subscribe(data => {
+            this.ngZone.run(() => {
+                this.dataHV=Number(data);
+            })
             this.batUpdate()
         });
-        this._interactionService.ascoltaBatteriaLowVoltage().subscribe(data => {
-            this.dataLV=Number(data);
+    }
+    ascoltaBatteriaLowVoltage(){
+        this._interactionService.getBatteriaLowVoltage().subscribe(data => {
+            this.ngZone.run(() => {
+                this.dataLV=Number(data);
+            })
             this.batUpdateLowVoltage()
         });
+    }
+    ascoltaCorrenteHighVoltage(){
+        this._interactionService.getCorrenteHighVoltage().subscribe(value => {
+            this.ngZone.run(() => {
+                this.correnteHV = Number(value);
+            });
+        });
+    }
+    ascoltaCorrenteLowVoltage(){
+        this._interactionService.getCorrenteLowVoltage().subscribe(value => {
+            this.ngZone.run(() => {
+                this.correnteLV = Number(value);
+            });
+        })
+    }
+    ascoltaTensioneHighVoltage(){
+        this._interactionService.getTensioneHighVoltage().subscribe(value => {
+            this.ngZone.run(() => {
+                this.tensioneHV = Number(value);
+            });
+        })
+    }
+    ascoltaTensioneLowVoltage(){
+        this._interactionService.getTensioneLowVoltage().subscribe(value => {
+            this.ngZone.run(() => {
+                this.tensioneLV = Number(value);
+            });
+        })
     }
     //Tramite la variabile this.dataHV si occupa di aggiornare la vista della batteria
     batUpdate(){

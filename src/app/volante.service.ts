@@ -16,7 +16,7 @@ export class VolanteService {
     return new Observable<number>(subscriber => {
       this.db.database.ref(steerWheelAngDBPath).limitToLast(1).on("child_added", child => {
         subscriber.next(child.val());
-      })
-    })
+      });
+    });
   }
 }

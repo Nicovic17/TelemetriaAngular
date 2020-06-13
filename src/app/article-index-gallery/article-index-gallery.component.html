@@ -35,7 +35,7 @@ integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/
 
     <div class="container-fluid">
 
-        <div class="row">
+        <!--<div class="row">
             <app-map-section></app-map-section>
 
             <app-speedometer-section></app-speedometer-section>
@@ -52,6 +52,28 @@ integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/
 
             <app-visionemacchina></app-visionemacchina>
 
+        </div>-->
+        <div class="row">
+            <div class="col-sm">
+                <app-map-section></app-map-section>
+            </div>
+            <div class="col-sm-4">
+                <app-speedometer-section></app-speedometer-section>
+            </div>
+            <div class="col-sm-4">
+                <app-new-battery></app-new-battery>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <app-spie-controllo></app-spie-controllo>
+            </div>
+            <div class="col-sm-4">
+                <app-rotazione-volante></app-rotazione-volante>
+            </div>
+            <div class="col-sm">
+                <app-visionemacchina></app-visionemacchina>
+            </div>
         </div>
 
     </div>

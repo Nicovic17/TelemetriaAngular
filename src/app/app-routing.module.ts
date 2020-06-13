@@ -16,6 +16,7 @@ import {SpieControlloComponent} from './spie-controllo/spie-controllo.component'
 import {VisionemacchinaComponent} from './visionemacchina/visionemacchina.component';
 import {BatteryindicatorComponent} from './batteryindicator/batteryindicator.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import { GforceSectionComponent } from './gforce-section/gforce-section.component';
 
 
 const routes: Routes = [
@@ -46,5 +47,6 @@ export const routingComponents = [
     VisionemacchinaComponent,
     BatteryindicatorComponent,
     StoricoComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    GforceSectionComponent
 ]
