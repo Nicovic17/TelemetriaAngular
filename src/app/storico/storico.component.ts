@@ -9,7 +9,7 @@ import { exit } from 'process';
 import { typeSourceSpan } from '@angular/compiler';
 
 
-var arrayDate = [], arrayID = [], arrayForDropDown = [];
+var arrayDate = [], arrayID = [], arrayForDropDown = [], arrayMapForID=[]
 var idSelezionati = [];
 var arrayTrace = [];
 var datiGrafico;
@@ -103,6 +103,7 @@ export class StoricoComponent implements OnInit {
     document.getElementById("load").innerHTML = "<p>Caricamento dati...</p>";
     //this._storicoService.getDate()
     this._storicoService.getID();
+    this._storicoService.getMapForID();
 
   }
 
@@ -139,16 +140,48 @@ export class StoricoComponent implements OnInit {
   setUpList() {
 
 
+    arrayMapForID=this._storicoService.getArrayMapForID()
+
+    //window.alert("Array Map Length"+arrayMapForID.length)
 
     document.getElementById("box").style.display = "block"
     var i = 0;
     for (i = 0; i < arrayID.length; i++) {
 
+      var nomeID=this.getNomeID(arrayID[i],arrayMapForID);
+      if(nomeID ==-1)
+      nomeID=arrayID[i]
+      //window.alert("Nome ID"+nomeID)
  
-      $("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + arrayID[i] + "</p> <label >Date disponibili</label>  <select name='dataInizio' id='dataInizio" + arrayID[i] + "' ></select>  </li>")
+      $("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + nomeID + "</p> <label >Date disponibili</label>  <select name='dataInizio' id='dataInizio" + arrayID[i] + "' ></select>  </li>")
       //$("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + arrayID[i] + "</p> </li>")
 
     }
+
+  }
+
+  getNomeID(id,array){
+
+    var i=0;
+    for(i=0;i<array.length;i++)
+    {
+      if(id==array[i]["id"])
+      {
+        return array[i]["nome"];
+      }
+    }
+  return -1;
+  }
+  getIDFromNome(nome,array){
+
+    var i=0;
+    for(i=0;i<array.length;i++)
+    {
+      if(nome==array[i]["nome"])
+      return array[i]["id"];
+    }
+
+    return -1;
 
   }
 
@@ -199,7 +232,12 @@ export class StoricoComponent implements OnInit {
         var oraFine = (<HTMLInputElement>document.getElementById("oraFineGenerale")).value;
         var dataFine = giornoInizio + " " + oraFine;
 
-        obj["id"] = innerID[i].innerHTML;
+        //Devo prendere l'ID dal nome del sensore selezionato
+        var ID=this.getIDFromNome(innerID[i].innerHTML,arrayMapForID);
+        if(ID==-1)
+        ID=innerID[i].innerHTML;
+
+        obj["id"] = ID;
         obj["giornoScelto"] = giornoInizio;
         obj["dataInizio"] = oraInizio;
         obj["dataFine"] = oraFine;
@@ -248,13 +286,18 @@ export class StoricoComponent implements OnInit {
     $("#idPlot").empty();
 
     var next = datiGrafico[0]["id"]
-    $("#idPlot").append("<li name='item'><span><input type='checkbox'></span><p name='itemPlot'>" + next + "</p></li>")
+
+    var nomeID=this.getNomeID(next,arrayMapForID);
+    $("#idPlot").append("<li name='item'><span><input type='checkbox'></span><p name='itemPlot'>" + nomeID + "</p></li>")
 
     datiGrafico.forEach(element => {
 
       if (element["id"] != next) {
         next = element["id"]
-        $("#idPlot").append("<li name='item'><span><input type='checkbox'></span><p name='itemPlot'>" + next + "</p></li>")
+
+        nomeID=this.getNomeID(next,arrayMapForID);
+
+        $("#idPlot").append("<li name='item'><span><input type='checkbox'></span><p name='itemPlot'>" + nomeID + "</p></li>")
 
       }
 
@@ -307,7 +350,7 @@ export class StoricoComponent implements OnInit {
       }
 
       var layout = {
-        title: "Grafico ID: " + ID,
+        title: "Grafico ID: " + this.getNomeID(ID,arrayMapForID),
         xaxis: {
           title: "Tempo"
         },
@@ -329,10 +372,10 @@ export class StoricoComponent implements OnInit {
       var data = [trace];
 
       //Crea nuova DIV
-      $("#grafici").append("<div id='myDiv" + ID + "'></div>")
+      $("#grafici").append("<div id='myDiv" + this.getNomeID(ID,arrayMapForID) + "'></div>")
 
 
-      Plotly.newPlot('myDiv' + ID, data, layout);
+      Plotly.newPlot('myDiv' + this.getNomeID(ID,arrayMapForID), data, layout);
 
     });
 
@@ -418,7 +461,6 @@ export class StoricoComponent implements OnInit {
     for (i = 0; i < lis.length; i++) {
       if (lis[i].checked) {
 
-        var j = 0;
         traceSelezionate.push(arrayTrace[i]);
         /*for (j = 0; j < arrayTrace.length; j++) {
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from "@angular/fire/database";
 
-var arrayDate = [], arrayID = [], jsonObject = [], jsonDateForDropDown = [];
+var arrayDate = [], arrayID = [], jsonObject = [], jsonDateForDropDown = [], arrayMapID=[]
 var test = ["Pollo"]
 var numSens;
 var arrayNumeroSensoriPerOgniData = [];
@@ -30,6 +30,35 @@ export class StoricoService {
       window.alert("Finito")
       document.getElementById("load").innerHTML = "Caricamento completato"
     })
+  }
+
+  //Popola array (id - nome) con la mappa presente sul DB
+  public getMapForID(){
+
+    arrayMapID=[];
+    var ref=this.db.database.ref("Mappa");
+
+    ref.once("value", snap =>{
+      snap.forEach(function (child){
+        var idValore={}
+        idValore["id"]=child.key;
+        idValore["nome"]=child.val()
+
+        arrayMapID.push(idValore);
+      })
+
+      window.alert("Dati mappa ottenuti")
+    })
+  }
+
+  public getArrayMapForID(){
+
+    var jsonString = JSON.stringify(arrayMapID);
+    window.alert("ArrayMap: "+jsonString)
+    var obj = JSON.parse(jsonString);
+
+    return obj;
+
   }
 
   //Popola array con tutti gli ID registrati sul database
