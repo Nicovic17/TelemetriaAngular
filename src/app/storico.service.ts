@@ -61,6 +61,10 @@ export class StoricoService {
 
   }
 
+  public getMammt(){
+    return arrayDate;
+  }
+
   //Popola array con tutti gli ID registrati sul database
   public getID() {
 

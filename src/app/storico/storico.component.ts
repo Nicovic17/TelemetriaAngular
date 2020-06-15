@@ -72,13 +72,16 @@ export class StoricoComponent implements OnInit {
     document.getElementById("storico").style.display = "none"
   }
 
-  constructor(public auth: AngularFireAuth, public firebase: AngularFireDatabase, private _storicoService: StoricoService) {
+  pageLoaded: boolean;
+
+  constructor(public auth: AngularFireAuth, public firebase: AngularFireDatabase, public _storicoService: StoricoService) {
 
     this.checkIfUserIsLogged()
   }
 
   ngOnInit(): void {
 
+    this.pageLoaded=true;
 
   }
 
@@ -104,6 +107,7 @@ export class StoricoComponent implements OnInit {
     //this._storicoService.getDate()
     this._storicoService.getID();
     this._storicoService.getMapForID();
+
 
   }
 
@@ -157,6 +161,8 @@ export class StoricoComponent implements OnInit {
       //$("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + arrayID[i] + "</p> </li>")
 
     }
+
+    return true;
 
   }
 
@@ -505,14 +511,17 @@ export class StoricoComponent implements OnInit {
         document.getElementById("user_div").style.display = "none";
         document.getElementById("router").style.display = "block";
 
-
+        return true;
       }
       else {
         console.log("Non Loggato");
         document.getElementById("login_div").style.display = "block";
 
+        return -1;
       }
     })
+
+    
   }
 
 }

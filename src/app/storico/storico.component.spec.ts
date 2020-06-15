@@ -1,25 +1,133 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StoricoComponent } from './storico.component';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { HostListener, NgModule } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database'
+import { AngularFireModule } from '@angular/fire';
+import { environment } from 'src/environments/environment';
+import { AngularFirestoreModule } from '@angular/fire/firestore'
+import { AppComponent } from '../app.component'
 
 describe('StoricoComponent', () => {
   let component: StoricoComponent;
+  let appComponent : AppComponent;
   let fixture: ComponentFixture<StoricoComponent>;
+  let fixtureAppComponent: ComponentFixture<AppComponent>
+  let arrayID : Array<any>;
+  let el : HTMLElement;
 
-  beforeEach(async(() => {
+  beforeEach(() => { 
+    
     TestBed.configureTestingModule({
-      declarations: [ StoricoComponent ]
+      declarations: [ StoricoComponent ],
+      providers: [AngularFireAuth, AngularFireDatabase],
+      
+      imports: [
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFirestoreModule,
+      ]
     })
-    .compileComponents();
-  }));
+    .compileComponents().then(()=>{
+      fixture=TestBed.createComponent(StoricoComponent)
+      fixtureAppComponent=TestBed.createComponent(AppComponent)
+      component=fixture.componentInstance;
+      appComponent=fixtureAppComponent.componentInstance
+    });
+   
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoricoComponent);
+    //fixtureAppComponent=TestBed.createComponent(AppComponent)
     component = fixture.componentInstance;
+    //appComponent=fixtureAppComponent.componentInstance;
     fixture.detectChanges();
+    //fixtureAppComponent.detectChanges()
+    
+    
+    
   });
 
-  it('should create', () => {
+  /*it('should create', () => {
     expect(component).toBeTruthy();
-  });
+  });*/
+  it('ngOnInit view',()=>{
+
+    component.ngOnInit()
+    expect(component.pageLoaded).toBeTruthy();
+  })
+
+  it('setUpList is true',()=>{
+
+    var ris=component.setUpList();
+    expect(ris).toBeTruthy();
+  })
+
+  it('nome to id works',()=>{
+
+    var id="001";
+    
+    var array=[];
+    var el1={}
+    el1["id"]="001"
+    el1["nome"]="macchina"
+    array.push(el1);
+
+    var ris=component.getNomeID(id,array)
+
+    expect(ris).toEqual("macchina")
+  })
+
+  it('nome to id not works',()=>{
+
+    var id="001";
+    var array=[];
+    var el1={}
+    el1["id"]="002"
+    el1["nome"]="macchina"
+    array.push(el1);
+    var ris=component.getNomeID(id,array)
+    expect(ris).toEqual(-1)
+  })
+
+  it('id to nome works',()=>{
+
+    var nome="macchina"
+
+    var array=[];
+    var el1={}
+    el1["id"]="001"
+    el1["nome"]="macchina"
+    array.push(el1);
+
+    var ris=component.getIDFromNome(nome,array)
+
+    expect(ris).toEqual("001")
+  })
+
+  it('id to nome not works',()=>{
+
+    var nome="macchinone rosso"
+
+    var array=[];
+    var el1={}
+    el1["id"]="001"
+    el1["nome"]="macchina"
+    array.push(el1);
+
+    var ris=component.getIDFromNome(nome,array)
+    expect(ris).toEqual(-1)
+  })
+
+  it('ngAfterViewInit setta una view come invisibile',()=>{
+
+    component.ngAfterViewInit()
+
+    const content=(<HTMLInputElement>document.getElementById("box"))
+    expect(content.style.display).toEqual("none")
+  })
+
+ 
+
 });

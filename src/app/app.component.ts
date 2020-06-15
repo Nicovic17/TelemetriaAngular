@@ -57,6 +57,7 @@ export class AppComponent {
 
   textUsername:Object;
   textPassword:Object;
+  
   myLogin(){
     
     this.textUsername=(document.getElementById("username") as (HTMLInputElement)).value;
