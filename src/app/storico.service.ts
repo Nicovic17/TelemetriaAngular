@@ -36,13 +36,13 @@ export class StoricoService {
   public getMapForID(){
 
     arrayMapID=[];
-    var ref=this.db.database.ref("Mappa");
+    var ref=this.db.database.ref("mappa");
 
     ref.once("value", snap =>{
       snap.forEach(function (child){
         var idValore={}
-        idValore["id"]=child.key;
-        idValore["nome"]=child.val()
+        idValore["id"]=child.val();
+        idValore["nome"]=child.key;
 
         arrayMapID.push(idValore);
       })

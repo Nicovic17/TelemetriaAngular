@@ -15,6 +15,7 @@ var arrayTrace = [];
 var datiGrafico;
 var traceSelezionate = [];
 var trace;
+var oraInizio,minInizio,secInizio;
 
 
 var layout = {
@@ -212,6 +213,7 @@ export class StoricoComponent implements OnInit {
 
 
   flag: Boolean;
+  flagOra: Boolean
   public aggiungiID() {
     this.flag=false;
 
@@ -245,12 +247,17 @@ export class StoricoComponent implements OnInit {
 
         obj["id"] = ID;
         obj["giornoScelto"] = giornoInizio;
+
+        //Controlla validità data
+
+        this.flagOra=this.compareHours(oraInizio,oraFine);
+
         obj["dataInizio"] = oraInizio;
         obj["dataFine"] = oraFine;
 
         this.flag = this.compareDate(oraInizio, oraFine);
 
-        if (this.flag == true)
+        if (this.flag == true && this.flagOra==true)
           idSelezionati.push(obj);
         else {
           window.alert("Data per sensore " + innerID[i].innerHTML + " non valida");
@@ -270,6 +277,36 @@ export class StoricoComponent implements OnInit {
       //Effettua graficazioni
       this._storicoService.testGrafico(idSelezionati);
     }
+  }
+
+  getOraInizio()
+  {
+    var ora=(<HTMLInputElement>document.getElementById("oraInizioGenerale")).value
+    var stringOra=ora.split(":");
+
+    oraInizio=stringOra[0];
+    minInizio=stringOra[1];
+    secInizio=stringOra[2];
+  }
+
+  compareHours(hInizio : String, hFine : String)
+  {
+    var stringOraInizio=hInizio.split(":");
+    var stringOraFine=hFine.split(":");
+
+    //Stessa ora
+    if( stringOraInizio[0] == stringOraFine[0] )
+    {
+      //Massimo un minuto di differenza o stesso minuto
+      if( ( parseInt(stringOraFine[1]) - parseInt(stringOraInizio[1]) )<=1 || stringOraFine[1] == stringOraInizio[1] )
+      {
+        return true;
+      }
+      else
+      return false;
+    }
+    else 
+    return false;
   }
 
   compareDate(dataInizio: String, dataFine: String) {
