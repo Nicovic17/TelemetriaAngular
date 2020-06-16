@@ -27,8 +27,7 @@ export class StoricoService {
         //window.alert(child.key  )
         arrayDate.push(child.key)
       })
-      window.alert("Finito")
-      document.getElementById("load").innerHTML = "Caricamento completato"
+      
     })
   }
 
@@ -78,8 +77,8 @@ export class StoricoService {
 
         arrayID.push(child.key)
       })
-      //window.alert("Finito")
-      document.getElementById("load").innerHTML = "Caricamento completato"
+      
+      this.nascondiView(document.getElementById("loader"))
       this.getDateForDropDown();
     })
 

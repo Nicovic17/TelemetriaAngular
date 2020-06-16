@@ -9,13 +9,13 @@ import { exit } from 'process';
 import { typeSourceSpan } from '@angular/compiler';
 
 
-var arrayDate = [], arrayID = [], arrayForDropDown = [], arrayMapForID=[]
+var arrayDate = [], arrayID = [], arrayForDropDown = [], arrayMapForID = []
 var idSelezionati = [];
 var arrayTrace = [];
 var datiGrafico;
 var traceSelezionate = [];
 var trace;
-var oraInizio,minInizio,secInizio;
+var oraInizio, minInizio, secInizio;
 
 
 var layout = {
@@ -82,7 +82,7 @@ export class StoricoComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.pageLoaded=true;
+    this.pageLoaded = true;
 
   }
 
@@ -104,8 +104,6 @@ export class StoricoComponent implements OnInit {
 
     this._storicoService.nascondiView(document.getElementById("filtraggio"));
 
-    document.getElementById("load").innerHTML = "<p>Caricamento dati...</p>";
-    //this._storicoService.getDate()
     this._storicoService.getID();
     this._storicoService.getMapForID();
 
@@ -120,6 +118,7 @@ export class StoricoComponent implements OnInit {
     this._storicoService.nascondiView(document.getElementById("btnCaricaDate"))
     this._storicoService.mostraView(document.getElementById("btnAvanti"));
     this._storicoService.mostraView(document.getElementById("filtraggio"))
+    this._storicoService.nascondiView(document.getElementById("topText"))
 
     arrayID = this._storicoService.getArrayID();
     arrayForDropDown = this._storicoService.getJsonObjectForDropDown()
@@ -145,7 +144,7 @@ export class StoricoComponent implements OnInit {
   setUpList() {
 
 
-    arrayMapForID=this._storicoService.getArrayMapForID()
+    arrayMapForID = this._storicoService.getArrayMapForID()
 
     //window.alert("Array Map Length"+arrayMapForID.length)
 
@@ -153,11 +152,11 @@ export class StoricoComponent implements OnInit {
     var i = 0;
     for (i = 0; i < arrayID.length; i++) {
 
-      var nomeID=this.getNomeID(arrayID[i],arrayMapForID);
-      if(nomeID ==-1)
-      nomeID=arrayID[i]
+      var nomeID = this.getNomeID(arrayID[i], arrayMapForID);
+      if (nomeID == -1)
+        nomeID = arrayID[i]
       //window.alert("Nome ID"+nomeID)
- 
+
       $("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + nomeID + "</p> <label >Date disponibili</label>  <select name='dataInizio' id='dataInizio" + arrayID[i] + "' ></select>  </li>")
       //$("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + arrayID[i] + "</p> </li>")
 
@@ -167,25 +166,22 @@ export class StoricoComponent implements OnInit {
 
   }
 
-  getNomeID(id,array){
+  getNomeID(id, array) {
 
-    var i=0;
-    for(i=0;i<array.length;i++)
-    {
-      if(id==array[i]["id"])
-      {
+    var i = 0;
+    for (i = 0; i < array.length; i++) {
+      if (id == array[i]["id"]) {
         return array[i]["nome"];
       }
     }
-  return -1;
+    return -1;
   }
-  getIDFromNome(nome,array){
+  getIDFromNome(nome, array) {
 
-    var i=0;
-    for(i=0;i<array.length;i++)
-    {
-      if(nome==array[i]["nome"])
-      return array[i]["id"];
+    var i = 0;
+    for (i = 0; i < array.length; i++) {
+      if (nome == array[i]["nome"])
+        return array[i]["id"];
     }
 
     return -1;
@@ -215,7 +211,7 @@ export class StoricoComponent implements OnInit {
   flag: Boolean;
   flagOra: Boolean
   public aggiungiID() {
-    this.flag=false;
+    this.flag = false;
 
     idSelezionati = [];
 
@@ -241,23 +237,23 @@ export class StoricoComponent implements OnInit {
         var dataFine = giornoInizio + " " + oraFine;
 
         //Devo prendere l'ID dal nome del sensore selezionato
-        var ID=this.getIDFromNome(innerID[i].innerHTML,arrayMapForID);
-        if(ID==-1)
-        ID=innerID[i].innerHTML;
+        var ID = this.getIDFromNome(innerID[i].innerHTML, arrayMapForID);
+        if (ID == -1)
+          ID = innerID[i].innerHTML;
 
         obj["id"] = ID;
         obj["giornoScelto"] = giornoInizio;
 
         //Controlla validità data
 
-        this.flagOra=this.compareHours(oraInizio,oraFine);
+        this.flagOra = this.compareHours(oraInizio, oraFine);
 
         obj["dataInizio"] = oraInizio;
         obj["dataFine"] = oraFine;
 
         this.flag = this.compareDate(oraInizio, oraFine);
 
-        if (this.flag == true && this.flagOra==true)
+        if (this.flag == true && this.flagOra == true)
           idSelezionati.push(obj);
         else {
           window.alert("Data per sensore " + innerID[i].innerHTML + " non valida");
@@ -279,34 +275,29 @@ export class StoricoComponent implements OnInit {
     }
   }
 
-  getOraInizio()
-  {
-    var ora=(<HTMLInputElement>document.getElementById("oraInizioGenerale")).value
-    var stringOra=ora.split(":");
+  compareHours(hInizio: String, hFine: String) {
+    var stringOraInizio = hInizio.split(":");
+    var stringOraFine = hFine.split(":");
 
-    oraInizio=stringOra[0];
-    minInizio=stringOra[1];
-    secInizio=stringOra[2];
-  }
 
-  compareHours(hInizio : String, hFine : String)
-  {
-    var stringOraInizio=hInizio.split(":");
-    var stringOraFine=hFine.split(":");
 
     //Stessa ora
-    if( stringOraInizio[0] == stringOraFine[0] )
-    {
-      //Massimo un minuto di differenza o stesso minuto
-      if( ( parseInt(stringOraFine[1]) - parseInt(stringOraInizio[1]) )<=1 || stringOraFine[1] == stringOraInizio[1] )
+    if (stringOraInizio[0] == stringOraFine[0]) {
+      if (parseInt(stringOraFine[1]) >= parseInt(stringOraInizio[1])) //Mi assicuro che ora fine >= ora inizio
       {
-        return true;
+        //Massimo un minuto di differenza o stesso minuto
+        if ((parseInt(stringOraFine[1]) - parseInt(stringOraInizio[1])) <= 1 || stringOraFine[1] == stringOraInizio[1]) {
+          return true;
+        }
+        else
+          return false;
       }
       else
       return false;
+
     }
-    else 
-    return false;
+    else
+      return false;
   }
 
   compareDate(dataInizio: String, dataFine: String) {
@@ -330,7 +321,7 @@ export class StoricoComponent implements OnInit {
 
     var next = datiGrafico[0]["id"]
 
-    var nomeID=this.getNomeID(next,arrayMapForID);
+    var nomeID = this.getNomeID(next, arrayMapForID);
     $("#idPlot").append("<li name='item'><span><input type='checkbox'></span><p name='itemPlot'>" + nomeID + "</p></li>")
 
     datiGrafico.forEach(element => {
@@ -338,7 +329,7 @@ export class StoricoComponent implements OnInit {
       if (element["id"] != next) {
         next = element["id"]
 
-        nomeID=this.getNomeID(next,arrayMapForID);
+        nomeID = this.getNomeID(next, arrayMapForID);
 
         $("#idPlot").append("<li name='item'><span><input type='checkbox'></span><p name='itemPlot'>" + nomeID + "</p></li>")
 
@@ -358,6 +349,7 @@ export class StoricoComponent implements OnInit {
     document.getElementById("btnAvanti").style.display = "block"
     document.getElementById("btnAvanti").innerHTML = "Aggiorna sensori selezionati"
     document.getElementById("idPerPlot").style.display = "block"
+
 
     $("#grafici").empty()
 
@@ -393,7 +385,7 @@ export class StoricoComponent implements OnInit {
       }
 
       var layout = {
-        title: "Grafico ID: " + this.getNomeID(ID,arrayMapForID),
+        title: "Grafico ID: " + this.getNomeID(ID, arrayMapForID),
         xaxis: {
           title: "Tempo"
         },
@@ -415,12 +407,15 @@ export class StoricoComponent implements OnInit {
       var data = [trace];
 
       //Crea nuova DIV
-      $("#grafici").append("<div id='myDiv" + this.getNomeID(ID,arrayMapForID) + "'></div>")
+      $("#grafici").append("<div id='myDiv" + this.getNomeID(ID, arrayMapForID) + "'></div>")
 
 
-      Plotly.newPlot('myDiv' + this.getNomeID(ID,arrayMapForID), data, layout);
+      Plotly.newPlot('myDiv' + this.getNomeID(ID, arrayMapForID), data, layout);
+
+
 
     });
+
 
     arrayTrace.push(trace)
 
@@ -504,6 +499,7 @@ export class StoricoComponent implements OnInit {
     for (i = 0; i < lis.length; i++) {
       if (lis[i].checked) {
 
+        window.alert("Agg checkbox " + i)
         traceSelezionate.push(arrayTrace[i]);
         /*for (j = 0; j < arrayTrace.length; j++) {
 
@@ -531,7 +527,7 @@ export class StoricoComponent implements OnInit {
     }
     else {
       $("#grafici").append("<div id='myDivUniti'></div>")
-      Plotly.newPlot('myDivUniti', traceSelezionate, layoutGenerale); 
+      Plotly.newPlot('myDivUniti', traceSelezionate, layoutGenerale);
 
     }
 
@@ -558,7 +554,7 @@ export class StoricoComponent implements OnInit {
       }
     })
 
-    
+
   }
 
 }

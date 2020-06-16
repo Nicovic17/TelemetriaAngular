@@ -128,6 +128,56 @@ describe('StoricoComponent', () => {
     expect(content.style.display).toEqual("none")
   })
 
+  it('compare Hours, scenario principale',()=>{
+
+    var h1="18:15:00";
+    var h2="18:16:00";
+
+    var ris=component.compareHours(h1,h2)
+
+    expect(ris).toBeTruthy()
+  })
+
+  it('compare Hours, stessa ora:min:sec',()=>{
+
+    var h1="18:16:00";
+    var h2="18:16:00";
+
+    var ris=component.compareHours(h1,h2)
+
+    expect(ris).toBeTruthy()
+  })
+
+  it('compare Hours, ora fine più grande di 2 minuti',()=>{
+
+    var h1="18:16:00";
+    var h2="18:18:00";
+
+    var ris=component.compareHours(h1,h2)
+
+    expect(ris).toBeFalsy()
+  })
+
+  it('compare Hours, ora fine più piccola',()=>{
+
+    var h1="18:16:00";
+    var h2="18:15:00";
+
+    var ris=component.compareHours(h1,h2)
+
+    expect(ris).toBeFalsy()
+  })
+
+  it('compare date, ',()=>{
+
+    var d1="";
+    var d2="";
+
+    var ris=component.compareDate(d1,d2)
+
+    expect(ris).toBeFalsy()
+  })
+
  
 
 });
