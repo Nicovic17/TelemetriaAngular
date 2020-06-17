@@ -4,12 +4,7 @@ import { AngularFireDatabase } from '@angular/fire/database'
 
 import { Observable } from 'rxjs'
 
-const lvDBPath = 'storico/018';
-const hvDBPath = 'storico/017';
-const hvCorrenteDBPath = 'storico/019';
-const lvCorrenteDBPath = 'storico/020';
-const hvTensioneDBPath = 'storico/015';
-const lvTensioneDBPath = 'storico/016';
+const p = 'storico/'; //Parte statica del path del db
 
 @Injectable({
   providedIn: 'root'
@@ -19,45 +14,44 @@ export class BatteryService {
   constructor(private db: AngularFireDatabase) { }
 
   getBatteriaLowVoltage(): Observable<number>{
-    return new Observable<number>(subscriber => {
-      this.db.database.ref(lvDBPath).limitToLast(1).on("child_added", child => {
-        subscriber.next(child.val());
-      })
-    })
+    let path = 'mappa/percentuale_di_carica_lv';
+    return this.getDbValue(path);
   }
   getCorrenteHighVoltage():Observable<number>{
-    return new Observable<number>(subscriber => {
-      this.db.database.ref(hvCorrenteDBPath).limitToLast(1).on("child_added", child => {
-        subscriber.next(child.val());
-      });
-    });
+    let path = 'mappa/corrente_in_uscita_hv';
+    return this.getDbValue(path);
   }
   getCorrenteLowVoltage():Observable<number>{
-    return new Observable<number>(subscriber => {
-      this.db.database.ref(lvCorrenteDBPath).limitToLast(1).on("child_added", child => {
-        subscriber.next(child.val());
-      });
-    });
+    let path = 'mappa/corrente_in_uscita_lv';
+    return this.getDbValue(path);
   }
   getTensioneHighVoltage():Observable<number>{
-    return new Observable<number>(subscriber => {
-      this.db.database.ref(hvTensioneDBPath).limitToLast(1).on("child_added", child => {
-        subscriber.next(child.val());
-      });
-    });
+    let path = 'mappa/tensione_batt_hv';
+    return this.getDbValue(path);
   }
   getTensioneLowVoltage():Observable<number>{
-    return new Observable<number>(subscriber => {
-      this.db.database.ref(lvTensioneDBPath).limitToLast(1).on("child_added", child => {
-        subscriber.next(child.val());
-      });
-    });
+    let path = 'mappa/tensione_batt_lv';
+    return this.getDbValue(path);
   }
   getBatteriaHighVoltage(): Observable<number>{
-    return new Observable<number>(subscriber => {
-      this.db.database.ref(hvDBPath).limitToLast(1).on("child_added", child => {
-        subscriber.next(child.val());
-      })
-    })
+    let path = 'mappa/percentuale_di_carica_hv';
+    return this.getDbValue(path);
+  }
+  getTempMediaHighVoltage(){
+    let path = 'mappa/temp_media_hv';
+    return this.getDbValue(path);
+  }
+  getTempMediaLowVoltage(){
+    let path = 'mappa/temp_media_lv';
+    return this.getDbValue(path);
+  }
+  getDbValue(path: string): Observable<number>{
+    return new Observable(subscriber => {
+      this.db.database.ref(path).once("value").then(value => {
+        this.db.database.ref(p + value.val()).limitToLast(1).on("child_added", child => {
+          subscriber.next(child.val());
+        });
+      });
+    });
   }
 }
