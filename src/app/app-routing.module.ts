@@ -14,7 +14,6 @@ import {RotazioneVolanteComponent} from './rotazione-volante/rotazione-volante.c
 import {BarsComponent} from './bars/bars.component';
 import {SpieControlloComponent} from './spie-controllo/spie-controllo.component';
 import {VisionemacchinaComponent} from './visionemacchina/visionemacchina.component';
-import {BatteryindicatorComponent} from './batteryindicator/batteryindicator.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import { GforceSectionComponent } from './gforce-section/gforce-section.component';
 
@@ -45,7 +44,6 @@ export const routingComponents = [
     BarsComponent,
     SpieControlloComponent,
     VisionemacchinaComponent,
-    BatteryindicatorComponent,
     StoricoComponent,
     PageNotFoundComponent,
     GforceSectionComponent

@@ -21,6 +21,8 @@ export class NewBatteryComponent implements OnInit {
     public correnteLV;
     public tensioneHV;
     public tensioneLV;
+    public tmediaHV;
+    public tmediaLV;
 
     constructor(private _interactionService: BatteryService, private ngZone: NgZone) {}
 
@@ -31,6 +33,8 @@ export class NewBatteryComponent implements OnInit {
         this.ascoltaCorrenteLowVoltage();
         this.ascoltaTensioneHighVoltage();
         this.ascoltaTensioneLowVoltage();
+        this.ascoltaTMediaHV();
+        this.ascoltaTMediaLV();
     }
     ascoltaBatteriaHighVoltage(){
         this._interactionService.getBatteriaHighVoltage().subscribe(data => {
@@ -74,6 +78,20 @@ export class NewBatteryComponent implements OnInit {
             this.ngZone.run(() => {
                 this.tensioneLV = Number(value);
             });
+        })
+    }
+    ascoltaTMediaHV(){
+        this._interactionService.getTempMediaHighVoltage().subscribe(value => {
+            this.ngZone.run(() => {
+                this.tmediaHV = value;
+            });
+        });
+    }
+    ascoltaTMediaLV(){
+        this._interactionService.getTempMediaLowVoltage().subscribe(value => {
+            this.ngZone.run(() => {
+                this.tmediaLV = value;
+            })
         })
     }
     //Tramite la variabile this.dataHV si occupa di aggiornare la vista della batteria

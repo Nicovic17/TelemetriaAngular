@@ -8,12 +8,30 @@ import {ControllerService} from "../controller.service";
 })
 export class SpieControlloComponent implements OnInit {
   public breakPressure;
+  public liquidTemperature;
+  public liquidStream;
 
   //Implementare service con connessione a database per dati corrispondenti
   constructor(private _controllerService: ControllerService, private ngZone: NgZone) { }
 
   ngOnInit(): void {
     this.ascoltaBreakPressure();
+    this.ascoltaLiquidTemperature();
+    this.ascoltaFlussoRaffreddamento();
+  }
+  ascoltaFlussoRaffreddamento(){
+    this._controllerService.getFlussoLiquidoRaffreddamento().subscribe(value => {
+      this.ngZone.run(() => {
+        this.liquidStream = value;
+      });
+    });
+  }
+  ascoltaLiquidTemperature(){
+    this._controllerService.getTempLiquidoRaffreddamento().subscribe(value => {
+      this.ngZone.run(() => {
+        this.liquidTemperature = value;
+      });
+    });
   }
   ascoltaBreakPressure(){
     this._controllerService.getPressioneFreno().subscribe(value => {
@@ -24,7 +42,7 @@ export class SpieControlloComponent implements OnInit {
   }
   ngAfterViewInit()
   {
-    document.getElementById("BMS").classList.add("red")
+    //document.getElementById("BMS").classList.add("danger")
   }
 
 }

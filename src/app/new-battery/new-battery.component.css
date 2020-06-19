@@ -117,7 +117,6 @@
   position: relative;
 
   display: block;
-  margin: 0px auto;
   padding: 0;
 
   overflow: hidden;
@@ -137,30 +136,26 @@
   background-color: #27ae60;
 }
 
-.btn > * {
-  position: relative;
-}
-
 .btn span {
   display: block;
-  padding: 5px 15px;
+  padding: 3px;
 }
 
 .btn:before {
   content: "";
-  
+
   position: absolute;
   top: 50%;
   left: 50%;
-  
+
   display: block;
   width: 0;
   padding-top: 0;
-    
+
   border-radius: 100%;
-  
+
   background-color: rgba(236, 240, 241, .3);
-  
+
   -webkit-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);

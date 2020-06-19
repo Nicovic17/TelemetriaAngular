@@ -1,8 +1,7 @@
 .button {
-    background-color: #4CAF50;
+    background-color: #76afb8;
     border: none;
     color: white;
-    padding: 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -10,6 +9,8 @@
     margin: 4px 2px;
     border-radius: 50%;
     box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+    width: 55px;
+    height: 55px;
   
     transition: background-color .3s;
   }
@@ -18,29 +19,29 @@
     background-color: #27ae60;
   }
 
-  .button.orange{
-    background-color: #e67e22;
+  .button.danger{
+    background-color: #cb0606;
   }
 
   
-  .button.orange:hover, .button.orange:focus {
+  .button.danger:hover, .button.orange:focus {
     background-color: #d35400;
   }
 
-  .button.red{
-    background-color: #e62222;
+  .button.active{
+    background-color: #4CAF50;
   }
 
   
-  .button.red:hover, .button.red:focus {
-    background-color: #d30000;
+  .button.active:hover, .button.red:focus {
+    background-color: #27ae60;
   }
 
   .banner-font {
 
       font-family: Impact;
       position: relative;
-      top: -20px;
+      top: -25px;
   }
 .banner-font-small{
     font-family: Impact;
@@ -65,7 +66,7 @@
     
     background-color: #2ecc71;
     color: #ecf0f1;
-    
+    width: 100px;
     transition: background-color .3s;
   }
   

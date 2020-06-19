@@ -1,63 +1,51 @@
-<!--<div  style="border:  black; border-style: dotted; padding: 10px;">
-
-    <h1 id="spieControllo" class="banner-font">Spie di controllo</h1>
-    <div class="col-sm-6">
-        <h1 class="banner-font">BMS</h1>
-        <button id="BMS"class="button">BMS</button>
-    </div>
-    <div class="col-sm-6">
-        <h1 class="banner-font">IMD</h1>
-        <button id="IMD"class="button">IMD</button>
-    </div>
-    
-    <h1 class="banner-font">Temperatura freni</h1>
-    <div class="col-sm-6">
-        
-        <button class="btn " type="button"><span class="spanBar">25°</span></button>
-         <button class="btn orange" type="button"><span class="spanBar">40°</span></button>
-    </div>
-    <div class="col-sm-6">
-
-        <button class="btn " type="button"><span class="spanBar">25°</span></button>
-         <button class="btn red" type="button"><span class="spanBar">50°</span></button>
-    </div>
-    
-</div>-->
 <div class="container-fluid" style="border:  black; border-style: dotted; padding: 10px;position: relative; margin-top: -130px;">
     <div class="row">
-        <div class="col-sm-6 col-md-offset-3">
-            <h1 id="spieControllo" class="banner-font">Spie di Controllo</h1>
+        <div class="col-sm-6 col-md-offset-4">
+            <h2 id="spieControllo" class="banner-font">Spie di Controllo</h2>
         </div>
     </div>
     <div class="row" style="position: relative; top: -30px">
-        <div class="col-lg-2 col-lg-offset-1">
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-left: 10px">
             <button id="BMS"class="button">BMS</button>
         </div>
-        <div class="col-lg-2">
-            <button id="TRQ"class="button">TRQ</button>
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-left: 20px">
+            <button id="BMS"class="button">TRQ</button>
         </div>
-        <div class="col-lg-2">
-            <button id="ECU"class="button">ECU</button>
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-left: 20px">
+            <button id="BMS"class="button">ECU</button>
         </div>
-        <div class="col-lg-2">
-            <button id="OH"class="button">OH</button>
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-left: 20px">
+            <button id="BMS"class="button">OH</button>
         </div>
-        <div class="col-lg-2">
-            <button id="TCS"class="button">TCS</button>
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-left: 20px">
+            <button id="BMS"class="button">TCS</button>
+        </div>
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-left: 20px">
+            <button id="BMS"class="button">IMB</button>
+        </div>
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-left: 20px">
+            <button id="BMS"class="button">???</button>
+        </div>
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-left: 20px">
+            <button id="BMS"class="button">???</button>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-4">
+    <div class="row" style="position: relative; top: -20px">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
             <h1 class="banner-font-small">T. Freno:</h1>
             <button class="btn " type="button"><span class="spanBar">N.S.</span></button>
         </div>
-        <div class="col-sm-4">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
             <h1 class="banner-font-small">P.Freni:</h1>
-            <button class="btn " type="button"><span class="spanBar">{{breakPressure}}°C</span></button>
+            <button class="btn " type="button"><span class="spanBar">{{breakPressure}}?</span></button>
         </div>
-        <div class="col-sm-4">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
             <h1 class="banner-font-small">T.Liquid:</h1>
-            <button class="btn " type="button"><span class="spanBar">{{breakPressure}}°C</span></button>
+            <button class="btn " type="button"><span class="spanBar">{{liquidTemperature}}°C</span></button>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <h1 class="banner-font-small">Flusso:</h1>
+            <button class="btn " type="button"><span class="spanBar">{{liquidStream}}?</span></button>
         </div>
     </div>
 </div>
