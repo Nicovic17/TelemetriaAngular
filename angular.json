@@ -25,10 +25,10 @@
               "src/assets/js/OpenLayers-2.13.1/img"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": [
-              
               "src/assets/js/OpenLayers-2.13.1/OpenLayers.js",
               "src/assets/js/testMarker.js",
               "node_modules/jquery/dist/jquery.min.js",
@@ -95,6 +95,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
             "scripts": [

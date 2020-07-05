@@ -6,7 +6,7 @@
     width: 100%;
     height: 100%;
     position: fixed;
-    background: #222;
+    background: #04030C;
 }
 
 .overlay__inner {
@@ -49,6 +49,9 @@
 
 .bodyStorico .load{
     text-align: center;
+    color: black;
+   
+
 }
 
 
@@ -86,7 +89,7 @@ button{
 
 .button_div button{
     
-    background: #6b7203;
+    
     color: #fff;
     border: 0px;
     border-radius: 5px;
@@ -101,16 +104,24 @@ button{
 
 .button_div button:hover{
 
-    background: #fff;
-    color: #5d8ffc;
-    border: 1px solid #5d8ffc;
+    color: #f9fc5d;
+    border: 1px solid #f9fc5d;
     cursor: pointer;
 
 
 }
 
+.labelStyle{
+    color: black
+}
+
 label ul#idPlot li{
     display: inline;
+    color: black;
+}
+
+.idPlot{
+    color: black;
 }
 
 li > p{
@@ -133,7 +144,7 @@ html{
     
     background: #666666;*/
     min-height: 100vh;
-    background-color: gray;
+    background-color: #383140;
     overflow: hidden;
 
 }
@@ -190,7 +201,7 @@ html{
     list-style: none;
     padding: 10px;
     width: 100%;
-    background: rgba(255, 255, 255, 0.575);
+    background: #CAC7D7;
     box-shadow: 0 5px 25px rgba(0, 0, 0, .1);
     transition: transform 0.5s;
 }
@@ -205,7 +216,7 @@ html{
 
     transform: scale(1.01);
     z-index: 100;
-    background: #6b7203;
+    background: #8A8604;
     box-shadow: 0 5px 25px rgba(0, 0, 0, .2);
     color: #fff;
 
@@ -246,7 +257,9 @@ html{
 }
 
 .banner-font{
+    font-family: 'Courier New', Courier, monospace;
+}
 
-    font-family: Impact;
-    
+.dataPickerInput{
+    color: black; 
 }

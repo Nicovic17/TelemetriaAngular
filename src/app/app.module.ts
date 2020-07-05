@@ -15,6 +15,18 @@ import { VolanteService } from "./volante.service";
 import { MapService } from "./map.service";
 import {StoricoService} from "./storico.service";
 import {EngineService} from "./engine.service";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import { MatNativeDateModule } from '@angular/material/core'
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core'
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
 
 // ATTENZIONE NON IMPORTARE QUA I COMPONENT, VANNO IN --> app-routing.module.ts
 
@@ -30,10 +42,18 @@ import {EngineService} from "./engine.service";
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     FontAwesomeModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatNativeDateModule
   ],
 
-  providers: [SpeedometerService, BatteryService, BarsService, VolanteService, MapService, StoricoService, EngineService],
+  providers: [SpeedometerService, 
+    BatteryService, BarsService, VolanteService, MapService, 
+    StoricoService, EngineService, MatDatepickerModule],
 
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,5 @@
 body{
-    background: gray;
+    background: #383140;
     padding: 0px;
     margin: 0px;
     font-family: 'Open Sans', sans-serif;
@@ -9,7 +9,7 @@ body{
 
 @keyframes color-change{
     0%{
-        background: gray;
+        background: #383140;
     }
     100%{
         background: white;

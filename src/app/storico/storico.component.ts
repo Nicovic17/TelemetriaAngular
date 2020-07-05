@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { HostListener } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database'
@@ -7,6 +7,15 @@ import { ViewEncapsulation } from '@angular/core';
 import { StoricoService } from '../storico.service'
 import { exit } from 'process';
 import { typeSourceSpan } from '@angular/compiler';
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+
+} from '@angular/material-moment-adapter';
+import {formatDate} from '@angular/common';
+import * as moment from 'moment'
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
 
 var arrayDate = [], arrayID = [], arrayForDropDown = [], arrayMapForID = []
@@ -53,17 +62,34 @@ declare var $: any;
 declare var Plotly: any;
 
 
+
 @Component({
   selector: 'app-storico',
   templateUrl: './storico.component.html',
   styleUrls: ['./storico.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    {
+      provide: MAT_DATE_LOCALE, useValue: 'it-IT'
+    },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps:[
+        MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS
+      ]
+    },
+    {
+      provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS
+    }
+  ]
 })
+
 
 
 export class StoricoComponent implements OnInit {
 
-
+  @ViewChild('dateInput') dateInput:ElementRef;
 
   //Permette di gestire il click sulla freccia per tornare indietro
   @HostListener('window:popstate', ['$event'])
@@ -75,14 +101,17 @@ export class StoricoComponent implements OnInit {
 
   pageLoaded: boolean;
 
-  constructor(public auth: AngularFireAuth, public firebase: AngularFireDatabase, public _storicoService: StoricoService) {
-
+  constructor(public auth: AngularFireAuth, public firebase: AngularFireDatabase, public _storicoService: StoricoService, private _adapter
+    : DateAdapter<any>) {
+    
+      
     this.checkIfUserIsLogged()
   }
 
   ngOnInit(): void {
 
     this.pageLoaded = true;
+    this._adapter.setLocale('it')
 
   }
 
@@ -103,6 +132,8 @@ export class StoricoComponent implements OnInit {
     this._storicoService.nascondiView(document.getElementById("idPerPlot"));
 
     this._storicoService.nascondiView(document.getElementById("filtraggio"));
+
+    this._storicoService.nascondiView(document.getElementById("rowButtons"))
 
     this._storicoService.getID();
     this._storicoService.getMapForID();
@@ -228,6 +259,15 @@ export class StoricoComponent implements OnInit {
         //Prendo data inizio e fine:
         //var dataInizio = $("#dataInizio" + innerID[i].innerHTML + " :selected").text();
         //var dataFine = $("#dataFine" + innerID[i].innerHTML + " :selected").text();
+        var giornoAngular=this.dateInput.nativeElement.value;
+        var ris=giornoAngular.split("/")
+        if(ris[0]<10)
+        ris[0]="0"+ris[0];
+        if(ris[1]<10)
+        ris[1]="0"+ris[1]
+        
+        var giornoAngularEffettivo=ris[0]+"/"+ris[1]+"/"+ris[2]
+        window.alert("Giorno angular: "+giornoAngularEffettivo)
         var giornoInizio = (<HTMLInputElement>document.getElementById("giornoInizioGenerale")).value;
         var oraInizio = (<HTMLInputElement>document.getElementById("oraInizioGenerale")).value;
         window.alert("Ora Ini<io sel: " + oraInizio)
@@ -242,7 +282,7 @@ export class StoricoComponent implements OnInit {
           ID = innerID[i].innerHTML;
 
         obj["id"] = ID;
-        obj["giornoScelto"] = giornoInizio;
+        obj["giornoScelto"] = giornoAngularEffettivo;
 
         //Controlla validità data
 
@@ -278,8 +318,6 @@ export class StoricoComponent implements OnInit {
   compareHours(hInizio: String, hFine: String) {
     var stringOraInizio = hInizio.split(":");
     var stringOraFine = hFine.split(":");
-
-
 
     //Stessa ora
     if (stringOraInizio[0] == stringOraFine[0]) {

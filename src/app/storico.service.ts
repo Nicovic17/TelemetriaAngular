@@ -47,6 +47,7 @@ export class StoricoService {
       })
 
       window.alert("Dati mappa ottenuti")
+      this.mostraView(document.getElementById("rowButtons"));
     })
   }
 
