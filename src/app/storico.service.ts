@@ -188,7 +188,7 @@ export class StoricoService {
 
           var e = new Date(parseInt(child.key)).getMilliseconds();
 
-          var giornoSensore=y+"-"+monthString+"-"+g;
+          var giornoSensore=g+"/"+monthString+"/"+y;
 
           //window.alert("Giorno scelto: "+element["giornoScelto"] + "Giorno sensore: "+giornoSensore)
           if(element["giornoScelto"] == giornoSensore)

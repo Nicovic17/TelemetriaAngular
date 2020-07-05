@@ -268,13 +268,13 @@ export class StoricoComponent implements OnInit {
         
         var giornoAngularEffettivo=ris[0]+"/"+ris[1]+"/"+ris[2]
         window.alert("Giorno angular: "+giornoAngularEffettivo)
-        var giornoInizio = (<HTMLInputElement>document.getElementById("giornoInizioGenerale")).value;
+        //var giornoInizio = (<HTMLInputElement>document.getElementById("giornoInizioGenerale")).value;
         var oraInizio = (<HTMLInputElement>document.getElementById("oraInizioGenerale")).value;
         window.alert("Ora Ini<io sel: " + oraInizio)
-        var dataInizio = giornoInizio + " " + oraInizio;
+        //var dataInizio = giornoInizio + " " + oraInizio;
 
         var oraFine = (<HTMLInputElement>document.getElementById("oraFineGenerale")).value;
-        var dataFine = giornoInizio + " " + oraFine;
+        //var dataFine = giornoInizio + " " + oraFine; 
 
         //Devo prendere l'ID dal nome del sensore selezionato
         var ID = this.getIDFromNome(innerID[i].innerHTML, arrayMapForID);
