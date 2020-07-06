@@ -26,8 +26,7 @@
 
     <div class="load" id="topText">
 
-        <h1 class="banner-font">Storico</h1>
-        <h1 class="banner-font">Clicca "mostra ID" per iniziare</h1>
+        
 
     </div>
 
@@ -93,7 +92,7 @@
 
         <div class="button_div">
             
-            <button mat-raised-button color="primary">Annulla</button>
+            <button mat-raised-button color="primary" (click)="openDialog()">Annulla</button>
             <button mat-raised-button color="primary" id="btnCaricaDate" (click)="getID()">Mostra ID </button>
             <button mat-raised-button color="primary" id="btnAvanti" (click)="aggiungiID()">Conferma selezione</button>
             <button mat-raised-button color="primary" id="btnJson" (click)="startPlot()">Mostra grafici sensori</button>

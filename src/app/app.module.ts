@@ -32,6 +32,10 @@ import {MatIconModule} from '@angular/material/icon'
 import { HttpClientModule } from "@angular/common/http";
 import { FooterComponent } from './footer/footer.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatDialog, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
+import { DialogTestComponent } from './dialog-test/dialog-test.component';
+
+
 
 // ATTENZIONE NON IMPORTARE QUA I COMPONENT, VANNO IN --> app-routing.module.ts
 
@@ -39,7 +43,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
   declarations: [
     AppComponent,
     routingComponents,
-    FooterComponent, // Array collocato in app-routing.module.ts in esso vanno dichiarati i Component
+    FooterComponent,
+    DialogTestComponent, // Array collocato in app-routing.module.ts in esso vanno dichiarati i Component
   ],
   imports: [
     BrowserModule,
@@ -58,7 +63,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatToolbarModule,
     MatIconModule,
     HttpClientModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatDialogModule,
+    FormsModule
   ],
 
   providers: [SpeedometerService, 

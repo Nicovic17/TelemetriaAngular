@@ -64,7 +64,7 @@ describe('StoricoComponent', () => {
     expect(ris).toBeTruthy();
   })
 
-  it('nome to id works',()=>{
+  it('getNomeIDReturnCorrectNameFromID',()=>{
 
     var id="001";
     
@@ -79,7 +79,7 @@ describe('StoricoComponent', () => {
     expect(ris).toEqual("macchina")
   })
 
-  it('nome to id not works',()=>{
+  it('getNomeIDReturnErrorNoNameFound',()=>{
 
     var id="001";
     var array=[];
@@ -176,6 +176,18 @@ describe('StoricoComponent', () => {
     var ris=component.compareDate(d1,d2)
 
     expect(ris).toBeFalsy()
+  })
+
+  it('getID Test ',()=>{
+
+    component._storicoService.getID();
+    component._storicoService.getMapForID()
+
+    var ris=component.getID()
+
+    expect(ris).toBeTruthy()
+    
+   
   })
 
  

@@ -2,20 +2,20 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { HostListener } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database'
-import { Observable, from } from 'rxjs'
 import { ViewEncapsulation } from '@angular/core';
 import { StoricoService } from '../storico.service'
 import { exit } from 'process';
-import { typeSourceSpan } from '@angular/compiler';
 import {
   MAT_MOMENT_DATE_FORMATS,
   MomentDateAdapter,
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 
 } from '@angular/material-moment-adapter';
-import {formatDate} from '@angular/common';
-import * as moment from 'moment'
+
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import { Inject} from '@angular/core';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import { DialogTestComponent } from '../dialog-test/dialog-test.component'
 
 
 
@@ -63,6 +63,11 @@ var layoutGenerale = {
 declare var $: any;
 declare var Plotly: any;
 
+export interface DialogData {
+  animal: 'panda' | 'unicorn' | 'lion';
+}
+
+
 
 
 @Component({
@@ -88,7 +93,6 @@ declare var Plotly: any;
 })
 
 
-
 export class StoricoComponent implements OnInit {
 
   @ViewChild('dateInput') dateInput:ElementRef;
@@ -104,13 +108,27 @@ export class StoricoComponent implements OnInit {
   pageLoaded: boolean;
 
   constructor(public auth: AngularFireAuth, public firebase: AngularFireDatabase, public _storicoService: StoricoService, private _adapter
-    : DateAdapter<any>) {
+    : DateAdapter<any>, public dialog: MatDialog) {
 
-      
-    
-      
     this.checkIfUserIsLogged()
   }
+
+  openDialog() {
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    
+
+    this.dialog.open(DialogTestComponent, {
+      width: '400px',
+      height:'250px'
+    });
+}
+
+ 
 
   ngOnInit(): void {
 
@@ -139,9 +157,11 @@ export class StoricoComponent implements OnInit {
 
     this._storicoService.getID();
     this._storicoService.getMapForID();
-
+    
 
   }
+
+  
 
   private date = [];
 
@@ -159,7 +179,12 @@ export class StoricoComponent implements OnInit {
     this.setUpList();
     this.setUpDropDown();
 
+    if(arrayID.length>0 && arrayForDropDown.length>0)
+    return true;
+
   }
+
+ 
 
   /*
   getDate() {
@@ -375,8 +400,6 @@ export class StoricoComponent implements OnInit {
 
       }
 
-
-
     });
 
   }
@@ -458,63 +481,6 @@ export class StoricoComponent implements OnInit {
 
 
     arrayTrace.push(trace)
-
-
-    /*for (i = 0; i < datiGrafico.length; i++) {
-
-      var ID = datiGrafico[i]["id"];
-      if (ID != currID) //Grafico diverso
-      {
-
-        arrayTrace.push(trace);
-
-        window.alert("Cambio grafico")
-        currID = ID;
-        asseX = [datiGrafico[i]["tempo"]]
-        asseY = [datiGrafico[i]["valore"]]
-      }
-      else //Stesso grafico
-      {
-        //window.alert("Aggiorno grafico di ID: " + ID);
-        asseX.push(datiGrafico[i]["tempo"]);
-        asseY.push(datiGrafico[i]["valore"]);
-      }
-
-      var layout = {
-        title: "Grafico ID: " + ID,
-        xaxis: {
-          title: "Tempo"
-        },
-        yaxis: {
-          title: "ID"
-        },
-        paper_bgcolor: "#6d6d6d",
-        plot_bgcolor: "#fff"
-
-
-      };
-
-      trace = {
-        x: asseX,
-        y: asseY,
-        type: 'scatter',
-        name: "" + ID
-      };
-
-      var data = [trace];
-
-      //Crea nuova DIV
-      $("#grafici").append("<div id='myDiv" + ID + "'></div>")
-
-
-      Plotly.newPlot('myDiv' + ID, data, layout);
-
-    }
-
-
-    arrayTrace.push(trace)*/
-
-    //window.alert("Post plot")
 
   }
 

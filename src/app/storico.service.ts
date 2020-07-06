@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from "@angular/fire/database";
+import { StoricoComponent } from './storico/storico.component';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import { DialogTestComponent } from '../app/dialog-test/dialog-test.component'
 
 var arrayDate = [], arrayID = [], jsonObject = [], jsonDateForDropDown = [], arrayMapID=[]
 var test = ["Pollo"]
@@ -12,9 +15,26 @@ export class StoricoService {
 
   private arrayDateInterno = []
 
-  constructor(private db: AngularFireDatabase) {
+  constructor(private db: AngularFireDatabase,public dialog: MatDialog) {
 
   }
+
+  openDialog() {
+
+    const dialogConfig = new MatDialogConfig();
+
+    
+    dialogConfig.autoFocus = true;
+
+    
+
+    this.dialog.open(DialogTestComponent, {
+      width: '400px',
+      height:'250px'
+    });
+}
+
+
 
 
 
@@ -46,8 +66,10 @@ export class StoricoService {
         arrayMapID.push(idValore);
       })
 
-      window.alert("Dati mappa ottenuti")
+      //window.alert("Dati mappa ottenuti")
       this.mostraView(document.getElementById("rowButtons"));
+      this.openDialog()
+      
     })
   }
 
@@ -81,6 +103,7 @@ export class StoricoService {
       
       this.nascondiView(document.getElementById("loader"))
       this.mostraView(document.getElementById("footer"))
+      
       this.getDateForDropDown();
     })
 
