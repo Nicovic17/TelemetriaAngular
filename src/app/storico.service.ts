@@ -80,6 +80,7 @@ export class StoricoService {
       })
       
       this.nascondiView(document.getElementById("loader"))
+      this.mostraView(document.getElementById("footer"))
       this.getDateForDropDown();
     })
 

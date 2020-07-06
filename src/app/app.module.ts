@@ -27,13 +27,19 @@ import {
   MomentDateAdapter,
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon'
+import { HttpClientModule } from "@angular/common/http";
+import { FooterComponent } from './footer/footer.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 // ATTENZIONE NON IMPORTARE QUA I COMPONENT, VANNO IN --> app-routing.module.ts
 
 @NgModule({
   declarations: [
     AppComponent,
-    routingComponents, // Array collocato in app-routing.module.ts in esso vanno dichiarati i Component
+    routingComponents,
+    FooterComponent, // Array collocato in app-routing.module.ts in esso vanno dichiarati i Component
   ],
   imports: [
     BrowserModule,
@@ -48,7 +54,11 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatToolbarModule,
+    MatIconModule,
+    HttpClientModule,
+    MatExpansionModule
   ],
 
   providers: [SpeedometerService, 

@@ -18,6 +18,8 @@ import * as moment from 'moment'
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
 
+
+
 var arrayDate = [], arrayID = [], arrayForDropDown = [], arrayMapForID = []
 var idSelezionati = [];
 var arrayTrace = [];
@@ -103,6 +105,8 @@ export class StoricoComponent implements OnInit {
 
   constructor(public auth: AngularFireAuth, public firebase: AngularFireDatabase, public _storicoService: StoricoService, private _adapter
     : DateAdapter<any>) {
+
+      
     
       
     this.checkIfUserIsLogged()
@@ -116,24 +120,22 @@ export class StoricoComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    //document.getElementById("box").style.display = "none"
+
     this._storicoService.nascondiView(document.getElementById("box"))
 
-    //document.getElementById("btnJson").style.display = "none"
     this._storicoService.nascondiView(document.getElementById("btnJson"));
 
-    //document.getElementById("btnConfermaID").style.display = "none"
     this._storicoService.nascondiView(document.getElementById("btnConfermaID"))
 
-    //document.getElementById("btnAvanti").style.display = "none"
     this._storicoService.nascondiView(document.getElementById("btnAvanti"))
 
-    //document.getElementById("idPerPlot").style.display = "none"
     this._storicoService.nascondiView(document.getElementById("idPerPlot"));
 
     this._storicoService.nascondiView(document.getElementById("filtraggio"));
 
     this._storicoService.nascondiView(document.getElementById("rowButtons"))
+
+    this._storicoService.nascondiView(document.getElementById("footer"))
 
     this._storicoService.getID();
     this._storicoService.getMapForID();
