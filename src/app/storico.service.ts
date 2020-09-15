@@ -30,7 +30,7 @@ export class StoricoService {
     dialogConfig.restoreFocus=true;
     
     this.dialog.open(DialogTestComponent, dialogConfig);
-    this.dialog.closeAll();
+    this.dialog.closeAll();  
     
 }
 
