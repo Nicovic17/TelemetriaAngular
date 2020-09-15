@@ -117,7 +117,7 @@ export class StoricoComponent implements OnInit {
 
     const dialogConfig = new MatDialogConfig();
 
-    dialogConfig.disableClose = true;
+    dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
 
     
@@ -196,9 +196,6 @@ export class StoricoComponent implements OnInit {
   }*/
 
 
-
-
-
   setUpList() {
 
 
@@ -224,6 +221,25 @@ export class StoricoComponent implements OnInit {
 
   }
 
+  setUpDropDown() {
+    var k = 0;
+    var i = 0;
+    for (i = 0; i < arrayID.length; i++) {
+      for (k = 0; k < arrayForDropDown.length; k++) {
+        // window.alert("In drop: " + arrayForDropDown[k]["tempo"])
+        if (arrayForDropDown[k]["id"] == arrayID[i]) {
+          var nomeDropDown = "#dataInizio" + arrayID[i];
+          $(nomeDropDown).append("<option value='test'>" + arrayForDropDown[k]["tempo"] + "</option>")
+          /*var nomeDropDownFine = "#dataFine" + arrayID[i];
+          $(nomeDropDownFine).append("<option value='test'>" + arrayForDropDown[k]["tempo"] + "</option>")*/
+        }
+
+
+      }
+    }
+
+  }
+
   getNomeID(id, array) {
 
     var i = 0;
@@ -246,24 +262,7 @@ export class StoricoComponent implements OnInit {
 
   }
 
-  setUpDropDown() {
-    var k = 0;
-    var i = 0;
-    for (i = 0; i < arrayID.length; i++) {
-      for (k = 0; k < arrayForDropDown.length; k++) {
-        // window.alert("In drop: " + arrayForDropDown[k]["tempo"])
-        if (arrayForDropDown[k]["id"] == arrayID[i]) {
-          var nomeDropDown = "#dataInizio" + arrayID[i];
-          $(nomeDropDown).append("<option value='test'>" + arrayForDropDown[k]["tempo"] + "</option>")
-          /*var nomeDropDownFine = "#dataFine" + arrayID[i];
-          $(nomeDropDownFine).append("<option value='test'>" + arrayForDropDown[k]["tempo"] + "</option>")*/
-        }
-
-
-      }
-    }
-
-  }
+ 
 
 
   flag: Boolean;
@@ -297,7 +296,7 @@ export class StoricoComponent implements OnInit {
         window.alert("Giorno angular: "+giornoAngularEffettivo)
         //var giornoInizio = (<HTMLInputElement>document.getElementById("giornoInizioGenerale")).value;
         var oraInizio = (<HTMLInputElement>document.getElementById("oraInizioGenerale")).value;
-        window.alert("Ora Ini<io sel: " + oraInizio)
+        window.alert("Ora Inizio sel: " + oraInizio)
         //var dataInizio = giornoInizio + " " + oraInizio;
 
         var oraFine = (<HTMLInputElement>document.getElementById("oraFineGenerale")).value;

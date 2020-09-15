@@ -23,17 +23,20 @@ export class StoricoService {
 
     const dialogConfig = new MatDialogConfig();
 
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = false;
+    dialogConfig.width="4000px";
+    dialogConfig.height="250px"
+    dialogConfig.restoreFocus=true;
     
-    dialogConfig.autoFocus = true;
-
+    this.dialog.open(DialogTestComponent, dialogConfig);
+    this.dialog.closeAll();
     
-
-    this.dialog.open(DialogTestComponent, {
-      width: '400px',
-      height:'250px'
-    });
 }
 
+closeDialog(){
+  this.dialog.closeAll();
+}
 
 
 
@@ -109,10 +112,6 @@ export class StoricoService {
 
   }
 
-  getArrayID() {
-    return arrayID;
-  }
-
   getDateForDropDown() {
     arrayID.forEach(element => {
 
@@ -157,6 +156,10 @@ export class StoricoService {
     });
   }
 
+  getArrayID() {
+    return arrayID;
+  }
+
   getJsonObjectForDropDown() {
     var jsonString = JSON.stringify(jsonDateForDropDown);
     window.alert(jsonString)
@@ -175,6 +178,8 @@ export class StoricoService {
 
 
     array.forEach(element => { //Per ogni ID
+
+     // window.alert("ID SELEZIONATI: "+element["id"]);
 
       var ref = this.db.database.ref("storico").child(element["id"]);
       ref.once("value", snap => {
@@ -200,7 +205,23 @@ export class StoricoService {
           var y = new Date(parseInt(child.key)).getFullYear()
 
           var h = new Date(parseInt(child.key)).getHours();
+          var hourString;
+          if(h>=0 && h<10)
+          {
+            hourString="0"+h;
+          }
+          else
+          hourString=h+"";
+
           var m = new Date(parseInt(child.key)).getMinutes();
+          var minString;
+          if(m>=0 && m<10)
+          {
+            minString="0"+m;
+          }
+          else
+          minString=m+"";
+
           var s = new Date(parseInt(child.key)).getSeconds();
           var secondsString;
           if(s >=0 && s <10)
@@ -214,14 +235,13 @@ export class StoricoService {
 
           var giornoSensore=g+"/"+monthString+"/"+y;
 
-          //window.alert("Giorno scelto: "+element["giornoScelto"] + "Giorno sensore: "+giornoSensore)
+          //window.alert("Giorno ID scelto: "+element["giornoScelto"] + "Giorno sensore: "+giornoSensore)
           if(element["giornoScelto"] == giornoSensore)
-
           {
             //window.alert("Giorno corrispondente")
             //Giorno corrispondente
-            var orarioSensore=h+":"+m+":"+secondsString;
-
+            var orarioSensore=hourString+":"+minString+":"+secondsString;
+            //window.alert("Orario ID SCELTO: "+element["dataInizio"] + "Orario SENSORE "+orarioSensore);
             if(orarioSensore >= element["dataInizio"] && orarioSensore <= element["dataFine"])
             {
               //window.alert("Orario corrispondente")
