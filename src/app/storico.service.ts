@@ -25,13 +25,12 @@ export class StoricoService {
 
     
     dialogConfig.autoFocus = true;
+    dialogConfig.height="250px";
+    dialogConfig.width="400px";
 
     
 
-    this.dialog.open(DialogTestComponent, {
-      width: '400px',
-      height:'250px'
-    });
+    this.dialog.open(DialogTestComponent,dialogConfig);
 }
 
 
