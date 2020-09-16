@@ -11,128 +11,128 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
     width: 55px;
     height: 55px;
-  
+
     transition: background-color .3s;
-  }
+}
 
-  .button.danger{
+.button.danger{
     background-color: #cb0606;
-  }
+}
 
-  
-  .button.danger:hover, .button.orange:focus {
+
+.button.danger:hover, .button.orange:focus {
     background-color: #d35400;
-  }
+}
 
-  .button.active{
+.button.active{
     background-color: #4CAF50;
-  }
+}
 
-  
-  .button.active:hover, .button.red:focus {
+
+.button.active:hover, .button.red:focus {
     background-color: #27ae60;
-  }
+}
 
-  .banner-font {
+.banner-font {
 
-      font-family: Impact;
-      position: relative;
-      top: -25px;
-  }
+    font-family: Impact;
+    position: relative;
+    top: -25px;
+}
 .banner-font-small{
     font-family: Impact;
     font-size: 20px;
     text-align: center;
 }
 
- 
+
 .btn {
     position: relative;
-  
+
     display: block;
     margin: 0px auto;
     padding: 0;
-  
+
     overflow: hidden;
-  
+
     border-width: 0;
     outline: none;
     border-radius: 2px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
-    
+
     background-color: #2ecc71;
     color: #ecf0f1;
-    width: 100px;
+    width: 80px;
     transition: background-color .3s;
-  }
-  
-  .btn:hover, .btn:focus {
+}
+
+.btn:hover, .btn:focus {
     background-color: #27ae60;
-  }
-  
-  .btn > * {
+}
+
+.btn > * {
     position: relative;
-  }
-  
-  .btn span {
+}
+
+.btn span {
     display: block;
     padding: 5px 15px;
-  }
-  
-  .btn:before {
+}
+
+.btn:before {
     content: "";
-    
+
     position: absolute;
     top: 50%;
     left: 50%;
-    
+
     display: block;
     width: 0;
     padding-top: 0;
-      
+
     border-radius: 100%;
-    
+
     background-color: rgba(236, 240, 241, .3);
-    
+
     -webkit-transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-  }
-  
-  .btn:active:before {
+}
+
+.btn:active:before {
     width: 120%;
     padding-top: 120%;
-    
-    transition: width .2s ease-out, padding-top .2s ease-out;
-  }
-  
-  /* Styles, not important */
-  *, *:before, *:after {
-    box-sizing: border-box;
-  }
-  
-  
-  
-  .btn.orange {
-    background-color: #e67e22;
-  }
-  
-  .btn.orange:hover, .btn.orange:focus {
-    background-color: #d35400;
-  }
-  
-  .btn.red {
-    background-color: #e74c3c;
-  }
-  
-  .btn.red:hover, .btn.red:focus {
-    background-color: #c0392b;
-  }
 
-  .spanBar{
-      font-size: 30px;
-      padding-left: 30px;
-      padding-right: 30px;
-  }
+    transition: width .2s ease-out, padding-top .2s ease-out;
+}
+
+/* Styles, not important */
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+
+
+.btn.orange {
+    background-color: #e67e22;
+}
+
+.btn.orange:hover, .btn.orange:focus {
+    background-color: #d35400;
+}
+
+.btn.red {
+    background-color: #e74c3c;
+}
+
+.btn.red:hover, .btn.red:focus {
+    background-color: #c0392b;
+}
+
+.spanBar{
+    font-size: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+}

@@ -34,6 +34,7 @@ import { FooterComponent } from './footer/footer.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 import { DialogTestComponent } from './dialog-test/dialog-test.component';
+import { AnglesComponent } from './angles/angles.component';
 
 
 
@@ -44,7 +45,8 @@ import { DialogTestComponent } from './dialog-test/dialog-test.component';
     AppComponent,
     routingComponents,
     FooterComponent,
-    DialogTestComponent, // Array collocato in app-routing.module.ts in esso vanno dichiarati i Component
+    DialogTestComponent,
+    AnglesComponent, // Array collocato in app-routing.module.ts in esso vanno dichiarati i Component
   ],
   imports: [
     BrowserModule,
