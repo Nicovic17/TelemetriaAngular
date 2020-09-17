@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as jQuery from 'jquery';
+import {MatDialog} from '@angular/material/dialog';
 
 //Inizio Modulo disattivazione scroll della pagina
 var scrollPosition = [
@@ -23,23 +24,16 @@ window.scrollTo(scrollPosition[0], scrollPosition[1]);
 
 export class ArticleIndexGalleryComponent implements OnInit {
 
-  constructor() {
-
-
-  }
+  constructor() {}
 
   ngOnInit(): void {
 
-
-
-
   }
-
-
-
-
-
-
+  ngAfterViewInit(){
+    alert("Attenzione! Non è stata ancora implementata una funzionalità di resizing automatico." +
+      " Per ottenere una visualizzazione ottimale della schermata, modificare la grandezza degli elementi con " +
+      "la combinazione di tasti Ctrl + & Ctrl - ");
+  }
 }
 
 
