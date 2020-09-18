@@ -29,6 +29,13 @@ export class DiagnosticaComponent implements OnInit {
     });
   }
 
+  deleteMessages(object){
+
+    for(let i of object){
+      console.log(i._text.nativeElement.innerText);
+    }
+  }
+
   checkIfUserIsLogged() {
     this.auth.onAuthStateChanged(function (user) {
       if (user) {

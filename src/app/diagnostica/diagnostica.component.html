@@ -16,14 +16,14 @@
         <p class="textClass">Messaggi di Diagnostica</p>
     </div>
     <div class="center">
-        <mat-selection-list #msg>
-            <mat-list-option *ngFor="let item of messagesList">
+        <mat-selection-list #msg role="listbox">
+            <mat-list-option role="option" *ngFor="let item of messagesList">
                 {{item}}
             </mat-list-option>
         </mat-selection-list>
     </div>
     <div class="button-container">
-        <button mat-fab color="primary" aria-label="Example icon button with a delete icon">
+        <button mat-fab color="primary" (click)="deleteMessages(msg.selectedOptions.selected)">
             <mat-icon>delete</mat-icon>
         </button>
     </div>
