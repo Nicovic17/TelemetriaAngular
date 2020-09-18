@@ -22,8 +22,13 @@
             </mat-list-option>
         </mat-selection-list>
     </div>
-    <div class="button-container">
+    <div class="button-container" *ngIf="msg.selectedOptions.selected.length>0">
         <button mat-fab color="primary" (click)="deleteMessages(msg.selectedOptions.selected)">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+    <div class="button-container" *ngIf="msg.selectedOptions.selected.length==0">
+        <button mat-fab disabled color="primary">
             <mat-icon>delete</mat-icon>
         </button>
     </div>
