@@ -34,7 +34,8 @@ import { FooterComponent } from './footer/footer.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 import { DialogTestComponent } from './dialog-test/dialog-test.component';
-import { AnglesComponent } from './angles/angles.component';
+import {MatListModule} from "@angular/material/list";
+import {DiagnosticaService} from "./diagnostica.service";
 
 
 
@@ -43,36 +44,36 @@ import { AnglesComponent } from './angles/angles.component';
 @NgModule({
   declarations: [
     AppComponent,
-    routingComponents,
+    routingComponents, // Array collocato in app-routing.module.ts in esso vanno dichiarati i Component
     FooterComponent,
     DialogTestComponent,
-    AnglesComponent, // Array collocato in app-routing.module.ts in esso vanno dichiarati i Component
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
 
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule,
-    FontAwesomeModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatNativeDateModule,
-    MatToolbarModule,
-    MatIconModule,
-    HttpClientModule,
-    MatExpansionModule,
-    MatDialogModule,
-    FormsModule
-  ],
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFirestoreModule,
+        FontAwesomeModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatNativeDateModule,
+        MatToolbarModule,
+        MatIconModule,
+        HttpClientModule,
+        MatExpansionModule,
+        MatDialogModule,
+        FormsModule,
+        MatListModule
+    ],
 
   providers: [SpeedometerService, 
     BatteryService, BarsService, VolanteService, MapService, 
-    StoricoService, EngineService, MatDatepickerModule],
+    StoricoService, EngineService, MatDatepickerModule, DiagnosticaService],
 
   bootstrap: [AppComponent]
 })

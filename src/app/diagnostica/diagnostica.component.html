@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+ <head>
+     <!-- Latest compiled and minified CSS -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+     <!-- Optional theme -->
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+     <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
+     <script src="https://kit.fontawesome.com/f6b29a4c68.js" crossorigin="anonymous"></script>
+ </head>
+ <body class="bodyClass">
+    <app-nav-bar></app-nav-bar>
+    <div class="txtCenter">
+        <p class="textClass">Messaggi di Diagnostica</p>
+    </div>
+    <div class="center">
+        <mat-selection-list #msg>
+            <mat-list-option *ngFor="let item of messagesList">
+                {{item}}
+            </mat-list-option>
+        </mat-selection-list>
+    </div>
+    <div class="button-container">
+        <button mat-fab color="primary" aria-label="Example icon button with a delete icon">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+ </body>
+</html>
+
+

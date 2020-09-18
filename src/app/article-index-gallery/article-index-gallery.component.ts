@@ -30,9 +30,9 @@ export class ArticleIndexGalleryComponent implements OnInit {
 
   }
   ngAfterViewInit(){
-    alert("Attenzione! Non è stata ancora implementata una funzionalità di resizing automatico." +
+    /*alert("Attenzione! Non è stata ancora implementata una funzionalità di resizing automatico." +
       " Per ottenere una visualizzazione ottimale della schermata, modificare la grandezza degli elementi con " +
-      "la combinazione di tasti Ctrl + & Ctrl - ");
+      "la combinazione di tasti Ctrl + & Ctrl - ");*/
   }
 }
 

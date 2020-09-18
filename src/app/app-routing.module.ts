@@ -15,7 +15,9 @@ import {BarsComponent} from './bars/bars.component';
 import {SpieControlloComponent} from './spie-controllo/spie-controllo.component';
 import {VisionemacchinaComponent} from './visionemacchina/visionemacchina.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
-import { GforceSectionComponent } from './gforce-section/gforce-section.component';
+import {GforceSectionComponent} from './gforce-section/gforce-section.component';
+import { AnglesComponent } from './angles/angles.component';
+import { DiagnosticaComponent } from './diagnostica/diagnostica.component';
 
 
 const routes: Routes = [
@@ -23,6 +25,7 @@ const routes: Routes = [
   { path: 'uninacorse', component: UninacorseComponent },
   { path: 'login', component: AppComponent },
   { path: 'storico', component: StoricoComponent },
+  { path: 'diagnostica', component: DiagnosticaComponent},
   { path: '**', component: PageNotFoundComponent } //ATTENZIONE DEVE ESSERE SEMPRE L'ULTIMA DELL'ARRAY
 ];
 
@@ -46,5 +49,7 @@ export const routingComponents = [
     VisionemacchinaComponent,
     StoricoComponent,
     PageNotFoundComponent,
-    GforceSectionComponent
+    GforceSectionComponent,
+    DiagnosticaComponent,
+    AnglesComponent
 ]
