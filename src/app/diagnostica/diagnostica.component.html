@@ -28,7 +28,7 @@
 
     <div style="margin-left: 70%">
         <div class="button-row">
-            <button mat-raised-button color="primary" (click)="selectAll()" *ngIf="msg.selectedOptions.selected.length<messagesList.length && messagesList.length>1">Select All</button>
+            <button mat-raised-button color="primary" (click)="selectAll()" *ngIf="msg.selectedOptions.selected.length<messagesList.length && messagesList.length>1">&nbsp;&nbsp;Select All&nbsp;&nbsp;</button>
             <button mat-raised-button disabled color="primary" *ngIf="messagesList.length<=1" (click)="msg.selectAll()">Select All</button>
             <button mat-raised-button color="basic" (click)="selectNone()" *ngIf="msg.selectedOptions.selected.length==messagesList.length && messagesList.length>1">Deselect All</button>
             <button mat-fab color="primary" *ngIf="msg.selectedOptions.selected.length>0" (click)="deleteMessages(msg.selectedOptions.selected)">
