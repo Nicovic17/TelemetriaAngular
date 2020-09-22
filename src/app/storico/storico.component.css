@@ -104,8 +104,8 @@ button{
 
 .button_div button:hover{
 
-    color: #f9fc5d;
-    border: 1px solid #f9fc5d;
+    color: #ffffff;
+    border: 1px solid #ffffff;
     cursor: pointer;
 
 
@@ -145,7 +145,7 @@ html{
     background: #666666;*/
     min-height: 100vh;
     background-color: #383140;
-    overflow: hidden;
+    overflow: visible;
 
 }
 
@@ -216,9 +216,9 @@ html{
 
     transform: scale(1.01);
     z-index: 100;
-    background: #8A8604;
+    background: #ffffff;
     box-shadow: 0 5px 25px rgba(0, 0, 0, .2);
-    color: #fff;
+    color: rgb(0, 0, 0);
 
     opacity: 1;
 

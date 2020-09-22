@@ -426,7 +426,8 @@ export class StoricoComponent implements OnInit {
 
     var i = 0;
     var asseX = [];
-    var asseY = []
+    var asseY = [];
+    arrayTrace = [];
     var currID = datiGrafico[0]["id"];
 
     datiGrafico.forEach(element => {
@@ -435,6 +436,7 @@ export class StoricoComponent implements OnInit {
 
       if (ID != currID) {
         //Cambio grafico
+        window.alert("cambio grafico PUSHO: "+element["id"]);
         arrayTrace.push(trace);
         currID = ID;
         asseX = [element["tempo"]];
@@ -478,6 +480,7 @@ export class StoricoComponent implements OnInit {
 
     });
 
+    
 
     arrayTrace.push(trace)
 
@@ -500,28 +503,28 @@ export class StoricoComponent implements OnInit {
     var innerID = document.getElementsByName("itemPlot");
 
     var i = 0;
-
+    var j = 0;
     for (i = 0; i < lis.length; i++) {
       if (lis[i].checked) {
 
-        window.alert("Agg checkbox " + i)
-        traceSelezionate.push(arrayTrace[i]);
-        /*for (j = 0; j < arrayTrace.length; j++) {
-
-          //window.alert("Confronto: " + innerID[i].innerHTML + " con " + arrayTrace[j]["name"])
-          if (innerID[i].innerHTML == arrayTrace[j]["name"]) {
-
-            const index=traceSelezionate.indexOf(arrayTrace[j]["name"]);
-            if(index==-1)
+        //window.alert("Agg checkbox " + i)
+        //traceSelezionate.push(arrayTrace[i]);
+        for (j = 0; j < arrayTrace.length; j++) {
+          window.alert("Array trace dim: "+arrayTrace.length);
+          window.alert("Confronto: " + innerID[i].innerHTML + " con " +this.getNomeID(arrayTrace[j]["name"],arrayMapForID))
+          
+          
+          if (innerID[i].innerHTML == this.getNomeID(arrayTrace[j]["name"],arrayMapForID)) {
+            window.alert("Aggiungo a traceSelezionate");
+            //const index=traceSelezionate.indexOf(arrayTrace[j]["name"]);
+            //if(index==-1)
             traceSelezionate.push(arrayTrace[j]);
-            else
-            {window.alert("Traccia doppione evitata")}
+            //else
+            //{window.alert("Traccia doppione evitata")}
           }
-          else {
-            window.alert("Traccia non presente")
-          }
+          
 
-        }*/
+        }
       }
     }
 
