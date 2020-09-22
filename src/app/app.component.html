@@ -1,27 +1,28 @@
 
+<div style="overflow: hidden">
+  <div class="loggedin-div" id="user_div">
+    <object>
+      <embed src="../assets/svg/eteam.svg" width="40%" height="40%">
+    </object>
+  <h3>Benvenuto</h3>
+    <button (click)="mostra()" routerLink="uninacorse">Mostra BOX</button>
+    <button (click)="mostraStorico()" routerLink="storico">Storico</button>
+    <button (click)="logout()">Logout</button>
+  </div>
 
-<div class="loggedin-div" id="user_div">
-  <object>
-    <embed src="../assets/svg/eteam.svg" width="40%" height="40%">
-</object>
-<h3>Benvenuto</h3>
-  <button (click)="mostra()" routerLink="uninacorse">Mostra BOX</button>
-  <button (click)="mostraStorico()" routerLink="storico">Storico</button>
-  <button (click)="logout()">Logout</button>
-</div>
 
 
+  <div #showLogin class="loggedin-div"  id="login_div">
+    <object>
+      <embed src="../assets/svg/eteam.svg" width="40%" height="40%">
+  </object>
+    <h3>Effettua login</h3>
+    <input type="text" id="username" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button (click)="myLogin()">Login</button>
+  </div>
 
-<div #showLogin class="loggedin-div"  id="login_div">
-  <object>
-    <embed src="../assets/svg/eteam.svg" width="40%" height="40%">
-</object>
-  <h3>Effettua login</h3>
-  <input type="text" id="username" placeholder="Email">
-  <input type="password" id="password" placeholder="Password">
-  <button (click)="myLogin()">Login</button>
-</div>
-
-<div id="router">
-  <router-outlet></router-outlet>
+  <div id="router">
+    <router-outlet></router-outlet>
+  </div>
 </div>
