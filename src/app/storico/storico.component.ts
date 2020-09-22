@@ -133,7 +133,8 @@ export class StoricoComponent implements OnInit {
   ngOnInit(): void {
 
     this.pageLoaded = true;
-    this._adapter.setLocale('it')
+    this._adapter.setLocale('it');
+    this.startScrolling();
 
   }
 
@@ -157,11 +158,13 @@ export class StoricoComponent implements OnInit {
 
     this._storicoService.getID();
     this._storicoService.getMapForID();
-    
 
   }
 
-  
+  startScrolling(){
+    var html = jQuery('html');
+    html.css('overflow','auto');
+  }
 
   private date = [];
 
