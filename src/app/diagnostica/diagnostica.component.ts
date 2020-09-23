@@ -29,16 +29,22 @@ export class DiagnosticaComponent implements OnInit {
     this.listObj.deselectAll();
   }
   listUpdate(){
+    let message: string;
     this.messagesList.pop();
     this._diagService.getDiagMessages().subscribe(value => {
+      message = this.convertDate(Number(value[0]));
       this.ngZone.run(() => {
-        this.messagesList.unshift(value[1]);
-      })
+        message = message + " " + value[1];
+        this.messagesList.unshift(message);
+      });
       this.messageMap.set(value[1],value[0]); //L'array conserva l'associazione key-value del db per la cancellazione
       console.log("added "+value);
     });
   }
-
+  convertDate(time: number): string{
+    let stamp = new Date(time);
+    return "[" + stamp.toLocaleString() + "]";
+  }
   deleteMessages(object){
     let index: number;
     for(let i of object){
