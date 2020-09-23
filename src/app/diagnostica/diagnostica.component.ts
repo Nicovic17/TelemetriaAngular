@@ -12,6 +12,8 @@ import {DiagnosticaService} from "../diagnostica.service";
 export class DiagnosticaComponent implements OnInit {
   messagesList: Array<string> = ['root'];
   messageMap = new Map();//Map del tipo <Messaggio>:<Key>
+  isWait = true;
+  visibility = "display:none";
   @ViewChild('msg', {static: true}) private listObj: MatSelectionList;
 
   constructor(public auth: AngularFireAuth, private _diagService: DiagnosticaService, private ngZone: NgZone) {
@@ -19,7 +21,10 @@ export class DiagnosticaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isWait = true;
+    this.visibility = "display:none";
     this.listUpdate();
+    this.showCore();
   }
 
   selectAll(){
@@ -27,6 +32,14 @@ export class DiagnosticaComponent implements OnInit {
   }
   selectNone(){
     this.listObj.deselectAll();
+  }
+  showCore(){
+    setTimeout(() => {
+      this.ngZone.run(() => {
+        this.isWait = false;
+        this.visibility = "display: block";
+      });
+    }, 2000);
   }
   listUpdate(){
     let message: string;

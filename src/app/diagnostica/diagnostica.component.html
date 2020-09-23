@@ -17,17 +17,19 @@
     <div class="txtCenter">
         <p class="textClass">Messaggi di Diagnostica</p>
     </div>
-
-    <div class="center">
+    <div class="loading">
+        <mat-progress-spinner mode="indeterminate" style="margin: auto" *ngIf="isWait">
+        </mat-progress-spinner>
+    </div>
+    <div class="center" [style]="visibility">
         <mat-selection-list #msg role="listbox">
             <mat-list-option role="option" *ngFor="let item of messagesList">
                 {{item}}
             </mat-list-option>
         </mat-selection-list>
     </div>
-
     <div style="margin-left: 70%">
-        <div class="button-row">
+        <div class="button-row" [style]="visibility">
             <button mat-raised-button color="primary" (click)="selectAll()" *ngIf="msg.selectedOptions.selected.length<messagesList.length && messagesList.length>1">&nbsp;&nbsp;Select All&nbsp;&nbsp;</button>
             <button mat-raised-button disabled color="primary" *ngIf="messagesList.length<=1" (click)="msg.selectAll()">Select All</button>
             <button mat-raised-button color="basic" (click)="selectNone()" *ngIf="msg.selectedOptions.selected.length==messagesList.length && messagesList.length>1">Deselect All</button>

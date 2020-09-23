@@ -36,6 +36,7 @@ import {MatDialog, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dia
 import { DialogTestComponent } from './dialog-test/dialog-test.component';
 import {MatListModule} from "@angular/material/list";
 import {DiagnosticaService} from "./diagnostica.service";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 
@@ -68,7 +69,8 @@ import {DiagnosticaService} from "./diagnostica.service";
         MatExpansionModule,
         MatDialogModule,
         FormsModule,
-        MatListModule
+        MatListModule,
+        MatProgressSpinnerModule
     ],
 
   providers: [SpeedometerService, 
