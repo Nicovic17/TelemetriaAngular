@@ -6,22 +6,22 @@
     </div>
     <div class="row" style="position: relative; top: -40px">
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-left: 10px">
-            <button class="button">BMS</button>
+            <button [class]="bms">BMS</button>
         </div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-left: 20px">
-            <button class="button">TRQ</button>
+            <button [class]="trq">TRQ</button>
         </div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-left: 20px">
-            <button class="button">ECU</button>
+            <button [class]="ecu">ECU</button>
         </div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-left: 20px">
-            <button class="button">OH</button>
+            <button [class]="oh">OH</button>
         </div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-left: 20px">
-            <button class="button">TCS</button>
+            <button [class]="tcs">TCS</button>
         </div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-left: 20px">
-            <button class="button">IMD</button>
+            <button [class]="imd">IMD</button>
         </div>
         <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-left: 20px">
             <button class="button" >???</button>
@@ -33,11 +33,11 @@
     <div class="row" style="position: relative; top: -20px">
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
             <h1 class="banner-font-small">T. Freno:</h1>
-            <button class="btn " type="button"><span class="spanBar">N.S.</span></button>
+            <button class="btn " type="button"><span class="spanBar">{{breakTemp}}°C</span></button>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
             <h1 class="banner-font-small">P.Freni:</h1>
-            <button class="btn " type="button"><span class="spanBar">{{breakPressure}}?</span></button>
+            <button class="btn " type="button"><span class="spanBar">{{breakPressure}}</span></button>
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
             <h1 class="banner-font-small">T.Liquid:</h1>
@@ -45,7 +45,7 @@
         </div>
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
             <h1 class="banner-font-small">Flusso:</h1>
-            <button class="btn " type="button"><span class="spanBar">{{liquidStream}}?</span></button>
+            <button class="btn " type="button"><span class="spanBar">{{liquidStream}}</span></button>
         </div>
     </div>
 </div>

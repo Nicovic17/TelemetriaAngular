@@ -34,10 +34,10 @@ export class DiagnosticaComponent implements OnInit {
     this._diagService.getDiagMessages().subscribe(value => {
       message = this.convertDate(Number(value[0]));
       this.ngZone.run(() => {
-        message = message + " " + value[1];
+        message = message + " _ " + value[1];
         this.messagesList.unshift(message);
       });
-      this.messageMap.set(value[1],value[0]); //L'array conserva l'associazione key-value del db per la cancellazione
+      this.messageMap.set(message,value[0]); //L'array conserva l'associazione key-value del db per la cancellazione
       console.log("added "+value);
     });
   }

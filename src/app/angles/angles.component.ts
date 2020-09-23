@@ -18,13 +18,25 @@ export class AnglesComponent implements OnInit {
     this.ascoltaBeccheggio();
   }
   ascoltaRollio(){
-
+    this._controllerService.getAngoloRollio().subscribe(value => {
+      this.ngZone.run(() => {
+        this.rollio = value;
+      });
+    });
   }
   ascoltaBeccheggio(){
-
+    this._controllerService.getAngoloBeccheggio().subscribe(value => {
+      this.ngZone.run(() => {
+        this.beccheggio = value;
+      });
+    });
   }
   ascoltaImbardata(){
-
+    this._controllerService.getAngoloImbardata().subscribe(value => {
+      this.ngZone.run(() => {
+        this.imbardata = value;
+      });
+    });
   }
 
 }
