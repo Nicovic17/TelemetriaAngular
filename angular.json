@@ -32,11 +32,7 @@
               "src/assets/js/OpenLayers-2.13.1/OpenLayers.js",
               "src/assets/js/testMarker.js",
               "node_modules/jquery/dist/jquery.min.js",
-              "src/assets/js/plotly.js",
-              "src/assets/js/Highcharts/highcharts.js",
-              "src/assets/js/Highcharts/modules/exporting.js",
-              "src/assets/js/Highcharts/modules/export-data.js",
-              "src/assets/js/Highcharts/modules/accessibility.js"
+              "src/assets/js/plotly.js"
             ]
           },
           "configurations": {

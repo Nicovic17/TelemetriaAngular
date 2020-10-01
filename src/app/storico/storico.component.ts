@@ -35,6 +35,18 @@ import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { DialogTestComponent } from '../dialog-test/dialog-test.component'
 
 
+import * as Highchartss from 'highcharts'
+declare var require: any;
+let Boost = require('highcharts/modules/boost');
+let noData = require('highcharts/modules/no-data-to-display');
+let More = require('highcharts/highcharts-more');
+
+Boost(Highcharts);
+noData(Highcharts);
+More(Highcharts);
+noData(Highcharts);
+
+
 
 
 var arrayDate = [], arrayID = [], arrayForDropDown = [], arrayMapForID = []
@@ -125,7 +137,7 @@ export class StoricoComponent implements OnInit {
   }
 
   pageLoaded: boolean;
-  Highcharts = Highcharts;
+  Highcharts = Highchartss;
 
   constructor(public auth: AngularFireAuth, public firebase: AngularFireDatabase, public _storicoService: StoricoService, private _adapter
     : DateAdapter<any>, public dialog: MatDialog) {

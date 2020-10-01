@@ -4,6 +4,8 @@ import { StoricoComponent } from './storico/storico.component';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { DialogTestComponent } from '../app/dialog-test/dialog-test.component'
 
+
+
 var arrayDate = [], arrayID = [], jsonObject = [], jsonDateForDropDown = [], arrayMapID=[]
 var test = ["Pollo"]
 var numSens;
@@ -29,8 +31,8 @@ export class StoricoService {
     dialogConfig.height="250px"
     dialogConfig.restoreFocus=true;
     
-    this.dialog.open(DialogTestComponent, dialogConfig);
-    this.dialog.closeAll();  
+    //this.dialog.open(DialogTestComponent, dialogConfig);
+    //this.dialog.closeAll();  
     
 }
 
