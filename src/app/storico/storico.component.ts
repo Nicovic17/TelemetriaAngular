@@ -1,3 +1,20 @@
+/*
+ISTRUZIONI PER HIGHCHARTS SENZA CDN
+
+SCARICARE HIGHCHARTS AL LINK https://www.highcharts.com/blog/download/ CLICCANDO SU HIGHCHARTS 8.2.0
+
+COPIARE IL CONTENUTO DELLA CARTELLA CODE NEL PERCORSO SRC/ASSET/JS/HIGHCHARTS
+
+ENJOY
+
+
+*/ 
+
+
+
+
+
+
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { HostListener } from '@angular/core';
@@ -27,6 +44,8 @@ var datiGrafico;
 var traceSelezionate = [];
 var trace;
 var oraInizio, minInizio, secInizio;
+var chartGen;
+
 
 
 var layout = {
@@ -62,11 +81,11 @@ var layoutGenerale = {
 //Per utilizzare jQuery in TS
 declare var $: any;
 declare var Plotly: any;
+declare const Highcharts: any;
 
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion';
 }
-
 
 
 
@@ -106,6 +125,7 @@ export class StoricoComponent implements OnInit {
   }
 
   pageLoaded: boolean;
+  Highcharts = Highcharts;
 
   constructor(public auth: AngularFireAuth, public firebase: AngularFireDatabase, public _storicoService: StoricoService, private _adapter
     : DateAdapter<any>, public dialog: MatDialog) {
@@ -405,6 +425,262 @@ export class StoricoComponent implements OnInit {
     });
 
   }
+
+  public startHighChartGen()
+  {
+
+    var graficiSelezionatiDaUnire=[];
+    document.getElementById("btnConfermaID").innerHTML = "Aggiorna grafico generale"
+
+    //Prende le checkbox 
+    var lis = document.getElementById("idPlot").getElementsByTagName("input"); //Prendo checkbox
+    var innerID = document.getElementsByName("itemPlot");
+
+    var i = 0;
+    var j = 0;
+
+    for (i = 0; i < lis.length; i++) {
+      if (lis[i].checked) {
+
+        window.alert("Aggiungo: "+this.getIDFromNome(innerID[i].innerHTML,arrayMapForID))
+        graficiSelezionatiDaUnire.push(this.getIDFromNome(innerID[i].innerHTML,arrayMapForID))
+        
+      }
+    }
+
+    $("#grafici").append("<div id='myDivUniti'></div>")
+    this.createHighChartGen("myDivUniti",ID,asseX,asseY);
+    datiGrafico = this._storicoService.getJsonObject()
+
+    var asseX = [];
+    var asseY = [];
+    var ID="";
+    var currID = graficiSelezionatiDaUnire[0];
+    var intCurrID=0;
+    var newIntCurrID=0;
+    window.alert("CurrID"+currID);
+
+    datiGrafico.forEach(element => {
+
+     if(element["id"]==currID)
+     {
+       //Da aggiungere
+       ID=currID;
+       asseX.push(element["tempo"]);
+       asseY.push(element["valore"]);
+     }
+     else{
+       if(asseY.length>0) //Ho aggiunto un grafico
+       this.addToHighChartGen("myDivUniti",ID,asseX,asseY);
+       //currID=currID+1;
+       intCurrID=parseInt(currID);
+       newIntCurrID=intCurrID+1;
+
+       if(newIntCurrID<9)
+       currID="00"+newIntCurrID
+       if(newIntCurrID>9 && newIntCurrID<100)
+       currID="0"+newIntCurrID
+       if(newIntCurrID>99)
+       currID=newIntCurrID+"";
+       asseX=[];
+       asseY=[];
+     }
+
+    });
+
+    //creo grafico gen
+    if(asseY.length>0)
+    this.addToHighChartGen("myDivUniti",ID,asseX,asseY);
+  }
+
+  
+  addToHighChartGen(nomediv,ID,asseX,asseY)
+  {
+    chartGen.addSeries({                        
+      name: this.getNomeID(ID, arrayMapForID)+"",
+          data: asseY
+  });
+  }
+
+  public createHighChartGen(nomediv,ID,asseX,asseY)
+  {
+    
+   chartGen= Highcharts.chart(nomediv, {
+
+      title: {
+          text: "Grafico generale"
+      },
+    
+      subtitle: {
+          text: 'Source: UninaCorse E-Team'
+      },
+    
+      yAxis: {
+          title: {
+              text: 'Valore sensore'
+          }
+      },
+    
+      xAxis: {
+          accessibility: {
+              //rangeDescription: 'Range: 2010 to 2017'
+              categories: asseX
+          }
+      },
+    
+      legend: {
+          layout: 'vertical',
+          align: 'right',
+          verticalAlign: 'middle'
+      },
+    
+      plotOptions: {
+          series: {
+              label: {
+                  connectorAllowed: false
+              },
+              pointStart: 2010
+          }
+      },
+    
+     
+    
+      responsive: {
+          rules: [{
+              condition: {
+                  maxWidth: 500
+              },
+              chartOptions: {
+                  legend: {
+                      layout: 'horizontal',
+                      align: 'center',
+                      verticalAlign: 'bottom'
+                  }
+              }
+          }]
+      }
+    
+    });
+
+  }
+
+  public startHighChart(){
+    document.getElementById("btnJson").style.display = "none"
+    //document.getElementById("btnConfermaID").style.display = "block"
+    this._storicoService.mostraView(document.getElementById("btnConfermaID"))
+    document.getElementById("btnAvanti").style.display = "block"
+    document.getElementById("btnAvanti").innerHTML = "Aggiorna sensori selezionati"
+    document.getElementById("idPerPlot").style.display = "block"
+    $("#grafici").empty()
+
+    datiGrafico = this._storicoService.getJsonObject()
+    this.createCheckableIdPlot()
+
+    if (datiGrafico.length == 0) {
+      window.alert("Esco");
+      exit;
+    }
+
+    var asseX = [];
+    var asseY = [];
+    arrayTrace = [];
+    var ID="";
+    var currID = datiGrafico[0]["id"];
+
+    datiGrafico.forEach(element => {
+
+      ID = element["id"];
+
+      if (ID != currID) {
+        //Cambio grafico
+        this.createHighChart(currID,asseX,asseY);
+        window.alert("cambio grafico PUSHO: "+element["id"]);
+        
+        currID = ID;
+        asseX = [element["tempo"]];
+        asseY = [element["valore"]];
+      }
+      else {
+        //Stesso grafico
+        asseX.push(element["tempo"]);
+        asseY.push(element["valore"]);
+      }
+
+    });
+
+    //creo grafico
+    this.createHighChart(ID,asseX,asseY);
+  }
+
+  public createHighChart(ID,asseX,asseY)
+  {
+    
+      //Crea nuova DIV
+      $("#grafici").append("<div id='myDiv" + this.getNomeID(ID, arrayMapForID) + "'></div>")
+
+      Highcharts.chart('myDiv' + this.getNomeID(ID, arrayMapForID), {
+
+        title: {
+            text: this.getNomeID(ID, arrayMapForID)+""
+        },
+      
+        subtitle: {
+            text: 'Source: UninaCorse E-Team'
+        },
+      
+        yAxis: {
+            title: {
+                text: 'Valore sensore'
+            }
+        },
+      
+        xAxis: {
+            accessibility: {
+                //rangeDescription: 'Range: 2010 to 2017'
+                categories: asseX
+            }
+        },
+      
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+      
+        plotOptions: {
+            series: {
+                label: {
+                    connectorAllowed: false
+                },
+                pointStart: 2010
+            }
+        },
+      
+        series: [{
+            name: this.getNomeID(ID, arrayMapForID)+"",
+            data: asseY
+          }
+        ],
+      
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+      
+      });
+
+  }
+
 
   public startPlot() {
 

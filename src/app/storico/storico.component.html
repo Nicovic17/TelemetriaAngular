@@ -12,6 +12,9 @@
     <script src="https://kit.fontawesome.com/f6b29a4c68.js" crossorigin="anonymous"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    
+
 </head>
 
 <body class="bodyStorico">
@@ -95,8 +98,8 @@
             <button mat-raised-button color="primary" (click)="openDialog()">Annulla</button>
             <button mat-raised-button color="primary" id="btnCaricaDate" (click)="getID()">Mostra ID </button>
             <button mat-raised-button color="primary" id="btnAvanti" (click)="aggiungiID()">Conferma selezione</button>
-            <button mat-raised-button color="primary" id="btnJson" (click)="startPlot()">Mostra grafici sensori</button>
-            <button mat-raised-button color="primary" id="btnConfermaID" (click)="mostraPlotUniti()">Mostra grafico generale</button>
+            <button mat-raised-button color="primary" id="btnJson" (click)="startHighChart()">Mostra grafici sensori</button>
+            <button mat-raised-button color="primary" id="btnConfermaID" (click)="startHighChartGen()">Mostra grafico generale</button>
             
         </div>
 
