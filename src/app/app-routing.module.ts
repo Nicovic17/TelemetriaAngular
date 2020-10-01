@@ -18,6 +18,7 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {GforceSectionComponent} from './gforce-section/gforce-section.component';
 import { AnglesComponent } from './angles/angles.component';
 import { DiagnosticaComponent } from './diagnostica/diagnostica.component';
+import { HighchartstestComponent } from './highchartstest/highchartstest.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'login', component: AppComponent },
   { path: 'storico', component: StoricoComponent },
   { path: 'diagnostica', component: DiagnosticaComponent},
+  { path: 'test', component: HighchartstestComponent},
   { path: '**', component: PageNotFoundComponent } //ATTENZIONE DEVE ESSERE SEMPRE L'ULTIMA DELL'ARRAY
 ];
 
@@ -51,5 +53,6 @@ export const routingComponents = [
     PageNotFoundComponent,
     GforceSectionComponent,
     DiagnosticaComponent,
-    AnglesComponent
+    AnglesComponent,
+    HighchartstestComponent
 ]

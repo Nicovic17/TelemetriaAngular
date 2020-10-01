@@ -25,4 +25,17 @@ export class DiagnosticaService {
     });
   }
 
+  getCronologySensorData(id: string): Observable<Map<number, number>>{
+    let ret = new Map();
+    return new Observable<Map<number, number>>(subscriber => {
+      this.db.database.ref("storico/"+id).once("value").then(value => {
+        value.forEach(child => {
+          ret.set(child.key,child.val());
+        });
+        subscriber.next(ret);
+      });
+    });
+  }
+
+
 }
