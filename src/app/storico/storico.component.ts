@@ -12,9 +12,6 @@ ENJOY
 
 
 
-
-
-
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { HostListener } from '@angular/core';
@@ -41,10 +38,10 @@ let Boost = require('highcharts/modules/boost');
 let noData = require('highcharts/modules/no-data-to-display');
 let More = require('highcharts/highcharts-more');
 
-Boost(Highcharts);
-noData(Highcharts);
-More(Highcharts);
-noData(Highcharts);
+Boost(Highchartss);
+noData(Highchartss);
+More(Highchartss);
+noData(Highchartss);
 
 
 
