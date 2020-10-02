@@ -33,6 +33,7 @@ import { DialogTestComponent } from '../dialog-test/dialog-test.component'
 
 
 import * as Highchartss from 'highcharts'
+import { data } from 'jquery';
 declare var require: any;
 let Boost = require('highcharts/modules/boost');
 let noData = require('highcharts/modules/no-data-to-display');
@@ -134,7 +135,9 @@ export class StoricoComponent implements OnInit {
   }
 
   pageLoaded: boolean;
-  Highcharts = Highchartss;
+  Highcharts = Highcharts;
+  options: Highchartss.Options;
+  seriesOptionsType: Highchartss.SeriesOptionsType;
 
   constructor(public auth: AngularFireAuth, public firebase: AngularFireDatabase, public _storicoService: StoricoService, private _adapter
     : DateAdapter<any>, public dialog: MatDialog) {
@@ -509,12 +512,19 @@ export class StoricoComponent implements OnInit {
       name: this.getNomeID(ID, arrayMapForID)+"",
           data: asseY
   });
+
+  chartGen.xAxis[0].setCategories(asseX);
   }
 
   public createHighChartGen(nomediv,ID,asseX,asseY)
   {
     
+    
    chartGen= Highcharts.chart(nomediv, {
+
+    chart: {
+      zoomType: 'x'
+  },
 
       title: {
           text: "Grafico generale"
@@ -531,11 +541,13 @@ export class StoricoComponent implements OnInit {
       },
     
       xAxis: {
-          accessibility: {
-              //rangeDescription: 'Range: 2010 to 2017'
-              categories: asseX
-          }
-      },
+          
+        categories: asseX,
+        accessibility: {
+          
+         
+      }
+    },
     
       legend: {
           layout: 'vertical',
@@ -543,14 +555,14 @@ export class StoricoComponent implements OnInit {
           verticalAlign: 'middle'
       },
     
-      plotOptions: {
+      /*plotOptions: {
           series: {
               label: {
                   connectorAllowed: false
               },
               pointStart: 2010
           }
-      },
+      },*/
     
      
     
@@ -626,8 +638,16 @@ export class StoricoComponent implements OnInit {
     
       //Crea nuova DIV
       $("#grafici").append("<div id='myDiv" + this.getNomeID(ID, arrayMapForID) + "'></div>")
+      var lengthAsseY=asseY.length;
 
-      Highcharts.chart('myDiv' + this.getNomeID(ID, arrayMapForID), {
+      
+/*
+      this.options={
+
+        chart: {
+          type: 'line',
+          height: 300
+      },
 
         title: {
             text: this.getNomeID(ID, arrayMapForID)+""
@@ -636,6 +656,12 @@ export class StoricoComponent implements OnInit {
         subtitle: {
             text: 'Source: UninaCorse E-Team'
         },
+        tooltip: {
+          formatter: function() {
+              return 'x: ' + Highcharts.dateFormat('%e %b %y %H:%M:%S %MS', this.x) +
+                  'y: ' + this.y.toFixed(2); //Mostrato quando passa il mouse sul puntino
+          }
+      },
       
         yAxis: {
             title: {
@@ -644,11 +670,14 @@ export class StoricoComponent implements OnInit {
         },
       
         xAxis: {
-            accessibility: {
-                //rangeDescription: 'Range: 2010 to 2017'
-                categories: asseX
-            }
-        },
+          type: 'datetime',
+          accessibility: {
+            
+            rangeDescription: "Range: "+asseY[0]+" to "+asseY[lengthAsseY]
+        }
+      },
+
+      
       
         legend: {
             layout: 'vertical',
@@ -664,6 +693,71 @@ export class StoricoComponent implements OnInit {
                 pointStart: 2010
             }
         },
+      
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+      
+      }
+      this.options.series[0]['data']=asseY;
+      this.options.series[0]['name']=this.getNomeID(ID, arrayMapForID)+"";
+      Highchartss.chart('myDiv' + this.getNomeID(ID, arrayMapForID),this.options,null);*/
+      
+
+    
+      Highcharts.chart('myDiv' + this.getNomeID(ID, arrayMapForID), {
+
+        chart: {
+          zoomType: 'x'
+      },
+      
+        title: {
+            text: this.getNomeID(ID, arrayMapForID)+""
+        },
+      
+        subtitle: {
+            text: 'Source: UninaCorse E-Team'
+        },
+        tooltip: {
+          formatter: function() {
+              return 'x: ' + Highcharts.dateFormat('%e %b %y %H:%M:%S ', this.x) +
+                  'y: ' + this.y.toFixed(2); //Mostrato quando passa il mouse sul puntino
+          }
+      },
+      
+        yAxis: {
+            title: {
+                text: 'Valore sensore'
+            }
+        },
+      
+        xAxis: {
+          
+          categories: asseX,
+          accessibility: {
+            
+            rangeDescription: "Range: "+asseY[0]+" to "+asseY[lengthAsseY]
+        }
+      },
+      
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+      
+        
       
         series: [{
             name: this.getNomeID(ID, arrayMapForID)+"",
