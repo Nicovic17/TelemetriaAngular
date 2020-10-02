@@ -195,6 +195,15 @@ closeDialog(){
           //Controllo sul tempo
 
           var g = new Date(parseInt(child.key)).getDate()
+
+          var dayString;
+          if(g>0 && g<10)
+          {
+            dayString="0"+g;
+          }
+          else
+          dayString=g+"";
+
           var month = new Date(parseInt(child.key)).getMonth() + 1
           var monthString;
           if (month > 0 && month < 10) 
@@ -235,7 +244,7 @@ closeDialog(){
 
           var e = new Date(parseInt(child.key)).getMilliseconds();
 
-          var giornoSensore=g+"/"+monthString+"/"+y;
+          var giornoSensore=dayString+"/"+monthString+"/"+y;
 
           //window.alert("Giorno ID scelto: "+element["giornoScelto"] + "Giorno sensore: "+giornoSensore)
           if(element["giornoScelto"] == giornoSensore)
