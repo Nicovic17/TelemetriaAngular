@@ -22,6 +22,13 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-## Further help
+#How to run project
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Once clone is done you have to run "npm install" command to let Angular install all the needed libreries.
+Before to run the application you have to download HighChart libreries ( https://www.highcharts.com/blog/download/ clicking on Highchart *.*.*) extract the zip file downloaded and put the content of "code" in this path:
+
+**/ProjectName/src/assets/js/Highchart/
+
+If the Highchart folder doesn't exist, create one. Don't forget the upper H in "Highcharts" or the progect would not work.
+
+Enjoy.
