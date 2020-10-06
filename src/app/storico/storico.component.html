@@ -71,46 +71,34 @@
                   </mat-form-field> 
                 
                 
-                
+
                 <label  class="labelStyle">Scegli ora inizio:</label><input type="time" id="oraInizioGenerale"  step="2"/>
                 <label class="labelStyle">Scegli ora fine:</label>  <input type="time" id="oraFineGenerale" step="2"/>
             </div>
 
-            
-
-            <div id="idPerPlot">
+            <div id="idPerPlot" class="idGenerali">
                 <label  class="labelStyle">Seleziona ID su grafico generale</label>
                 <ul id="idPlot" class="idPlot"></ul>
             </div>
-            
-
         </div>
-
     </div>
     
 
     <div class="row" id="rowButtons">
 
-        
-
         <div class="button_div">
-            
-            <button mat-raised-button color="primary" (click)="openDialog()">Annulla</button>
+            <button mat-raised-button color="primary" >Annulla</button>
             <button mat-raised-button color="primary" id="btnCaricaDate" (click)="getID()">Mostra ID </button>
             <button mat-raised-button color="primary" id="btnAvanti" (click)="aggiungiID()">Conferma selezione</button>
             <button mat-raised-button color="primary" id="btnJson" (click)="startHighChart()">Mostra grafici sensori</button>
             <button mat-raised-button color="primary" id="btnConfermaID" (click)="startHighChartGen()">Mostra grafico generale</button>
-            
         </div>
 
     </div>
 
     <div class="row" id="rowGrafici">
-
         <div class="col-md-12" id="grafici">
-                
         </div>
-
     </div>
 
   
@@ -122,7 +110,6 @@
     
 
 </body>
-
 
 
 </html>

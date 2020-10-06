@@ -7,49 +7,33 @@ import { DialogTestComponent } from '../app/dialog-test/dialog-test.component'
 
 
 var arrayDate = [], arrayID = [], jsonObject = [], jsonDateForDropDown = [], arrayMapID=[]
-var test = ["Pollo"]
-var numSens;
 var arrayNumeroSensoriPerOgniData = [];
 @Injectable({
   providedIn: 'root'
 })
 export class StoricoService {
-
-  private arrayDateInterno = []
-
   constructor(private db: AngularFireDatabase,public dialog: MatDialog) {
-
   }
 
   openDialog() {
 
     const dialogConfig = new MatDialogConfig();
-
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = false;
     dialogConfig.width="4000px";
     dialogConfig.height="250px"
-    dialogConfig.restoreFocus=true;
-    
-    //this.dialog.open(DialogTestComponent, dialogConfig);
-    //this.dialog.closeAll();  
-    
+    dialogConfig.restoreFocus=true;  
 }
 
 closeDialog(){
   this.dialog.closeAll();
 }
 
-
-
-
   public getDate() {
 
     var ref = this.db.database.ref("Sensori");
-
     ref.once("value", snap => {
       snap.forEach(function (child) {
-        //window.alert(child.key  )
         arrayDate.push(child.key)
       })
       
@@ -70,8 +54,6 @@ closeDialog(){
 
         arrayMapID.push(idValore);
       })
-
-      //window.alert("Dati mappa ottenuti")
       this.mostraView(document.getElementById("rowButtons"));
       this.openDialog()
       
@@ -81,15 +63,11 @@ closeDialog(){
   public getArrayMapForID(){
 
     var jsonString = JSON.stringify(arrayMapID);
-    window.alert("ArrayMap: "+jsonString)
+    console.log("ArrayMap: "+jsonString)
     var obj = JSON.parse(jsonString);
 
     return obj;
 
-  }
-
-  public getMammt(){
-    return arrayDate;
   }
 
   //Popola array con tutti gli ID registrati sul database
@@ -114,6 +92,7 @@ closeDialog(){
 
   }
 
+  //Popola l'array jsonDateForDropDown 
   getDateForDropDown() {
     arrayID.forEach(element => {
 
@@ -121,11 +100,8 @@ closeDialog(){
       ref.once("value", snap => {
         snap.forEach(function (child) {
           var aggiungi = {}
-          //window.alert("Aggiungo ID: "+element) //ID
 
           aggiungi["id"] = element;
-          //window.alert("Aggiungo TEMPO: "+child.key) //Tempo
-          //window.alert("h"+child.key); 
           var g = new Date(parseInt(child.key)).getDate()
           var month = new Date(parseInt(child.key)).getMonth() + 1
           var monthString;
@@ -144,7 +120,7 @@ closeDialog(){
           var e = new Date(parseInt(child.key)).getMilliseconds();
 
           aggiungi["tempo"] =g+"-"+monthString+"-"+y+"-"+" "+ h + ":" + m + ":" + s + ":" + e;
-          //window.alert("Aggiungo VAL ID: "+child.child("value").val()) //Valore ID in quel tempo
+           //Valore ID in quel tempo
           aggiungi["valore"] = child.val();
           jsonDateForDropDown.push(aggiungi);
           //child = tempo // child.
@@ -164,7 +140,7 @@ closeDialog(){
 
   getJsonObjectForDropDown() {
     var jsonString = JSON.stringify(jsonDateForDropDown);
-    window.alert(jsonString)
+    console.log(jsonString)
     var obj = JSON.parse(jsonString);
 
     return obj;
@@ -181,17 +157,12 @@ closeDialog(){
 
     array.forEach(element => { //Per ogni ID
 
-     // window.alert("ID SELEZIONATI: "+element["id"]);
 
       var ref = this.db.database.ref("storico").child(element["id"]);
       ref.once("value", snap => {
         snap.forEach(function (child) {
           var aggiungi = {}
-          //window.alert("Aggiungo ID: "+element) //ID
 
-
-          //window.alert("Aggiungo TEMPO: "+child.key) //Tempo
-          //window.alert("h"+child.key); 
           //Controllo sul tempo
 
           var g = new Date(parseInt(child.key)).getDate()
@@ -266,20 +237,6 @@ closeDialog(){
             }
           }
 
-          /*var data = h + ":" + m + ":" + s + ":" + e;
-          var x=new Date(data);
-          var y=new Date(element["dataInizio"]).getHours();
-          var z=new Date(element["dataFine"]);
-          window.alert("x: "+x+"y:"+y+"z")
-          if (data >= element["dataInizio"] && data <= element["dataFine"]) {
-           
-          }*/
-
-
-          //window.alert("Aggiungo VAL ID: "+child.child("value").val()) //Valore ID in quel tempo
-
-
-          //child = tempo // child.
 
         })
 
@@ -302,16 +259,21 @@ closeDialog(){
     }
     else{
 
-      window.alert("json non vuoto")
+      console.log("json non vuoto")
 
       var jsonString = JSON.stringify(jsonObject);
-    window.alert(jsonString)
+    console.log(jsonString)
     var obj = JSON.parse(jsonString);
 
     return obj;
 
     }
     
+  }
+
+  setTextView(textView : any, text)
+  {
+    textView.innerHTML=text;
   }
 
   mostraView(button : any)

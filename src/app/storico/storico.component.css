@@ -1,5 +1,17 @@
 table{
     color: #000000;
+    font-size: large;
+    font-style: italic;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.idGenerali{
+
+    color: #000000;
+    font-size: medium;
+    font-style: italic;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    
 }
 
 /*Inizio loader*/

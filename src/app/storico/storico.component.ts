@@ -8,7 +8,7 @@ COPIARE IL CONTENUTO DELLA CARTELLA CODE NEL PERCORSO SRC/ASSET/JS/HIGHCHARTS
 ENJOY
 
 
-*/ 
+*/
 
 
 
@@ -26,9 +26,9 @@ import {
 
 } from '@angular/material-moment-adapter';
 
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
-import { Inject} from '@angular/core';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { Inject } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogTestComponent } from '../dialog-test/dialog-test.component'
 
 
@@ -45,35 +45,17 @@ More(Highchartss);
 noData(Highchartss);
 
 
-
-
-var arrayDate = [], arrayID = [], arrayForDropDown = [], arrayMapForID = []
+var  arrayID = [], arrayForDropDown = [], arrayMapForID = []
 var idSelezionati = [];
 var arrayTrace = [];
 var datiGrafico;
 var traceSelezionate = [];
 var trace;
-var oraInizio, minInizio, secInizio;
 var chartGen;
 
 
 
-var layout = {
-
-  xaxis: {
-    title: "Tempo"
-  },
-  yaxis: {
-    title: "ID"
-  },
-  paper_bgcolor: "#6d6d6d",
-  plot_bgcolor: "#fff"
-
-
-};
-
-
-
+//Utilizzato da plotly
 var layoutGenerale = {
   title: "Grafico generale: ",
 
@@ -88,15 +70,13 @@ var layoutGenerale = {
 
 
 };
+
 //Per utilizzare jQuery in TS
 declare var $: any;
+//Per utilizzare Plotly
 declare var Plotly: any;
+//Per utilizzare Highcharts
 declare const Highcharts: any;
-
-export interface DialogData {
-  animal: 'panda' | 'unicorn' | 'lion';
-}
-
 
 
 @Component({
@@ -111,7 +91,7 @@ export interface DialogData {
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
-      deps:[
+      deps: [
         MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS
       ]
     },
@@ -124,7 +104,7 @@ export interface DialogData {
 
 export class StoricoComponent implements OnInit {
 
-  @ViewChild('dateInput') dateInput:ElementRef;
+  @ViewChild('dateInput') dateInput: ElementRef;
 
   //Permette di gestire il click sulla freccia per tornare indietro
   @HostListener('window:popstate', ['$event'])
@@ -152,57 +132,41 @@ export class StoricoComponent implements OnInit {
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
 
-    
-
-    this.dialog.open(DialogTestComponent, {
+    this.dialog.open(DialogTestComponent, 
+      {
       width: '400px',
-      height:'250px'
+      height: '250px'
     });
-}
-
- 
+  }
 
   ngOnInit(): void {
-
     this.pageLoaded = true;
     this._adapter.setLocale('it');
     this.startScrolling();
-
   }
 
   ngAfterViewInit() {
-
     this._storicoService.nascondiView(document.getElementById("box"))
-
     this._storicoService.nascondiView(document.getElementById("btnJson"));
-
     this._storicoService.nascondiView(document.getElementById("btnConfermaID"))
-
     this._storicoService.nascondiView(document.getElementById("btnAvanti"))
-
     this._storicoService.nascondiView(document.getElementById("idPerPlot"));
-
     this._storicoService.nascondiView(document.getElementById("filtraggio"));
-
     this._storicoService.nascondiView(document.getElementById("rowButtons"))
-
     this._storicoService.nascondiView(document.getElementById("footer"))
-
     this._storicoService.getID();
     this._storicoService.getMapForID();
 
   }
 
-  startScrolling(){
+  startScrolling() {
     var html = jQuery('html');
-    html.css('overflow','auto');
+    html.css('overflow', 'auto');
   }
 
-  private date = [];
 
   getID() {
 
-    //document.getElementById("btnCaricaDate").style.display = "none"
     this._storicoService.nascondiView(document.getElementById("btnCaricaDate"))
     this._storicoService.mostraView(document.getElementById("btnAvanti"));
     this._storicoService.mostraView(document.getElementById("filtraggio"))
@@ -214,30 +178,15 @@ export class StoricoComponent implements OnInit {
     this.setUpList();
     this.setUpDropDown();
 
-    if(arrayID.length>0 && arrayForDropDown.length>0)
-    return true;
+    if (arrayID.length > 0 && arrayForDropDown.length > 0)
+      return true;
 
   }
-
- 
-
-  /*
-  getDate() {
-    document.getElementById("btnCaricaDate").style.display = "none"
-    document.getElementById("btnAvanti").style.display = "block"
-
-    arrayDate = this._storicoService.getArray()
-    this.setUpList()
-  }*/
-
 
   setUpList() {
 
 
     arrayMapForID = this._storicoService.getArrayMapForID()
-
-    //window.alert("Array Map Length"+arrayMapForID.length)
-
     document.getElementById("box").style.display = "block"
     var i = 0;
     for (i = 0; i < arrayID.length; i++) {
@@ -245,10 +194,8 @@ export class StoricoComponent implements OnInit {
       var nomeID = this.getNomeID(arrayID[i], arrayMapForID);
       if (nomeID == -1)
         nomeID = arrayID[i]
-      //window.alert("Nome ID"+nomeID)
-
       $("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + nomeID + "</p> <label >Date disponibili</label>  <select name='dataInizio' id='dataInizio" + arrayID[i] + "' ></select>  </li>")
-      //$("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + arrayID[i] + "</p> </li>")
+      
 
     }
 
@@ -261,12 +208,9 @@ export class StoricoComponent implements OnInit {
     var i = 0;
     for (i = 0; i < arrayID.length; i++) {
       for (k = 0; k < arrayForDropDown.length; k++) {
-        // window.alert("In drop: " + arrayForDropDown[k]["tempo"])
         if (arrayForDropDown[k]["id"] == arrayID[i]) {
           var nomeDropDown = "#dataInizio" + arrayID[i];
           $(nomeDropDown).append("<option value='test'>" + arrayForDropDown[k]["tempo"] + "</option>")
-          /*var nomeDropDownFine = "#dataFine" + arrayID[i];
-          $(nomeDropDownFine).append("<option value='test'>" + arrayForDropDown[k]["tempo"] + "</option>")*/
         }
 
 
@@ -297,7 +241,7 @@ export class StoricoComponent implements OnInit {
 
   }
 
- 
+
 
 
   flag: Boolean;
@@ -316,26 +260,21 @@ export class StoricoComponent implements OnInit {
         //Aggiungi a ID selezionati
         var obj = {};
 
-        //idSelezionati.push(innerID[i].innerHTML)
         //Prendo data inizio e fine:
-        //var dataInizio = $("#dataInizio" + innerID[i].innerHTML + " :selected").text();
-        //var dataFine = $("#dataFine" + innerID[i].innerHTML + " :selected").text();
-        var giornoAngular=this.dateInput.nativeElement.value;
-        var ris=giornoAngular.split("/")
-        if(ris[0]<10)
-        ris[0]="0"+ris[0];
-        if(ris[1]<10)
-        ris[1]="0"+ris[1]
-        
-        var giornoAngularEffettivo=ris[0]+"/"+ris[1]+"/"+ris[2]
-        window.alert("Giorno angular: "+giornoAngularEffettivo)
-        //var giornoInizio = (<HTMLInputElement>document.getElementById("giornoInizioGenerale")).value;
+        var giornoAngular = this.dateInput.nativeElement.value;
+        var ris = giornoAngular.split("/")
+        if (ris[0] < 10)
+          ris[0] = "0" + ris[0];
+        if (ris[1] < 10)
+          ris[1] = "0" + ris[1]
+
+        var giornoAngularEffettivo = ris[0] + "/" + ris[1] + "/" + ris[2]
+
+        console.log("Giorno angular: " + giornoAngularEffettivo)
         var oraInizio = (<HTMLInputElement>document.getElementById("oraInizioGenerale")).value;
-        window.alert("Ora Inizio sel: " + oraInizio)
-        //var dataInizio = giornoInizio + " " + oraInizio;
+        console.log("Ora Inizio sel: " + oraInizio)
 
         var oraFine = (<HTMLInputElement>document.getElementById("oraFineGenerale")).value;
-        //var dataFine = giornoInizio + " " + oraFine; 
 
         //Devo prendere l'ID dal nome del sensore selezionato
         var ID = this.getIDFromNome(innerID[i].innerHTML, arrayMapForID);
@@ -357,7 +296,8 @@ export class StoricoComponent implements OnInit {
         if (this.flag == true && this.flagOra == true)
           idSelezionati.push(obj);
         else {
-          window.alert("Data per sensore " + innerID[i].innerHTML + " non valida");
+
+          console.log("Data per sensore " + innerID[i].innerHTML + " non valida")
         }
 
 
@@ -366,11 +306,14 @@ export class StoricoComponent implements OnInit {
     }
 
     if (idSelezionati.length == 0) {
-      window.alert("Seleziona almeno un ID");
+
+      window.alert("Seleziona almeno un ID")
     }
     else {
 
-      window.alert("Vado avanti, carico grafici sensori.");
+
+      console.log("Vado avanti, carico grafici sensori.")
+      this._storicoService.setTextView(document.getElementById("btnAvanti"), "Aggiorna selezione")
       //Effettua graficazioni
       this._storicoService.testGrafico(idSelezionati);
     }
@@ -382,17 +325,12 @@ export class StoricoComponent implements OnInit {
 
     //Stessa ora
     if (stringOraInizio[0] == stringOraFine[0]) {
-      if (parseInt(stringOraFine[1]) >= parseInt(stringOraInizio[1])) //Mi assicuro che ora fine >= ora inizio
+      if (parseInt(stringOraFine[1]) >= parseInt(stringOraInizio[1])) //Mi assicuro che min fine >= min inizio
       {
-        //Massimo un minuto di differenza o stesso minuto
-        if ((parseInt(stringOraFine[1]) - parseInt(stringOraInizio[1])) <= 1 || stringOraFine[1] == stringOraInizio[1]) {
-          return true;
-        }
-        else
-          return false;
+        return true;
       }
       else
-      return false;
+        return false;
 
     }
     else
@@ -404,7 +342,6 @@ export class StoricoComponent implements OnInit {
     //Utilizzando un sistema orario basato su 24 ore
     //Si può effettuare un confronto tra orari differenti
     //Semplicemente confrontando i valori delle stringhe:
-
     //1: DataInizio deve essere <= di DataFine
 
     if (dataInizio >= dataFine)
@@ -414,6 +351,7 @@ export class StoricoComponent implements OnInit {
 
   }
 
+  //Crea lista di sensori mostrati
   createCheckableIdPlot() {
 
     $("#idPlot").empty();
@@ -438,10 +376,10 @@ export class StoricoComponent implements OnInit {
 
   }
 
-  public startHighChartGen()
-  {
+  //Highchart per generale
+  public startHighChartGen() {
 
-    var graficiSelezionatiDaUnire=[];
+    var graficiSelezionatiDaUnire = [];
     document.getElementById("btnConfermaID").innerHTML = "Aggiorna grafico generale"
 
     //Prende le checkbox 
@@ -454,138 +392,138 @@ export class StoricoComponent implements OnInit {
     for (i = 0; i < lis.length; i++) {
       if (lis[i].checked) {
 
-        window.alert("Aggiungo: "+this.getIDFromNome(innerID[i].innerHTML,arrayMapForID))
-        graficiSelezionatiDaUnire.push(this.getIDFromNome(innerID[i].innerHTML,arrayMapForID))
-        
+
+        console.log("Aggiungo: " + this.getIDFromNome(innerID[i].innerHTML, arrayMapForID))
+        graficiSelezionatiDaUnire.push(this.getIDFromNome(innerID[i].innerHTML, arrayMapForID))
+
       }
     }
 
     $("#grafici").append("<div id='myDivUniti'></div>")
-    this.createHighChartGen("myDivUniti",ID,asseX,asseY);
+    this.createHighChartGen("myDivUniti", ID, asseX, asseY);
     datiGrafico = this._storicoService.getJsonObject()
 
     var asseX = [];
     var asseY = [];
-    var ID="";
+    var ID = "";
     var currID = graficiSelezionatiDaUnire[0];
-    var intCurrID=0;
-    var newIntCurrID=0;
-    window.alert("CurrID"+currID);
+    var intCurrID = 0;
+    var newIntCurrID = 0;
+
+    console.log("CurrID" + currID)
 
     datiGrafico.forEach(element => {
 
-     if(element["id"]==currID)
-     {
-       //Da aggiungere
-       ID=currID;
-       asseX.push(element["tempo"]);
-       asseY.push(element["valore"]);
-     }
-     else{
-       if(asseY.length>0) //Ho aggiunto un grafico
-       this.addToHighChartGen("myDivUniti",ID,asseX,asseY);
-       //currID=currID+1;
-       intCurrID=parseInt(currID);
-       newIntCurrID=intCurrID+1;
+      if (element["id"] == currID) {
+        //Da aggiungere
+        ID = currID;
+        asseX.push(element["tempo"]);
+        asseY.push(element["valore"]);
+      }
+      else {
+        if (asseY.length > 0) //Ho aggiunto un grafico
+          this.addToHighChartGen("myDivUniti", ID, asseX, asseY);
+        //currID=currID+1;
+        intCurrID = parseInt(currID);
+        newIntCurrID = intCurrID + 1;
 
-       if(newIntCurrID<9)
-       currID="00"+newIntCurrID
-       if(newIntCurrID>9 && newIntCurrID<100)
-       currID="0"+newIntCurrID
-       if(newIntCurrID>99)
-       currID=newIntCurrID+"";
-       asseX=[];
-       asseY=[];
-     }
+        if (newIntCurrID < 9)
+          currID = "00" + newIntCurrID
+        if (newIntCurrID > 9 && newIntCurrID < 100)
+          currID = "0" + newIntCurrID
+        if (newIntCurrID > 99)
+          currID = newIntCurrID + "";
+        asseX = [];
+        asseY = [];
+      }
 
     });
 
     //creo grafico gen
-    if(asseY.length>0)
-    this.addToHighChartGen("myDivUniti",ID,asseX,asseY);
+    if (asseY.length > 0)
+      this.addToHighChartGen("myDivUniti", ID, asseX, asseY);
   }
 
-  
-  addToHighChartGen(nomediv,ID,asseX,asseY)
-  {
-    chartGen.addSeries({                        
-      name: this.getNomeID(ID, arrayMapForID)+"",
-          data: asseY
-  });
+  addToHighChartGen(nomediv, ID, asseX, asseY) {
+    var length = asseX.length;
+    console.log("Last time asse: " + asseY[length - 1])
+    chartGen.addSeries({
+      name: this.getNomeID(ID, arrayMapForID) + "",
+      data: asseY
+    });
 
-  chartGen.xAxis[0].setCategories(asseX);
+    console.log("xAxis Length: " + chartGen.xAxis.length);
+    chartGen.xAxis[0].setCategories(asseX);
   }
 
-  public createHighChartGen(nomediv,ID,asseX,asseY)
-  {
-    
-    
-   chartGen= Highcharts.chart(nomediv, {
+  //Highcharts per generale
+  public createHighChartGen(nomediv, ID, asseX, asseY) {
 
-    chart: {
-      zoomType: 'x'
-  },
+
+    chartGen = Highcharts.chart(nomediv, {
+
+      chart: {
+        zoomType: 'x'
+      },
 
       title: {
-          text: "Grafico generale"
+        text: "Grafico generale"
       },
-    
+
       subtitle: {
-          text: 'Source: UninaCorse E-Team'
+        text: 'Source: UninaCorse E-Team'
       },
-    
+
+      tooltip: {
+        formatter: function () {
+          return 'Tempo: ' + this.x +
+            ' Valore:  ' + this.y.toFixed(2); //Mostrato quando passa il mouse sul puntino
+        }
+      },
+
       yAxis: {
-          title: {
-              text: 'Valore sensore'
-          }
+        title: {
+          text: 'Valore sensore'
+        }
       },
-    
+
       xAxis: {
-          
+
         categories: asseX,
-        accessibility: {
-          
-         
-      }
-    },
-    
-      legend: {
-          layout: 'vertical',
-          align: 'right',
-          verticalAlign: 'middle'
+        type: 'datetime'
+
       },
-    
-      /*plotOptions: {
-          series: {
-              label: {
-                  connectorAllowed: false
-              },
-              pointStart: 2010
-          }
-      },*/
-    
-     
-    
+
+      legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+      },
+
       responsive: {
-          rules: [{
-              condition: {
-                  maxWidth: 500
-              },
-              chartOptions: {
-                  legend: {
-                      layout: 'horizontal',
-                      align: 'center',
-                      verticalAlign: 'bottom'
-                  }
-              }
-          }]
+        rules: [{
+          condition: {
+            maxWidth: 500
+          },
+          chartOptions: {
+            legend: {
+              layout: 'horizontal',
+              align: 'center',
+              verticalAlign: 'bottom'
+            }
+          }
+        }]
       }
-    
+
     });
 
   }
 
-  public startHighChart(){
+  //Highcharts
+  public startHighChart() {
+
+    this.startPlot();
+
     document.getElementById("btnJson").style.display = "none"
     //document.getElementById("btnConfermaID").style.display = "block"
     this._storicoService.mostraView(document.getElementById("btnConfermaID"))
@@ -604,8 +542,7 @@ export class StoricoComponent implements OnInit {
 
     var asseX = [];
     var asseY = [];
-    arrayTrace = [];
-    var ID="";
+    var ID = "";
     var currID = datiGrafico[0]["id"];
 
     datiGrafico.forEach(element => {
@@ -614,9 +551,10 @@ export class StoricoComponent implements OnInit {
 
       if (ID != currID) {
         //Cambio grafico
-        this.createHighChart(currID,asseX,asseY);
-        window.alert("cambio grafico PUSHO: "+element["id"]);
-        
+        this.createHighChart(currID, asseX, asseY);
+
+        console.log("cambio grafico PUSHO: " + element["id"])
+
         currID = ID;
         asseX = [element["tempo"]];
         asseY = [element["valore"]];
@@ -630,176 +568,104 @@ export class StoricoComponent implements OnInit {
     });
 
     //creo grafico
-    this.createHighChart(ID,asseX,asseY);
+    this.createHighChart(ID, asseX, asseY);
   }
 
-  public createHighChart(ID,asseX,asseY)
-  {
-    
-      //Crea nuova DIV
-      $("#grafici").append("<div id='myDiv" + this.getNomeID(ID, arrayMapForID) + "'></div>")
-      var lengthAsseY=asseY.length;
+  //Highcharts
+  public createHighChart(ID, asseX, asseY) {
 
-      
-/*
-      this.options={
+    //Crea nuova DIV
+    $("#grafici").append("<div id='myDiv" + this.getNomeID(ID, arrayMapForID) + "'></div>")
+    var lengthAsseY = asseY.length;
 
-        chart: {
-          type: 'line',
-          height: 300
+
+
+
+    Highcharts.chart('myDiv' + this.getNomeID(ID, arrayMapForID), {
+
+      chart: {
+        zoomType: 'x'
       },
 
+      title: {
+        text: this.getNomeID(ID, arrayMapForID) + ""
+      },
+
+      subtitle: {
+        text: 'Source: UninaCorse E-Team'
+      },
+      tooltip: {
+        formatter: function () {
+          return 'Tempo: ' + this.x +
+            ' Valore:  ' + this.y.toFixed(2); //Mostrato quando passa il mouse sul puntino
+        }
+      },
+
+      yAxis: {
         title: {
-            text: this.getNomeID(ID, arrayMapForID)+""
-        },
-      
-        subtitle: {
-            text: 'Source: UninaCorse E-Team'
-        },
-        tooltip: {
-          formatter: function() {
-              return 'x: ' + Highcharts.dateFormat('%e %b %y %H:%M:%S %MS', this.x) +
-                  'y: ' + this.y.toFixed(2); //Mostrato quando passa il mouse sul puntino
-          }
-      },
-      
-        yAxis: {
-            title: {
-                text: 'Valore sensore'
-            }
-        },
-      
-        xAxis: {
-          type: 'datetime',
-          accessibility: {
-            
-            rangeDescription: "Range: "+asseY[0]+" to "+asseY[lengthAsseY]
+          text: 'Valore sensore'
         }
       },
 
-      
-      
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle'
-        },
-      
-        plotOptions: {
-            series: {
-                label: {
-                    connectorAllowed: false
-                },
-                pointStart: 2010
-            }
-        },
-      
-        responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
-                },
-                chartOptions: {
-                    legend: {
-                        layout: 'horizontal',
-                        align: 'center',
-                        verticalAlign: 'bottom'
-                    }
-                }
-            }]
+      xAxis: {
+
+        categories: asseX,
+        accessibility: {
+
+          rangeDescription: "Range: " + asseY[0] + " to " + asseY[lengthAsseY]
         }
-      
+      },
+
+      legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+      },
+
+
+
+      series: [{
+        name: this.getNomeID(ID, arrayMapForID) + "",
+        data: asseY
       }
-      this.options.series[0]['data']=asseY;
-      this.options.series[0]['name']=this.getNomeID(ID, arrayMapForID)+"";
-      Highchartss.chart('myDiv' + this.getNomeID(ID, arrayMapForID),this.options,null);*/
-      
+      ],
 
-    
-      Highcharts.chart('myDiv' + this.getNomeID(ID, arrayMapForID), {
-
-        chart: {
-          zoomType: 'x'
-      },
-      
-        title: {
-            text: this.getNomeID(ID, arrayMapForID)+""
-        },
-      
-        subtitle: {
-            text: 'Source: UninaCorse E-Team'
-        },
-        tooltip: {
-          formatter: function() {
-              return 'x: ' + Highcharts.dateFormat('%e %b %y %H:%M:%S ', this.x) +
-                  'y: ' + this.y.toFixed(2); //Mostrato quando passa il mouse sul puntino
-          }
-      },
-      
-        yAxis: {
-            title: {
-                text: 'Valore sensore'
+      responsive: {
+        rules: [{
+          condition: {
+            maxWidth: 500
+          },
+          chartOptions: {
+            legend: {
+              layout: 'horizontal',
+              align: 'center',
+              verticalAlign: 'bottom'
             }
-        },
-      
-        xAxis: {
-          
-          categories: asseX,
-          accessibility: {
-            
-            rangeDescription: "Range: "+asseY[0]+" to "+asseY[lengthAsseY]
-        }
-      },
-      
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle'
-        },
-      
-        
-      
-        series: [{
-            name: this.getNomeID(ID, arrayMapForID)+"",
-            data: asseY
           }
-        ],
-      
-        responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
-                },
-                chartOptions: {
-                    legend: {
-                        layout: 'horizontal',
-                        align: 'center',
-                        verticalAlign: 'bottom'
-                    }
-                }
-            }]
-        }
-      
-      });
+        }]
+      }
+
+    });
 
   }
 
 
+  //Plotly
   public startPlot() {
 
-    document.getElementById("btnJson").style.display = "none"
+    //document.getElementById("btnJson").style.display = "none"
     //document.getElementById("btnConfermaID").style.display = "block"
-    this._storicoService.mostraView(document.getElementById("btnConfermaID"))
-    document.getElementById("btnAvanti").style.display = "block"
-    document.getElementById("btnAvanti").innerHTML = "Aggiorna sensori selezionati"
-    document.getElementById("idPerPlot").style.display = "block"
+    //this._storicoService.mostraView(document.getElementById("btnConfermaID"))
+    //document.getElementById("btnAvanti").style.display = "block"
+    //document.getElementById("btnAvanti").innerHTML = "Aggiorna sensori selezionati"
+    //document.getElementById("idPerPlot").style.display = "block"
 
 
-    $("#grafici").empty()
+    //$("#grafici").empty()
 
 
     datiGrafico = this._storicoService.getJsonObject()
-    this.createCheckableIdPlot()
+    //this.createCheckableIdPlot()
 
     if (datiGrafico.length == 0) {
       window.alert("Esco");
@@ -807,8 +673,8 @@ export class StoricoComponent implements OnInit {
     }
 
     var i = 0;
-    var asseX = [];
-    var asseY = [];
+    var asseXa = [];
+    var asseYa = [];
     arrayTrace = [];
     var currID = datiGrafico[0]["id"];
 
@@ -818,16 +684,18 @@ export class StoricoComponent implements OnInit {
 
       if (ID != currID) {
         //Cambio grafico
-        window.alert("cambio grafico PUSHO: "+element["id"]);
+
         arrayTrace.push(trace);
         currID = ID;
-        asseX = [element["tempo"]];
-        asseY = [element["valore"]];
+
+        asseXa = [element["tempo"]];
+        asseYa = [element["valore"]];
+
       }
       else {
         //Stesso grafico
-        asseX.push(element["tempo"]);
-        asseY.push(element["valore"]);
+        asseXa.push(element["tempo"]);
+        asseYa.push(element["valore"]);
       }
 
       var layout = {
@@ -844,8 +712,8 @@ export class StoricoComponent implements OnInit {
       };
 
       trace = {
-        x: asseX,
-        y: asseY,
+        x: asseXa,
+        y: asseYa,
         type: 'scatter',
         name: "" + ID
       };
@@ -853,32 +721,23 @@ export class StoricoComponent implements OnInit {
       var data = [trace];
 
       //Crea nuova DIV
-      $("#grafici").append("<div id='myDiv" + this.getNomeID(ID, arrayMapForID) + "'></div>")
+      // $("#grafici").append("<div id='myDiv" + this.getNomeID(ID, arrayMapForID) + "'></div>")
 
 
-      Plotly.newPlot('myDiv' + this.getNomeID(ID, arrayMapForID), data, layout);
-
-
+      // Plotly.newPlot('myDiv' + this.getNomeID(ID, arrayMapForID), data, layout);
 
     });
-
-    
 
     arrayTrace.push(trace)
 
   }
 
-  unisciTrace() {
 
-    $("#grafici").append("<div id='myDivUniti'></div>")
-    Plotly.newPlot('myDivUniti', arrayTrace, layout);
-  }
-
-
+  //Librerie Plotly
   mostraPlotUniti() {
 
+    $("#grafici").append("<div id='myDivUniti'></div>")
     traceSelezionate = [];
-
     document.getElementById("btnConfermaID").innerHTML = "Aggiorna grafico generale"
     //Prende le checkbox 
     var lis = document.getElementById("idPlot").getElementsByTagName("input"); //Prendo checkbox
@@ -889,22 +748,16 @@ export class StoricoComponent implements OnInit {
     for (i = 0; i < lis.length; i++) {
       if (lis[i].checked) {
 
-        //window.alert("Agg checkbox " + i)
-        //traceSelezionate.push(arrayTrace[i]);
         for (j = 0; j < arrayTrace.length; j++) {
-          window.alert("Array trace dim: "+arrayTrace.length);
-          window.alert("Confronto: " + innerID[i].innerHTML + " con " +this.getNomeID(arrayTrace[j]["name"],arrayMapForID))
-          
-          
-          if (innerID[i].innerHTML == this.getNomeID(arrayTrace[j]["name"],arrayMapForID)) {
-            window.alert("Aggiungo a traceSelezionate");
-            //const index=traceSelezionate.indexOf(arrayTrace[j]["name"]);
-            //if(index==-1)
+          console.log("Confronto: " + innerID[i].innerHTML + " con " + this.getNomeID(arrayTrace[j]["name"], arrayMapForID))
+
+          if (innerID[i].innerHTML == this.getNomeID(arrayTrace[j]["name"], arrayMapForID)) {
+            console.log("Aggiungo a traceSelezionate");
+
             traceSelezionate.push(arrayTrace[j]);
-            //else
-            //{window.alert("Traccia doppione evitata")}
+
           }
-          
+
 
         }
       }
@@ -912,7 +765,7 @@ export class StoricoComponent implements OnInit {
 
 
     if (traceSelezionate.length == 0) {
-      window.alert("Seleziona almeno un ID")
+      console.log("Seleziona almeno un ID")
 
     }
     else {
