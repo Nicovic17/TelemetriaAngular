@@ -108,6 +108,8 @@ export class HighchartstestComponent implements OnInit {
         selezionato dall'utente.
      */
     async startSearch(oraI: Date, oraF: Date){
+        this.chartsListDisplayed = false;
+        this.listaSensori.splice(0,this.listaSensori.length);
         // Vengono d'apprima caricati i dati dei sensori e la mappa in modo Sincrono
         this.aviableSensors = await this._service.getAviableSensors(oraI, oraF);
         this.sensorsMap = await this._service.getSensorsMap();
