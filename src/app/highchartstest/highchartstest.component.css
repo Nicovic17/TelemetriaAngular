@@ -1,0 +1,61 @@
+.bodyClass{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    min-height: 100vh;
+    background-color: #383140;
+    overflow: hidden;
+}
+.center {
+    margin: auto;
+    width: 60%;
+    border: 3px solid whitesmoke;
+    background-color: ghostwhite;
+    padding: 10px;
+    max-height: 700px;
+    overflow: auto;
+}
+.textClass{
+    font-family: 'Open Sans', sans-serif;
+    color: whitesmoke;
+    text-shadow: 10px 3px 9px black;
+    font-size: 40px;
+}
+.txtCenter{
+    margin: auto;
+    width: 60%;
+    padding: 10px;
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 120px;
+    margin-top: 2%;
+    margin-left: 74%;
+}
+.button-row {
+    display: table-cell;
+    width: 490px;
+}
+
+.button-row .mat-button-base {
+    margin: 8px 8px 8px 0;
+}
+
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+.overlay{
+    height:100vh;
+    width:100%;
+    background-color:rgba(0, 0, 0, 0.286);
+    z-index:    10;
+    top:        0;
+    left:       0;
+    position:   fixed;
+}

@@ -2,9 +2,51 @@
 <html>
     <head>
         <script src="https://code.highcharts.com/modules/boost.js"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+              integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
+        <script src="https://kit.fontawesome.com/f6b29a4c68.js" crossorigin="anonymous"></script>
     </head>
-    <body>
-        <div id="chart1" style="width:60%; height:300px;"></div>
-        <div id="chart2" style="width:60%; height:300px;"></div>
+    <body class="bodyClass">
+        <app-nav-bar></app-nav-bar>
+        <div class="center">
+            <mat-form-field appearance="fill">
+                <mat-label>Choose a date</mat-label>
+                <input matInput #date [matDatepicker]="picker">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <label>Scegli ora inizio:</label><input type="time" #orain id="oraInizioGenerale" step="2"/>
+            <label>Scegli ora fine:</label><input type="time" #orafin id="oraFineGenerale"  [valueAsDate]="oraFine" step="1"/>
+            <button mat-button color="primary" (click) = prepareValuesForSearch(orain.valueAsDate,orafin.valueAsDate,date.value)>Search</button>
+
+        </div>
+        <div class = "center">
+            <div *ngIf="sensorListDisplayed">
+                <mat-selection-list #sensoriSelezionati role="listbox">
+                    <mat-list-option role="option" *ngFor="let item of listaSensori">
+                        {{item}}
+                    </mat-list-option>
+                </mat-selection-list>
+            </div>
+            <div id="grafici" *ngIf="chartsListDisplayed">
+<!--                <div *ngFor="let i of idSensoriScelti" id="{{i}}" style="width:60%; height:300px;"></div>-->
+
+            </div>
+        </div>
+
+        <div style="margin-left: 70%">
+            <div class="button-row">
+                <button mat-raised-button color="primary" (click)="mostraGrafici()" *ngIf="sensorListDisplayed">Mostra Grafici</button>
+                <button mat-raised-button color="primary" (click)="unisciGrafici()" *ngIf="!sensorListDisplayed && canJoinGraph">Unisci</button>
+            </div>
+        </div>
+
+        <!--<div id="chart1" style="width:60%; height:300px;"></div>
+        <div id="chart2" style="width:60%; height:300px;"></div>-->
     </body>
 </html>

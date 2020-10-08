@@ -37,6 +37,7 @@ import { DialogTestComponent } from './dialog-test/dialog-test.component';
 import {MatListModule} from "@angular/material/list";
 import {DiagnosticaService} from "./diagnostica.service";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {StoricoDueService} from './storico-due.service';
 
 
 
@@ -75,7 +76,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
   providers: [SpeedometerService, 
     BatteryService, BarsService, VolanteService, MapService, 
-    StoricoService, EngineService, MatDatepickerModule, DiagnosticaService],
+    StoricoService, EngineService, MatDatepickerModule, DiagnosticaService, StoricoDueService],
 
   bootstrap: [AppComponent]
 })

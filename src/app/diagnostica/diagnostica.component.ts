@@ -86,6 +86,6 @@ export class DiagnosticaComponent implements OnInit {
 
         return -1;
       }
-    })
+    });
   }
 }
