@@ -15,20 +15,6 @@ export class StoricoService {
   constructor(private db: AngularFireDatabase,public dialog: MatDialog) {
   }
 
-  openDialog() {
-
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = false;
-    dialogConfig.width="4000px";
-    dialogConfig.height="250px"
-    dialogConfig.restoreFocus=true;  
-}
-
-closeDialog(){
-  this.dialog.closeAll();
-}
-
   public getDate() {
 
     var ref = this.db.database.ref("Sensori");
@@ -55,7 +41,6 @@ closeDialog(){
         arrayMapID.push(idValore);
       })
       this.mostraView(document.getElementById("rowButtons"));
-      this.openDialog()
       
     })
   }
@@ -69,6 +54,7 @@ closeDialog(){
     return obj;
 
   }
+
 
   //Popola array con tutti gli ID registrati sul database
   public getID() {
@@ -92,7 +78,7 @@ closeDialog(){
 
   }
 
-  //Popola l'array jsonDateForDropDown 
+  //Popola l'array jsonDateForDropDown che conterrà tutte le date disponibili dei sensori
   getDateForDropDown() {
     arrayID.forEach(element => {
 
@@ -134,10 +120,6 @@ closeDialog(){
     });
   }
 
-  getArrayID() {
-    return arrayID;
-  }
-
   getJsonObjectForDropDown() {
     var jsonString = JSON.stringify(jsonDateForDropDown);
     console.log(jsonString)
@@ -146,27 +128,28 @@ closeDialog(){
     return obj;
   }
 
+  getArrayID() {
+    return arrayID;
+  }
+
+
+
   getArray() {
     return arrayDate;
   }
 
-  //Prende i sensori selezionati e ne starta un grafico
+  //Prende i sensori selezionati e carica i dati presenti sul database di questi sensori
+  //nell'intervallo di tempo selezionato
   testGrafico(array: any) {
     jsonObject = [];
-
-
     array.forEach(element => { //Per ogni ID
-
-
       var ref = this.db.database.ref("storico").child(element["id"]);
       ref.once("value", snap => {
         snap.forEach(function (child) {
           var aggiungi = {}
-
           //Controllo sul tempo
 
           var g = new Date(parseInt(child.key)).getDate()
-
           var dayString;
           if(g>0 && g<10)
           {
@@ -174,7 +157,6 @@ closeDialog(){
           }
           else
           dayString=g+"";
-
           var month = new Date(parseInt(child.key)).getMonth() + 1
           var monthString;
           if (month > 0 && month < 10) 
@@ -185,7 +167,6 @@ closeDialog(){
           monthString=month+"";
 
           var y = new Date(parseInt(child.key)).getFullYear()
-
           var h = new Date(parseInt(child.key)).getHours();
           var hourString;
           if(h>=0 && h<10)
@@ -217,40 +198,29 @@ closeDialog(){
 
           var giornoSensore=dayString+"/"+monthString+"/"+y;
 
-          //window.alert("Giorno ID scelto: "+element["giornoScelto"] + "Giorno sensore: "+giornoSensore)
+          //Se l'orario scelto dall'utente corrisponde a quello del sensore richiesto
           if(element["giornoScelto"] == giornoSensore)
           {
-            //window.alert("Giorno corrispondente")
-            //Giorno corrispondente
+            //Carico i valori del sensore richiesto nell'intervallo di tempo selezionato
             var orarioSensore=hourString+":"+minString+":"+secondsString;
-            //window.alert("Orario ID SCELTO: "+element["dataInizio"] + "Orario SENSORE "+orarioSensore);
             if(orarioSensore >= element["dataInizio"] && orarioSensore <= element["dataFine"])
             {
-              //window.alert("Orario corrispondente")
-              
-              //Salvo orari in range selezionati
-              //window.alert("Orario sensore: "+orarioSensore + "Data inizio: "+element["dataInizio"])
               aggiungi["id"] = element["id"];
               aggiungi["tempo"] = orarioSensore+=":"+e;
               aggiungi["valore"] = child.val();
+              //Struttura che conterrà tutti i valori disponibili
               jsonObject.push(aggiungi);
             }
           }
-
-
         })
-
         document.getElementById("btnJson").style.display = "block"
-
-
       })
-
-
-
     });
 
   }
 
+  //Richiamato in startHighChart 
+  //Restituisce oggetto id-tempo-valore dei sensori richiesti in istanti di tempo selezionati
   getJsonObject() {
     if(jsonObject.length==0)
     {
@@ -258,13 +228,10 @@ closeDialog(){
       return obj;
     }
     else{
-
       console.log("json non vuoto")
-
       var jsonString = JSON.stringify(jsonObject);
-    console.log(jsonString)
+      //console.log(jsonString)
     var obj = JSON.parse(jsonString);
-
     return obj;
 
     }

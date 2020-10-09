@@ -45,7 +45,7 @@ More(Highchartss);
 noData(Highchartss);
 
 
-var  arrayID = [], arrayForDropDown = [], arrayMapForID = []
+var arrayID = [], arrayForDropDown = [], arrayMapForID = []
 var idSelezionati = [];
 var arrayTrace = [];
 var datiGrafico;
@@ -121,7 +121,6 @@ export class StoricoComponent implements OnInit {
 
   constructor(public auth: AngularFireAuth, public firebase: AngularFireDatabase, public _storicoService: StoricoService, private _adapter
     : DateAdapter<any>, public dialog: MatDialog) {
-
     this.checkIfUserIsLogged()
   }
 
@@ -132,17 +131,16 @@ export class StoricoComponent implements OnInit {
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
 
-    this.dialog.open(DialogTestComponent, 
+    this.dialog.open(DialogTestComponent,
       {
-      width: '400px',
-      height: '250px'
-    });
+        width: '400px',
+        height: '250px'
+      });
   }
 
   ngOnInit(): void {
     this.pageLoaded = true;
     this._adapter.setLocale('it');
-    this.startScrolling();
   }
 
   ngAfterViewInit() {
@@ -159,12 +157,8 @@ export class StoricoComponent implements OnInit {
 
   }
 
-  startScrolling() {
-    var html = jQuery('html');
-    html.css('overflow', 'auto');
-  }
-
-
+  //Metodo chiamato al click su MOSTRA ID
+  //Carica gli ID disponibili sul database e ne mostra la lista
   getID() {
 
     this._storicoService.nascondiView(document.getElementById("btnCaricaDate"))
@@ -175,16 +169,17 @@ export class StoricoComponent implements OnInit {
     arrayID = this._storicoService.getArrayID();
     arrayForDropDown = this._storicoService.getJsonObjectForDropDown()
 
-    this.setUpList();
-    this.setUpDropDown();
+    this.setUpList(); //Utilizza arrayID
+    this.setUpDropDown(); //Utilizza arrayForDropDown
 
     if (arrayID.length > 0 && arrayForDropDown.length > 0)
       return true;
 
   }
 
+  //Chiamato da GETID , prende l'array degli ID(arrayID) e ne costruisce la lista con relative checkbox
+  
   setUpList() {
-
 
     arrayMapForID = this._storicoService.getArrayMapForID()
     document.getElementById("box").style.display = "block"
@@ -195,7 +190,7 @@ export class StoricoComponent implements OnInit {
       if (nomeID == -1)
         nomeID = arrayID[i]
       $("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + nomeID + "</p> <label >Date disponibili</label>  <select name='dataInizio' id='dataInizio" + arrayID[i] + "' ></select>  </li>")
-      
+
 
     }
 
@@ -203,6 +198,8 @@ export class StoricoComponent implements OnInit {
 
   }
 
+  //Chiamato da GETID
+  //Setta le date in cui sono stati registrati i valori => crea i dropdown con le date
   setUpDropDown() {
     var k = 0;
     var i = 0;
@@ -219,6 +216,7 @@ export class StoricoComponent implements OnInit {
 
   }
 
+  //Utilizzato per ottenre il nome del sensore dal relativo ID
   getNomeID(id, array) {
 
     var i = 0;
@@ -229,6 +227,7 @@ export class StoricoComponent implements OnInit {
     }
     return -1;
   }
+  //Utilizzato per ottenere l'ID del sensore dal relativo nome
   getIDFromNome(nome, array) {
 
     var i = 0;
@@ -241,17 +240,18 @@ export class StoricoComponent implements OnInit {
 
   }
 
-
-
-
   flag: Boolean;
   flagOra: Boolean
+
+  //Metodo chiamato dal button AGGIUNGI ID
+  //Rileva i sensori selezionati nella lista e ne carica i dati
   public aggiungiID() {
     this.flag = false;
 
     idSelezionati = [];
 
-    var lis = document.getElementById("listaDate").getElementsByTagName("input"); //Prendo checkbox
+    //Prendo le checkbox
+    var lis = document.getElementById("listaDate").getElementsByTagName("input"); 
     var innerID = document.getElementsByName("itemText");
 
     var i = 0;
@@ -259,9 +259,9 @@ export class StoricoComponent implements OnInit {
       if (lis[i].checked) {
         //Aggiungi a ID selezionati
         var obj = {};
-
-        //Prendo data inizio e fine:
+        //Prendo data inizio e fine scelta dall'utente:
         var giornoAngular = this.dateInput.nativeElement.value;
+        //Converto la data nel formato DD/MM/YYYY
         var ris = giornoAngular.split("/")
         if (ris[0] < 10)
           ris[0] = "0" + ris[0];
@@ -281,42 +281,84 @@ export class StoricoComponent implements OnInit {
         if (ID == -1)
           ID = innerID[i].innerHTML;
 
+        //Salvo l'ID selezionato in oggetto OBJ con relative informazioni
         obj["id"] = ID;
         obj["giornoScelto"] = giornoAngularEffettivo;
-
         //Controlla validità data
-
         this.flagOra = this.compareHours(oraInizio, oraFine);
-
         obj["dataInizio"] = oraInizio;
         obj["dataFine"] = oraFine;
-
         this.flag = this.compareDate(oraInizio, oraFine);
-
         if (this.flag == true && this.flagOra == true)
           idSelezionati.push(obj);
         else {
-
-          console.log("Data per sensore " + innerID[i].innerHTML + " non valida")
+          window.alert("Data per sensore " + innerID[i].innerHTML + " non valida")
         }
-
-
       }
-
     }
 
     if (idSelezionati.length == 0) {
-
       window.alert("Seleziona almeno un ID")
     }
     else {
-
-
       console.log("Vado avanti, carico grafici sensori.")
       this._storicoService.setTextView(document.getElementById("btnAvanti"), "Aggiorna selezione")
-      //Effettua graficazioni
+      //Passo al metodo testGrafico in storico.service gli ID di cui si richiedono informazioni
       this._storicoService.testGrafico(idSelezionati);
     }
+  }
+
+   //Metodo chiamato da button MOSTRA GRAFICI SENSORI
+   public startHighChart() {
+
+    this.startPlot();
+
+    document.getElementById("btnJson").style.display = "none"
+    this._storicoService.mostraView(document.getElementById("btnConfermaID"))
+    document.getElementById("btnAvanti").style.display = "block"
+    document.getElementById("btnAvanti").innerHTML = "Aggiorna sensori selezionati"
+    document.getElementById("idPerPlot").style.display = "block"
+    $("#grafici").empty()
+
+    //Prendo i dati salvati nella struttura json nel service
+    datiGrafico = this._storicoService.getJsonObject()
+    //Crea il filtro per i grafici
+    this.createCheckableIdPlot()
+
+    if (datiGrafico.length == 0) {
+      window.alert("Esco");
+      exit;
+    }
+
+    var asseX = [];
+    var asseY = [];
+    var ID = "";
+    var currID = datiGrafico[0]["id"];
+
+    datiGrafico.forEach(element => {
+
+      ID = element["id"];
+
+      if (ID != currID) {
+        //Cambio grafico
+        this.createHighChart(currID, asseX, asseY);
+
+        console.log("cambio grafico PUSHO: " + element["id"])
+
+        currID = ID;
+        asseX = [element["tempo"]];
+        asseY = [element["valore"]];
+      }
+      else {
+        //Stesso grafico
+        asseX.push(element["tempo"]);
+        asseY.push(element["valore"]);
+      }
+
+    });
+
+    //creo grafico
+    this.createHighChart(ID, asseX, asseY);
   }
 
   compareHours(hInizio: String, hFine: String) {
@@ -351,23 +393,18 @@ export class StoricoComponent implements OnInit {
 
   }
 
-  //Crea lista di sensori mostrati
+  //Crea il filtro per i grafici con relative checkbox
   createCheckableIdPlot() {
 
     $("#idPlot").empty();
-
     var next = datiGrafico[0]["id"]
-
     var nomeID = this.getNomeID(next, arrayMapForID);
     $("#idPlot").append("<li name='item'><span><input type='checkbox'></span><p name='itemPlot'>" + nomeID + "</p></li>")
-
     datiGrafico.forEach(element => {
 
       if (element["id"] != next) {
         next = element["id"]
-
         nomeID = this.getNomeID(next, arrayMapForID);
-
         $("#idPlot").append("<li name='item'><span><input type='checkbox'></span><p name='itemPlot'>" + nomeID + "</p></li>")
 
       }
@@ -375,6 +412,8 @@ export class StoricoComponent implements OnInit {
     });
 
   }
+
+
 
   //Highchart per generale
   public startHighChartGen() {
@@ -387,15 +426,11 @@ export class StoricoComponent implements OnInit {
     var innerID = document.getElementsByName("itemPlot");
 
     var i = 0;
-    var j = 0;
 
     for (i = 0; i < lis.length; i++) {
       if (lis[i].checked) {
-
-
         console.log("Aggiungo: " + this.getIDFromNome(innerID[i].innerHTML, arrayMapForID))
         graficiSelezionatiDaUnire.push(this.getIDFromNome(innerID[i].innerHTML, arrayMapForID))
-
       }
     }
 
@@ -411,7 +446,6 @@ export class StoricoComponent implements OnInit {
     var newIntCurrID = 0;
 
     console.log("CurrID" + currID)
-
     datiGrafico.forEach(element => {
 
       if (element["id"] == currID) {
@@ -438,7 +472,6 @@ export class StoricoComponent implements OnInit {
       }
 
     });
-
     //creo grafico gen
     if (asseY.length > 0)
       this.addToHighChartGen("myDivUniti", ID, asseX, asseY);
@@ -519,57 +552,7 @@ export class StoricoComponent implements OnInit {
 
   }
 
-  //Highcharts
-  public startHighChart() {
-
-    this.startPlot();
-
-    document.getElementById("btnJson").style.display = "none"
-    //document.getElementById("btnConfermaID").style.display = "block"
-    this._storicoService.mostraView(document.getElementById("btnConfermaID"))
-    document.getElementById("btnAvanti").style.display = "block"
-    document.getElementById("btnAvanti").innerHTML = "Aggiorna sensori selezionati"
-    document.getElementById("idPerPlot").style.display = "block"
-    $("#grafici").empty()
-
-    datiGrafico = this._storicoService.getJsonObject()
-    this.createCheckableIdPlot()
-
-    if (datiGrafico.length == 0) {
-      window.alert("Esco");
-      exit;
-    }
-
-    var asseX = [];
-    var asseY = [];
-    var ID = "";
-    var currID = datiGrafico[0]["id"];
-
-    datiGrafico.forEach(element => {
-
-      ID = element["id"];
-
-      if (ID != currID) {
-        //Cambio grafico
-        this.createHighChart(currID, asseX, asseY);
-
-        console.log("cambio grafico PUSHO: " + element["id"])
-
-        currID = ID;
-        asseX = [element["tempo"]];
-        asseY = [element["valore"]];
-      }
-      else {
-        //Stesso grafico
-        asseX.push(element["tempo"]);
-        asseY.push(element["valore"]);
-      }
-
-    });
-
-    //creo grafico
-    this.createHighChart(ID, asseX, asseY);
-  }
+ 
 
   //Highcharts
   public createHighChart(ID, asseX, asseY) {
@@ -577,9 +560,6 @@ export class StoricoComponent implements OnInit {
     //Crea nuova DIV
     $("#grafici").append("<div id='myDiv" + this.getNomeID(ID, arrayMapForID) + "'></div>")
     var lengthAsseY = asseY.length;
-
-
-
 
     Highcharts.chart('myDiv' + this.getNomeID(ID, arrayMapForID), {
 
@@ -650,29 +630,14 @@ export class StoricoComponent implements OnInit {
   }
 
 
-  //Plotly
+  //Carica i dati per il grafico generale
   public startPlot() {
-
-    //document.getElementById("btnJson").style.display = "none"
-    //document.getElementById("btnConfermaID").style.display = "block"
-    //this._storicoService.mostraView(document.getElementById("btnConfermaID"))
-    //document.getElementById("btnAvanti").style.display = "block"
-    //document.getElementById("btnAvanti").innerHTML = "Aggiorna sensori selezionati"
-    //document.getElementById("idPerPlot").style.display = "block"
-
-
-    //$("#grafici").empty()
-
-
     datiGrafico = this._storicoService.getJsonObject()
-    //this.createCheckableIdPlot()
 
     if (datiGrafico.length == 0) {
       window.alert("Esco");
       exit;
     }
-
-    var i = 0;
     var asseXa = [];
     var asseYa = [];
     arrayTrace = [];
@@ -698,46 +663,169 @@ export class StoricoComponent implements OnInit {
         asseYa.push(element["valore"]);
       }
 
-      var layout = {
-        title: "Grafico ID: " + this.getNomeID(ID, arrayMapForID),
-        xaxis: {
-          title: "Tempo"
-        },
-        yaxis: {
-          title: "ID"
-        },
-        paper_bgcolor: "#6d6d6d",
-        plot_bgcolor: "#fff"
-
-      };
-
       trace = {
         x: asseXa,
         y: asseYa,
         type: 'scatter',
-        name: "" + ID
+        name: "" + ID,
+        mode: 'lines+markers'
       };
-
-      var data = [trace];
-
-      //Crea nuova DIV
-      // $("#grafici").append("<div id='myDiv" + this.getNomeID(ID, arrayMapForID) + "'></div>")
-
-
-      // Plotly.newPlot('myDiv' + this.getNomeID(ID, arrayMapForID), data, layout);
-
     });
 
     arrayTrace.push(trace)
-
   }
 
 
-  //Librerie Plotly
+  ordinaTempi(daOrdinare) {
+
+    //trova tempo minore HH:MM:SS:MS
+    var minHH = "24";
+    var minMM = "60";
+    var minSS = "60";
+    var minMS = "999";
+    var splitTime = "";
+    var tempoMinore;
+    var tempoMaggiore;
+     //HH:MM:SS:MS minore
+    var i=0;
+     for(i=0;i<daOrdinare.length;i++)
+        {
+            splitTime=daOrdinare[i].split(":");
+            if(splitTime[0]<minHH)
+            minHH=splitTime[0]
+
+            if( parseInt(splitTime[0]) == parseInt(minHH) && splitTime[1]<minMM)
+            minMM=splitTime[1];
+
+            if( splitTime[0]==minHH && splitTime[1]==minMM && splitTime[2]<minSS )
+            minSS=splitTime[2]
+
+            if( splitTime[0]==minHH && splitTime[1]==minMM && splitTime[2]==minSS && parseInt(splitTime[3])<parseInt(minMS) )
+            {
+                minMS=splitTime[3];
+            }
+
+        }
+        window.alert("MinHH:minMM:minSS:minMS "+minHH+":"+minMM+":"+minSS+":"+minMS) 
+        tempoMinore=minHH+":"+minMM+":"+minSS+":"+minMS;
+
+        //HH:MM:SS:MS maggiore
+        var maxHH="00";
+        var maxMM="00";
+        var maxSS="00";
+        var maxMS="000";
+        splitTime="";
+        var currentTime;
+        var tempiOrdinati=[];
+
+        for(i=0;i<daOrdinare.length;i++)
+        {
+            splitTime=daOrdinare[i].split(":");
+            if(splitTime[0]>maxHH)
+            maxHH=splitTime[0]
+
+            if(splitTime[0]==maxHH && splitTime[1]>maxMM)
+            maxMM=splitTime[1];
+
+            if( splitTime[0]==maxHH && splitTime[1]==maxMM && splitTime[2]>maxSS )
+            maxSS=splitTime[2]
+
+            if( splitTime[0]==maxHH && splitTime[1]==maxMM && splitTime[2]==maxSS && parseInt(splitTime[3])>parseInt(maxMS) )
+            {
+                maxMS=splitTime[3];
+            }
+
+        }
+        window.alert("MaxHH:MaxMM:MaxSS:MaxMS "+maxHH+":"+maxMM+":"+maxSS+":"+maxMS) 
+        tempoMaggiore=maxHH+":"+maxMM+":"+maxSS+":"+maxMS
+
+         //Calcola tutti gli istanti di tempo possibili da min a max
+
+         currentTime=tempoMinore.split(":");
+         tempiOrdinati=[];
+         var aggiungiTempo;
+
+         while( aggiungiTempo != tempoMaggiore)
+         {
+             if( parseInt(currentTime[3]) <= parseInt("999") )
+             {
+                 aggiungiTempo=currentTime[0]+":"+currentTime[1]+":"+currentTime[2]+":"+currentTime[3]
+                 tempiOrdinati.push(aggiungiTempo)
+                 currentTime[3]=parseInt(currentTime[3])+1
+             }
+             else
+             {
+                 currentTime[3]="000";
+                 if(currentTime[2]<"60")
+                 {
+                     currentTime[2]=parseInt(currentTime[2])+1
+                 }
+                 else
+                 {
+                     currentTime[2]="00"
+                     if(currentTime[1]<"60")
+                     currentTime[1]=parseInt(currentTime[1])+1;
+                     else
+                     {
+                         currentTime[1]="00"
+                         currentTime[0]=parseInt(currentTime[0])+1
+                     }
+                 }
+             }
+         }
+         return tempiOrdinati;
+  }
+
+  //Richiamato da button MOSTRA GRAFICI UNITI
+  //Rileva i grafici selezionati nella lista di filtro e ne crea un grafico unico
   mostraPlotUniti() {
 
     $("#grafici").append("<div id='myDivUniti'></div>")
     traceSelezionate = [];
+    /********************************************************************************** */
+    
+    var tuttiIstantiTemporali = []
+    for (i = 0; i < arrayTrace.length; i++)
+      tuttiIstantiTemporali.push(arrayTrace[i]["x"])
+
+      var listaTuttiIstantiTemporali=[];
+      for(i=0;i<tuttiIstantiTemporali.length;i++)
+      {
+        for(j=0;j<tuttiIstantiTemporali[i].length;j++)
+        {
+          listaTuttiIstantiTemporali.push(tuttiIstantiTemporali[i][j])
+        }
+      }
+    console.log(listaTuttiIstantiTemporali)
+
+    //ordina tutti istanti temporali
+    var tempiOrdinati=this.ordinaTempi(listaTuttiIstantiTemporali)
+
+    console.log("Tempi ordinati: "+tempiOrdinati)
+    
+    //crea trace 0 con x=istantiTemporaliOrdinati e asseY = tutti 0
+    var yGen=[]
+    var splitTempi=""
+    for(i=0;i<tempiOrdinati.length;i++)
+    {
+      splitTempi=tempiOrdinati[i].split(":")
+      if( parseInt(splitTempi[2])<10 && parseInt(splitTempi[2])>0 )tempiOrdinati[i]=splitTempi[0]+":"+splitTempi[1]+":"+"0"+splitTempi[2]+":"+splitTempi[3]
+      splitTempi=tempiOrdinati[i].split(":")
+      splitTempi=tempiOrdinati[i].split(":")
+      yGen[i]=0;
+    }
+    var trace0={
+      x: tempiOrdinati,
+      y: yGen,
+      mode: 'dot',
+      hoverinfo:'skip'
+    }
+    //aggiungi trace 0 a traceSelezionate
+    traceSelezionate.push(trace0);
+
+    /********************************************************************************** */
+
+
     document.getElementById("btnConfermaID").innerHTML = "Aggiorna grafico generale"
     //Prende le checkbox 
     var lis = document.getElementById("idPlot").getElementsByTagName("input"); //Prendo checkbox
@@ -747,35 +835,23 @@ export class StoricoComponent implements OnInit {
     var j = 0;
     for (i = 0; i < lis.length; i++) {
       if (lis[i].checked) {
-
         for (j = 0; j < arrayTrace.length; j++) {
           console.log("Confronto: " + innerID[i].innerHTML + " con " + this.getNomeID(arrayTrace[j]["name"], arrayMapForID))
-
           if (innerID[i].innerHTML == this.getNomeID(arrayTrace[j]["name"], arrayMapForID)) {
             console.log("Aggiungo a traceSelezionate");
-
             traceSelezionate.push(arrayTrace[j]);
-
           }
-
-
         }
       }
     }
 
-
     if (traceSelezionate.length == 0) {
       console.log("Seleziona almeno un ID")
-
     }
     else {
       $("#grafici").append("<div id='myDivUniti'></div>")
       Plotly.newPlot('myDivUniti', traceSelezionate, layoutGenerale);
-
     }
-
-
-
   }
 
   checkIfUserIsLogged() {
