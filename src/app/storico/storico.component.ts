@@ -11,7 +11,6 @@ ENJOY
 */
 
 
-
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { HostListener } from '@angular/core';
@@ -44,32 +43,10 @@ noData(Highchartss);
 More(Highchartss);
 noData(Highchartss);
 
-
 var arrayID = [], arrayForDropDown = [], arrayMapForID = []
 var idSelezionati = [];
-var arrayTrace = [];
 var datiGrafico;
-var traceSelezionate = [];
-var trace;
 var chartGen;
-
-
-
-//Utilizzato da plotly
-var layoutGenerale = {
-  title: "Grafico generale: ",
-
-  xaxis: {
-    title: "Tempo"
-  },
-  yaxis: {
-    title: "ID"
-  },
-  paper_bgcolor: "#6d6d6d",
-  plot_bgcolor: "#fff"
-
-
-};
 
 //Per utilizzare jQuery in TS
 declare var $: any;
@@ -77,6 +54,12 @@ declare var $: any;
 declare var Plotly: any;
 //Per utilizzare Highcharts
 declare const Highcharts: any;
+
+interface Sensore {
+  ID: string;
+  asseX: Number[]
+  asseY: Number[]
+}
 
 
 @Component({
@@ -114,32 +97,20 @@ export class StoricoComponent implements OnInit {
     document.getElementById("storico").style.display = "none"
   }
 
-  pageLoaded: boolean;
-  Highcharts = Highcharts;
-  options: Highchartss.Options;
-  seriesOptionsType: Highchartss.SeriesOptionsType;
+  /**
+   * Array contenente oggetti del tipo Sensore
+   */
+  public mySensors:Sensore[]=[
+
+  ]
 
   constructor(public auth: AngularFireAuth, public firebase: AngularFireDatabase, public _storicoService: StoricoService, private _adapter
     : DateAdapter<any>, public dialog: MatDialog) {
     this.checkIfUserIsLogged()
   }
 
-  openDialog() {
-
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-
-    this.dialog.open(DialogTestComponent,
-      {
-        width: '400px',
-        height: '250px'
-      });
-  }
 
   ngOnInit(): void {
-    this.pageLoaded = true;
     this._adapter.setLocale('it');
   }
 
@@ -154,11 +125,13 @@ export class StoricoComponent implements OnInit {
     this._storicoService.nascondiView(document.getElementById("footer"))
     this._storicoService.getID();
     this._storicoService.getMapForID();
-
   }
 
-  //Metodo chiamato al click su MOSTRA ID
-  //Carica gli ID disponibili sul database e ne mostra la lista
+
+  /**
+   * RICHIAMATO DA BUTTON  MOSTRA ID
+   * CARICA GLI ID DISPONIBILI SUL DATABASE E NE MOSTRA LA LISTA
+   */
   getID() {
 
     this._storicoService.nascondiView(document.getElementById("btnCaricaDate"))
@@ -177,29 +150,29 @@ export class StoricoComponent implements OnInit {
 
   }
 
-  //Chiamato da GETID , prende l'array degli ID(arrayID) e ne costruisce la lista con relative checkbox
-  
+  /**
+   * RICHIAMATO DA GETID
+   * PRENDE L'ARRAY DEGLI ID(ARRAYID) E NE COSTRUISCE UNA LISTA CON RELATIVE CHECKBOX
+   */
   setUpList() {
 
     arrayMapForID = this._storicoService.getArrayMapForID()
     document.getElementById("box").style.display = "block"
     var i = 0;
     for (i = 0; i < arrayID.length; i++) {
-
       var nomeID = this.getNomeID(arrayID[i], arrayMapForID);
       if (nomeID == -1)
         nomeID = arrayID[i]
       $("#listaDate").append("<li name='item'><span><input type='checkbox'></span><p name='itemText'>" + nomeID + "</p> <label >Date disponibili</label>  <select name='dataInizio' id='dataInizio" + arrayID[i] + "' ></select>  </li>")
-
-
     }
-
     return true;
-
   }
 
-  //Chiamato da GETID
-  //Setta le date in cui sono stati registrati i valori => crea i dropdown con le date
+
+  /**
+   * RICHIAMATO DA GETID
+   * SETTA LE DATI IN CUI SONO STATI REGISTRATI I VALORI => CREA I DROPDOWN CON LE DATE
+   */
   setUpDropDown() {
     var k = 0;
     var i = 0;
@@ -207,53 +180,29 @@ export class StoricoComponent implements OnInit {
       for (k = 0; k < arrayForDropDown.length; k++) {
         if (arrayForDropDown[k]["id"] == arrayID[i]) {
           var nomeDropDown = "#dataInizio" + arrayID[i];
+          
           $(nomeDropDown).append("<option value='test'>" + arrayForDropDown[k]["tempo"] + "</option>")
         }
-
-
       }
     }
-
   }
 
-  //Utilizzato per ottenre il nome del sensore dal relativo ID
-  getNomeID(id, array) {
-
-    var i = 0;
-    for (i = 0; i < array.length; i++) {
-      if (id == array[i]["id"]) {
-        return array[i]["nome"];
-      }
-    }
-    return -1;
-  }
-  //Utilizzato per ottenere l'ID del sensore dal relativo nome
-  getIDFromNome(nome, array) {
-
-    var i = 0;
-    for (i = 0; i < array.length; i++) {
-      if (nome == array[i]["nome"])
-        return array[i]["id"];
-    }
-
-    return -1;
-
-  }
-
+  
   flag: Boolean;
   flagOra: Boolean
 
-  //Metodo chiamato dal button AGGIUNGI ID
-  //Rileva i sensori selezionati nella lista e ne carica i dati
+
+
+  /**
+   * RICHIAMATO DA AGGIUNGI ID
+   * RILEVA I SENSORI SELEZIONATI NELLA LISTA E RICHIAMA IL SERVICE PER REPERIRNE INFORMZIONI
+   */
   public aggiungiID() {
     this.flag = false;
-
     idSelezionati = [];
-
     //Prendo le checkbox
     var lis = document.getElementById("listaDate").getElementsByTagName("input"); 
     var innerID = document.getElementsByName("itemText");
-
     var i = 0;
     for (i = 0; i < lis.length; i++) {
       if (lis[i].checked) {
@@ -309,12 +258,19 @@ export class StoricoComponent implements OnInit {
   }
 
    //Metodo chiamato da button MOSTRA GRAFICI SENSORI
+   /**
+    * RICHIAMATO DA MOSTRA GRAFICI SENSORI
+    * CREA GRAFICO PER OGNI SENSORE SELEZIONATO
+    */
    public startHighChart() {
 
-    this.startPlot();
+    /*public mySensors:Sensore[]=[
+
+    ]*/
+    this.mySensors=[]
 
     document.getElementById("btnJson").style.display = "none"
-    this._storicoService.mostraView(document.getElementById("btnConfermaID"))
+    document.getElementById("btnConfermaID").style.display = "block"
     document.getElementById("btnAvanti").style.display = "block"
     document.getElementById("btnAvanti").innerHTML = "Aggiorna sensori selezionati"
     document.getElementById("idPerPlot").style.display = "block"
@@ -322,78 +278,50 @@ export class StoricoComponent implements OnInit {
 
     //Prendo i dati salvati nella struttura json nel service
     datiGrafico = this._storicoService.getJsonObject()
+
+    var i=0;
+    datiGrafico.forEach(element => {
+      
+      if(this.mySensors.length != 0)
+      {
+        if(this.mySensors[i].ID==element["id"])
+        {
+        this.mySensors[i].asseX.push(element["tempo"])
+        this.mySensors[i].asseY.push(element["valore"])
+        }
+        else{
+          this.mySensors.push({
+           ID: element["id"],
+           asseX: [],
+           asseY: []
+          })
+
+        i++;
+      }
+      } //==0
+      else
+      {
+        this.mySensors.push({
+          ID: element["id"],
+          asseX: [],
+          asseY: []
+         })
+      }
+    });
+    
+    for(i=0;i<this.mySensors.length;i++)
+    {
+      this.createHighChart(this.mySensors[i].ID,this.mySensors[i].asseX,this.mySensors[i].asseY)
+    }
+
     //Crea il filtro per i grafici
     this.createCheckableIdPlot()
 
-    if (datiGrafico.length == 0) {
-      window.alert("Esco");
-      exit;
-    }
-
-    var asseX = [];
-    var asseY = [];
-    var ID = "";
-    var currID = datiGrafico[0]["id"];
-
-    datiGrafico.forEach(element => {
-
-      ID = element["id"];
-
-      if (ID != currID) {
-        //Cambio grafico
-        this.createHighChart(currID, asseX, asseY);
-
-        console.log("cambio grafico PUSHO: " + element["id"])
-
-        currID = ID;
-        asseX = [element["tempo"]];
-        asseY = [element["valore"]];
-      }
-      else {
-        //Stesso grafico
-        asseX.push(element["tempo"]);
-        asseY.push(element["valore"]);
-      }
-
-    });
-
-    //creo grafico
-    this.createHighChart(ID, asseX, asseY);
   }
 
-  compareHours(hInizio: String, hFine: String) {
-    var stringOraInizio = hInizio.split(":");
-    var stringOraFine = hFine.split(":");
-
-    //Stessa ora
-    if (stringOraInizio[0] == stringOraFine[0]) {
-      if (parseInt(stringOraFine[1]) >= parseInt(stringOraInizio[1])) //Mi assicuro che min fine >= min inizio
-      {
-        return true;
-      }
-      else
-        return false;
-
-    }
-    else
-      return false;
-  }
-
-  compareDate(dataInizio: String, dataFine: String) {
-
-    //Utilizzando un sistema orario basato su 24 ore
-    //Si può effettuare un confronto tra orari differenti
-    //Semplicemente confrontando i valori delle stringhe:
-    //1: DataInizio deve essere <= di DataFine
-
-    if (dataInizio >= dataFine)
-      return false;
-
-    return true;
-
-  }
-
-  //Crea il filtro per i grafici con relative checkbox
+  /**
+   * CREA IL FILTRAGGIO PER IL GRAFICO GENERALE
+   */
   createCheckableIdPlot() {
 
     $("#idPlot").empty();
@@ -415,7 +343,9 @@ export class StoricoComponent implements OnInit {
 
 
 
-  //Highchart per generale
+  /**
+   * CREA IL GRAFICO GENERALE
+   */
   public startHighChartGen() {
 
     var graficiSelezionatiDaUnire = [];
@@ -426,7 +356,6 @@ export class StoricoComponent implements OnInit {
     var innerID = document.getElementsByName("itemPlot");
 
     var i = 0;
-
     for (i = 0; i < lis.length; i++) {
       if (lis[i].checked) {
         console.log("Aggiungo: " + this.getIDFromNome(innerID[i].innerHTML, arrayMapForID))
@@ -435,104 +364,108 @@ export class StoricoComponent implements OnInit {
     }
 
     $("#grafici").append("<div id='myDivUniti'></div>")
-    this.createHighChartGen("myDivUniti", ID, asseX, asseY);
-    datiGrafico = this._storicoService.getJsonObject()
-
-    var asseX = [];
-    var asseY = [];
-    var ID = "";
-    var currID = graficiSelezionatiDaUnire[0];
-    var intCurrID = 0;
-    var newIntCurrID = 0;
-
-    console.log("CurrID" + currID)
-    datiGrafico.forEach(element => {
-
-      if (element["id"] == currID) {
-        //Da aggiungere
-        ID = currID;
-        asseX.push(element["tempo"]);
-        asseY.push(element["valore"]);
+    this.createHighChartGen("myDivUniti");
+    i=0;
+    for(i=0;i<graficiSelezionatiDaUnire.length;i++)
+    {
+      var j=0;
+      while(graficiSelezionatiDaUnire[i]!=this.mySensors[j].ID)
+      {
+        j++;
       }
-      else {
-        if (asseY.length > 0) //Ho aggiunto un grafico
-          this.addToHighChartGen("myDivUniti", ID, asseX, asseY);
-        //currID=currID+1;
-        intCurrID = parseInt(currID);
-        newIntCurrID = intCurrID + 1;
-
-        if (newIntCurrID < 9)
-          currID = "00" + newIntCurrID
-        if (newIntCurrID > 9 && newIntCurrID < 100)
-          currID = "0" + newIntCurrID
-        if (newIntCurrID > 99)
-          currID = newIntCurrID + "";
-        asseX = [];
-        asseY = [];
-      }
-
-    });
-    //creo grafico gen
-    if (asseY.length > 0)
-      this.addToHighChartGen("myDivUniti", ID, asseX, asseY);
+        this.addToHighChartGen("myDivUniti", this.mySensors[j].ID, this.mySensors[j].asseX, this.mySensors[j].asseY);
+    }
   }
 
+   /**
+    * RESTITUISCE IL TEMPO CONVERTITO DA FORMATO HH:MM:SS:MS A MS
+    * @param time TEMPO PASSATO CON FORMATO HH:MM:SS:MS
+    */
+  convertToMS(time){
+    let t = time; // hh:mm:ss:ms
+    let ms = Number(t.split(':')[0]) * 60 * 60 * 1000 + Number(t.split(':')[1]) * 60 * 1000 + Number(t.split(':')[2]) *1000 + Number(t.split(':')[3]);
+    return ms;
+  }
+  /**
+   * AGGIUNGE AL GRAFICO GENERALE UNA SERIES (TRACCIATO)
+   * @param nomediv NOME DEL GRAFICO NELLA DOM
+   * @param ID ID DEL SENSORE 
+   * @param asseX VALORI DEL SENSORE SU ASSEX
+   * @param asseY VALORI DEL SENSORE SU ASSEY
+   */
   addToHighChartGen(nomediv, ID, asseX, asseY) {
-    var length = asseX.length;
-    console.log("Last time asse: " + asseY[length - 1])
-    chartGen.addSeries({
-      name: this.getNomeID(ID, arrayMapForID) + "",
-      data: asseY
-    });
-
-    console.log("xAxis Length: " + chartGen.xAxis.length);
-    chartGen.xAxis[0].setCategories(asseX);
+    var dataArr=[];
+    var i=0;
+    for(i=0;i<asseX.length;i++)
+    {
+      dataArr.push([this.convertToMS(asseX[i]), asseY[i]])
+    }
+    var newOpt={
+        name: this.getNomeID(ID, arrayMapForID) + "",
+        data:dataArr
+    }
+    chartGen.addSeries(newOpt);
   }
 
-  //Highcharts per generale
-  public createHighChartGen(nomediv, ID, asseX, asseY) {
+  
 
-
+  /**
+   * CREA OGGETTO DI TIPO CHART DA UTILIZZARE PER AGGIUNGERVI DIVERSE SERIES(TRACCIATI)
+   * @param nomediv NOME DEL GRAFICO GENERALE PER LA DOM
+   */
+  public createHighChartGen(nomediv) {
     chartGen = Highcharts.chart(nomediv, {
 
       chart: {
         zoomType: 'x'
       },
-
+  
       title: {
         text: "Grafico generale"
       },
-
+  
       subtitle: {
         text: 'Source: UninaCorse E-Team'
       },
-
+  
       tooltip: {
         formatter: function () {
-          return 'Tempo: ' + this.x +
+          return 'Tempo: ' + Highcharts.dateFormat('%H:%M:%S.%L', this.x) +
             ' Valore:  ' + this.y.toFixed(2); //Mostrato quando passa il mouse sul puntino
         }
       },
-
+  
       yAxis: {
+        
         title: {
           text: 'Valore sensore'
         }
       },
-
+  
       xAxis: {
-
-        categories: asseX,
-        type: 'datetime'
-
+  
+        //visible:false,
+        type: 'datetime',
+        
+        /*dateTimeLabelFormats: {
+            millisecond: '%H:%M:%S.%L'
+        },*/
+  
+        labels: {
+          formatter: function() {
+            
+              return Highcharts.dateFormat('%H:%M:%S.%L', this.value);
+          }
+      }  
+  
       },
-
+  
       legend: {
         layout: 'vertical',
         align: 'right',
         verticalAlign: 'middle'
       },
-
+  
       responsive: {
         rules: [{
           condition: {
@@ -547,30 +480,31 @@ export class StoricoComponent implements OnInit {
           }
         }]
       }
-
+  
     });
-
   }
 
- 
-
-  //Highcharts
+  
+  /**
+   * CREA UN GRAFICO PER IL SENSORE PASSATO
+   * @param ID ID DEL SENSORE 
+   * @param asseX VALORI SU ASSEX DEL SENSORE
+   * @param asseY VALORI SU ASSEY DEL SENSORE
+   */
   public createHighChart(ID, asseX, asseY) {
 
     //Crea nuova DIV
     $("#grafici").append("<div id='myDiv" + this.getNomeID(ID, arrayMapForID) + "'></div>")
-    var lengthAsseY = asseY.length;
-
     Highcharts.chart('myDiv' + this.getNomeID(ID, arrayMapForID), {
 
       chart: {
         zoomType: 'x'
       },
-
+  
       title: {
         text: this.getNomeID(ID, arrayMapForID) + ""
       },
-
+  
       subtitle: {
         text: 'Source: UninaCorse E-Team'
       },
@@ -580,36 +514,30 @@ export class StoricoComponent implements OnInit {
             ' Valore:  ' + this.y.toFixed(2); //Mostrato quando passa il mouse sul puntino
         }
       },
-
+  
       yAxis: {
         title: {
           text: 'Valore sensore'
         }
       },
-
+  
       xAxis: {
-
+  
         categories: asseX,
         accessibility: {
-
-          rangeDescription: "Range: " + asseY[0] + " to " + asseY[lengthAsseY]
         }
       },
-
+  
       legend: {
         layout: 'vertical',
         align: 'right',
         verticalAlign: 'middle'
       },
-
-
-
       series: [{
         name: this.getNomeID(ID, arrayMapForID) + "",
         data: asseY
       }
       ],
-
       responsive: {
         rules: [{
           condition: {
@@ -624,234 +552,9 @@ export class StoricoComponent implements OnInit {
           }
         }]
       }
-
+  
     });
 
-  }
-
-
-  //Carica i dati per il grafico generale
-  public startPlot() {
-    datiGrafico = this._storicoService.getJsonObject()
-
-    if (datiGrafico.length == 0) {
-      window.alert("Esco");
-      exit;
-    }
-    var asseXa = [];
-    var asseYa = [];
-    arrayTrace = [];
-    var currID = datiGrafico[0]["id"];
-
-    datiGrafico.forEach(element => {
-
-      var ID = element["id"];
-
-      if (ID != currID) {
-        //Cambio grafico
-
-        arrayTrace.push(trace);
-        currID = ID;
-
-        asseXa = [element["tempo"]];
-        asseYa = [element["valore"]];
-
-      }
-      else {
-        //Stesso grafico
-        asseXa.push(element["tempo"]);
-        asseYa.push(element["valore"]);
-      }
-
-      trace = {
-        x: asseXa,
-        y: asseYa,
-        type: 'scatter',
-        name: "" + ID,
-        mode: 'lines+markers'
-      };
-    });
-
-    arrayTrace.push(trace)
-  }
-
-
-  ordinaTempi(daOrdinare) {
-
-    //trova tempo minore HH:MM:SS:MS
-    var minHH = "24";
-    var minMM = "60";
-    var minSS = "60";
-    var minMS = "999";
-    var splitTime = "";
-    var tempoMinore;
-    var tempoMaggiore;
-     //HH:MM:SS:MS minore
-    var i=0;
-     for(i=0;i<daOrdinare.length;i++)
-        {
-            splitTime=daOrdinare[i].split(":");
-            if(splitTime[0]<minHH)
-            minHH=splitTime[0]
-
-            if( parseInt(splitTime[0]) == parseInt(minHH) && splitTime[1]<minMM)
-            minMM=splitTime[1];
-
-            if( splitTime[0]==minHH && splitTime[1]==minMM && splitTime[2]<minSS )
-            minSS=splitTime[2]
-
-            if( splitTime[0]==minHH && splitTime[1]==minMM && splitTime[2]==minSS && parseInt(splitTime[3])<parseInt(minMS) )
-            {
-                minMS=splitTime[3];
-            }
-
-        }
-        window.alert("MinHH:minMM:minSS:minMS "+minHH+":"+minMM+":"+minSS+":"+minMS) 
-        tempoMinore=minHH+":"+minMM+":"+minSS+":"+minMS;
-
-        //HH:MM:SS:MS maggiore
-        var maxHH="00";
-        var maxMM="00";
-        var maxSS="00";
-        var maxMS="000";
-        splitTime="";
-        var currentTime;
-        var tempiOrdinati=[];
-
-        for(i=0;i<daOrdinare.length;i++)
-        {
-            splitTime=daOrdinare[i].split(":");
-            if(splitTime[0]>maxHH)
-            maxHH=splitTime[0]
-
-            if(splitTime[0]==maxHH && splitTime[1]>maxMM)
-            maxMM=splitTime[1];
-
-            if( splitTime[0]==maxHH && splitTime[1]==maxMM && splitTime[2]>maxSS )
-            maxSS=splitTime[2]
-
-            if( splitTime[0]==maxHH && splitTime[1]==maxMM && splitTime[2]==maxSS && parseInt(splitTime[3])>parseInt(maxMS) )
-            {
-                maxMS=splitTime[3];
-            }
-
-        }
-        window.alert("MaxHH:MaxMM:MaxSS:MaxMS "+maxHH+":"+maxMM+":"+maxSS+":"+maxMS) 
-        tempoMaggiore=maxHH+":"+maxMM+":"+maxSS+":"+maxMS
-
-         //Calcola tutti gli istanti di tempo possibili da min a max
-
-         currentTime=tempoMinore.split(":");
-         tempiOrdinati=[];
-         var aggiungiTempo;
-
-         while( aggiungiTempo != tempoMaggiore)
-         {
-             if( parseInt(currentTime[3]) <= parseInt("999") )
-             {
-                 aggiungiTempo=currentTime[0]+":"+currentTime[1]+":"+currentTime[2]+":"+currentTime[3]
-                 tempiOrdinati.push(aggiungiTempo)
-                 currentTime[3]=parseInt(currentTime[3])+1
-             }
-             else
-             {
-                 currentTime[3]="000";
-                 if(currentTime[2]<"60")
-                 {
-                     currentTime[2]=parseInt(currentTime[2])+1
-                 }
-                 else
-                 {
-                     currentTime[2]="00"
-                     if(currentTime[1]<"60")
-                     currentTime[1]=parseInt(currentTime[1])+1;
-                     else
-                     {
-                         currentTime[1]="00"
-                         currentTime[0]=parseInt(currentTime[0])+1
-                     }
-                 }
-             }
-         }
-         return tempiOrdinati;
-  }
-
-  //Richiamato da button MOSTRA GRAFICI UNITI
-  //Rileva i grafici selezionati nella lista di filtro e ne crea un grafico unico
-  mostraPlotUniti() {
-
-    $("#grafici").append("<div id='myDivUniti'></div>")
-    traceSelezionate = [];
-    /********************************************************************************** */
-    
-    var tuttiIstantiTemporali = []
-    for (i = 0; i < arrayTrace.length; i++)
-      tuttiIstantiTemporali.push(arrayTrace[i]["x"])
-
-      var listaTuttiIstantiTemporali=[];
-      for(i=0;i<tuttiIstantiTemporali.length;i++)
-      {
-        for(j=0;j<tuttiIstantiTemporali[i].length;j++)
-        {
-          listaTuttiIstantiTemporali.push(tuttiIstantiTemporali[i][j])
-        }
-      }
-    console.log(listaTuttiIstantiTemporali)
-
-    //ordina tutti istanti temporali
-    var tempiOrdinati=this.ordinaTempi(listaTuttiIstantiTemporali)
-
-    console.log("Tempi ordinati: "+tempiOrdinati)
-    
-    //crea trace 0 con x=istantiTemporaliOrdinati e asseY = tutti 0
-    var yGen=[]
-    var splitTempi=""
-    for(i=0;i<tempiOrdinati.length;i++)
-    {
-      splitTempi=tempiOrdinati[i].split(":")
-      if( parseInt(splitTempi[2])<10 && parseInt(splitTempi[2])>0 )tempiOrdinati[i]=splitTempi[0]+":"+splitTempi[1]+":"+"0"+splitTempi[2]+":"+splitTempi[3]
-      splitTempi=tempiOrdinati[i].split(":")
-      splitTempi=tempiOrdinati[i].split(":")
-      yGen[i]=0;
-    }
-    var trace0={
-      x: tempiOrdinati,
-      y: yGen,
-      mode: 'dot',
-      hoverinfo:'skip'
-    }
-    //aggiungi trace 0 a traceSelezionate
-    traceSelezionate.push(trace0);
-
-    /********************************************************************************** */
-
-
-    document.getElementById("btnConfermaID").innerHTML = "Aggiorna grafico generale"
-    //Prende le checkbox 
-    var lis = document.getElementById("idPlot").getElementsByTagName("input"); //Prendo checkbox
-    var innerID = document.getElementsByName("itemPlot");
-
-    var i = 0;
-    var j = 0;
-    for (i = 0; i < lis.length; i++) {
-      if (lis[i].checked) {
-        for (j = 0; j < arrayTrace.length; j++) {
-          console.log("Confronto: " + innerID[i].innerHTML + " con " + this.getNomeID(arrayTrace[j]["name"], arrayMapForID))
-          if (innerID[i].innerHTML == this.getNomeID(arrayTrace[j]["name"], arrayMapForID)) {
-            console.log("Aggiungo a traceSelezionate");
-            traceSelezionate.push(arrayTrace[j]);
-          }
-        }
-      }
-    }
-
-    if (traceSelezionate.length == 0) {
-      console.log("Seleziona almeno un ID")
-    }
-    else {
-      $("#grafici").append("<div id='myDivUniti'></div>")
-      Plotly.newPlot('myDivUniti', traceSelezionate, layoutGenerale);
-    }
   }
 
   checkIfUserIsLogged() {
@@ -876,6 +579,81 @@ export class StoricoComponent implements OnInit {
 
   }
 
+/**
+ * CONFRONTA DUE ORARI, RITORNA TRUE: SE ORA FINALE MAGGIORE O UGUALE A ORA INIZIALE; FALSE ALTRIMENTI
+ * @param hInizio ORA INIZIALE DA CONFRONTARE
+ * @param hFine ORA FINALE DA CONFRONTARE
+ */
+  compareHours(hInizio: String, hFine: String) {
+    var stringOraInizio = hInizio.split(":");
+    var stringOraFine = hFine.split(":");
+
+    //Stessa ora
+    if (stringOraInizio[0] == stringOraFine[0]) {
+      if (parseInt(stringOraFine[1]) >= parseInt(stringOraInizio[1])) //Mi assicuro che min fine >= min inizio
+      {
+        return true;
+      }
+      else
+        return false;
+
+    }
+    else
+      return false;
+  }
+
+  /**
+   * 
+   * @param dataInizio DATA INIZIALE IN FORMATO GG/MM/YYYY
+   * @param dataFine DATA FINALE IN FORMATO GG/MM/YYYY
+   */
+  compareDate(dataInizio: String, dataFine: String) {
+
+    //Utilizzando un sistema orario basato su 24 ore
+    //Si può effettuare un confronto tra orari differenti
+    //Semplicemente confrontando i valori delle stringhe:
+    //1: DataInizio deve essere <= di DataFine
+
+    if (dataInizio >= dataFine)
+      return false;
+
+    return true;
+
+  }
+
+  
+
+  /**
+   * RESTITUISCE IL NOME DI UN ID 
+   * @param id ID DEL SENSORE RICERCATO
+   * @param array ARRAY CONTENENTE LA MAPPA DEGLI ID 
+   */
+  getNomeID(id, array) {
+    var i = 0;
+    for (i = 0; i < array.length; i++) {
+      if (id == array[i]["id"]) {
+        return array[i]["nome"];
+      }
+    }
+    return -1;
+  }
+  //Utilizzato per ottenere l'ID del sensore dal relativo nome
+  /**
+   * RESTITUISCE L'ID DI UN SENSORE CONOSCENDONE IL NOME
+   * @param nome NOME DEL SENSORE RICERCATO
+   * @param array ARRAY CONTENENTE LA MAPPA DEGLI ID 
+   */
+  getIDFromNome(nome, array) {
+    var i = 0;
+    for (i = 0; i < array.length; i++) {
+      if (nome == array[i]["nome"])
+        return array[i]["id"];
+    }
+    return -1;
+  }
+
 }
+
+
 
 
