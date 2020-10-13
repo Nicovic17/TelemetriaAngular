@@ -59,6 +59,7 @@ interface Sensore {
   ID: string;
   asseX: Number[]
   asseY: Number[]
+ // date: string[]
 }
 
 
@@ -140,6 +141,7 @@ export class StoricoComponent implements OnInit {
     this._storicoService.nascondiView(document.getElementById("topText"))
 
     arrayID = this._storicoService.getArrayID();
+    
     arrayForDropDown = this._storicoService.getJsonObjectForDropDown()
 
     this.setUpList(); //Utilizza arrayID
@@ -180,7 +182,6 @@ export class StoricoComponent implements OnInit {
       for (k = 0; k < arrayForDropDown.length; k++) {
         if (arrayForDropDown[k]["id"] == arrayID[i]) {
           var nomeDropDown = "#dataInizio" + arrayID[i];
-          
           $(nomeDropDown).append("<option value='test'>" + arrayForDropDown[k]["tempo"] + "</option>")
         }
       }
@@ -238,7 +239,7 @@ export class StoricoComponent implements OnInit {
         obj["dataInizio"] = oraInizio;
         obj["dataFine"] = oraFine;
         this.flag = this.compareDate(oraInizio, oraFine);
-        if (this.flag == true && this.flagOra == true)
+        if (this.flagOra == true)
           idSelezionati.push(obj);
         else {
           window.alert("Data per sensore " + innerID[i].innerHTML + " non valida")
@@ -264,9 +265,6 @@ export class StoricoComponent implements OnInit {
     */
    public startHighChart() {
 
-    /*public mySensors:Sensore[]=[
-
-    ]*/
     this.mySensors=[]
 
     document.getElementById("btnJson").style.display = "none"
@@ -325,20 +323,19 @@ export class StoricoComponent implements OnInit {
   createCheckableIdPlot() {
 
     $("#idPlot").empty();
-    var next = datiGrafico[0]["id"]
+    var next= this.mySensors[0].ID;
+    var i=0;
     var nomeID = this.getNomeID(next, arrayMapForID);
     $("#idPlot").append("<li name='item'><span><input type='checkbox'></span><p name='itemPlot'>" + nomeID + "</p></li>")
-    datiGrafico.forEach(element => {
-
-      if (element["id"] != next) {
-        next = element["id"]
-        nomeID = this.getNomeID(next, arrayMapForID);
+    for(i=0;i<this.mySensors.length;i++)
+    {
+      if(this.mySensors[i].ID != next)
+      {
+        next=this.mySensors[i].ID
+        nomeID=this.getNomeID(next,arrayMapForID);
         $("#idPlot").append("<li name='item'><span><input type='checkbox'></span><p name='itemPlot'>" + nomeID + "</p></li>")
-
       }
-
-    });
-
+    }
   }
 
 
@@ -350,7 +347,6 @@ export class StoricoComponent implements OnInit {
 
     var graficiSelezionatiDaUnire = [];
     document.getElementById("btnConfermaID").innerHTML = "Aggiorna grafico generale"
-
     //Prende le checkbox 
     var lis = document.getElementById("idPlot").getElementsByTagName("input"); //Prendo checkbox
     var innerID = document.getElementsByName("itemPlot");

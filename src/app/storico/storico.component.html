@@ -13,7 +13,7 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
     <script src="https://code.highcharts.com/highcharts.src.js"></script>
-     
+
 
 </head>
 
@@ -22,76 +22,83 @@
     <app-nav-bar></app-nav-bar>
 
     <div class="overlay" id="loader">
-    <div class="overlay__inner">
-        <div class="overlay__content"><span class="spinner"></span></div>
-    </div>
+        <div class="overlay__inner">
+            <div class="overlay__content"><span class="spinner"></span></div>
+        </div>
     </div>
 
     <div class="load" id="topText">
 
-        
+
 
     </div>
 
     <div class="row" id="rowListaID">
 
         <div class="col">
-        
+
             <div class="scrollable">
 
                 <div id="box" class="box">
                     <h2 id="titleBox">Seleziona ID sensori</h2>
                     <ul id="listaDate">
-                        </ul>
+                    </ul>
                 </div>
 
             </div>
 
         </div>
-        
+
     </div>
 
-    
 
-    <div class="row" id="rowFiltri" style="border:  black; border-style: dotted; padding: 10px; margin-top: 15px;" id="filtraggio">
 
-        <h2 class="text-center">Filtraggio grafici</h2> 
+    <div class="row" id="rowFiltri" style=" padding: 10px; margin-top: 15px;" id="filtraggio">
 
-        <div class="col" id="filtri">
-            
+        <div class="rowFiltri">
 
-            <div id="Aggiorna tempo">
-                <label class="dataPickerInput">Scegli giorno</label>
-                <!--<input type="date" id="giornoInizioGenerale"> -->
-                <mat-form-field class="labelStyle">
-                    <mat-label class="labelStyle">Scegli giorno</mat-label>
-                    <input matInput #dateInput [matDatepicker]="picker" id="test" class="dataPickerInput"> 
-                    <mat-datepicker-toggle matSuffix [for]="picker" class="dataPickerInput"></mat-datepicker-toggle>
-                    <mat-datepicker #picker class="dataPickerInput"></mat-datepicker> 
-                  </mat-form-field> 
-                
-                
+            <h2 class="text-center">Filtraggio grafici</h2>
 
-                <label  class="labelStyle">Scegli ora inizio:</label><input type="time" id="oraInizioGenerale"  step="2"/>
-                <label class="labelStyle">Scegli ora fine:</label>  <input type="time" id="oraFineGenerale" step="2"/>
+            <div class="col" id="filtri">
+
+
+                <div id="Aggiorna tempo">
+                    <label class="dataPickerInput">Scegli giorno</label>
+                    <!--<input type="date" id="giornoInizioGenerale"> -->
+                    <mat-form-field class="labelStyle">
+                        <mat-label class="labelStyle">Scegli giorno</mat-label>
+                        <input matInput #dateInput [matDatepicker]="picker" id="test" class="dataPickerInput">
+                        <mat-datepicker-toggle matSuffix [for]="picker" class="dataPickerInput"></mat-datepicker-toggle>
+                        <mat-datepicker #picker class="dataPickerInput"></mat-datepicker>
+                    </mat-form-field>
+
+
+
+                    <label class="labelStyle">Scegli ora inizio:</label><input type="time" id="oraInizioGenerale"
+                        step="2" />
+                    <label class="labelStyle">Scegli ora fine:</label> <input type="time" id="oraFineGenerale"
+                        step="2" />
+                </div>
+
+                <div id="idPerPlot" class="idGenerali">
+                    <label class="labelStyle">Seleziona ID su grafico generale</label>
+                    <ul id="idPlot" class="idPlot"></ul>
+                </div>
             </div>
 
-            <div id="idPerPlot" class="idGenerali">
-                <label  class="labelStyle">Seleziona ID su grafico generale</label>
-                <ul id="idPlot" class="idPlot"></ul>
-            </div>
         </div>
     </div>
-    
+
 
     <div class="row" id="rowButtons">
 
         <div class="button_div">
-            <button mat-raised-button color="primary" >Annulla</button>
             <button mat-raised-button color="primary" id="btnCaricaDate" (click)="getID()">Mostra ID </button>
             <button mat-raised-button color="primary" id="btnAvanti" (click)="aggiungiID()">Conferma selezione</button>
-            <button mat-raised-button color="primary" id="btnJson" (click)="startHighChart()">Mostra grafici sensori</button>
-            <button mat-raised-button color="primary" id="btnConfermaID" (click)="startHighChartGen()">Mostra grafico generale</button>
+            <button mat-raised-button color="primary" id="btnJson" (click)="startHighChart()">Mostra grafici
+                sensori</button>
+            <button mat-raised-button color="primary" id="btnConfermaID" (click)="startHighChartGen()">Mostra grafico
+                generale</button>
         </div>
 
     </div>
@@ -101,13 +108,13 @@
         </div>
     </div>
 
-  
-<div class="row" style="padding-top: 450px; margin-top: 299px;">
-    <app-footer id="footer" class="footer"></app-footer>
-</div>
-    
-    
-    
+
+    <div class="row" style="padding-top: 450px; margin-top: 299px;">
+        <app-footer id="footer" class="footer"></app-footer>
+    </div>
+
+
+
 
 </body>
 
