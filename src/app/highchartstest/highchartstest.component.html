@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/series-label.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+        <script src="https://code.highcharts.com/modules/accessibility.js"></script>
         <script src="https://code.highcharts.com/modules/boost.js"></script>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -10,26 +15,27 @@
               integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
         <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
         <script src="https://kit.fontawesome.com/f6b29a4c68.js" crossorigin="anonymous"></script>
+        <title>Grafici</title>
     </head>
     <body class="bodyClass">
         <app-nav-bar></app-nav-bar>
         <div class="center">
             <mat-form-field appearance="fill">
                 <mat-label>Choose a date</mat-label>
-                <input matInput #date [matDatepicker]="picker">
+              <input matInput #date [matDatepicker]="picker">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
-            <label>Scegli ora inizio:</label><input type="time" #orain id="oraInizioGenerale" step="2"/>
-            <label>Scegli ora fine:</label><input type="time" #orafin id="oraFineGenerale"  [valueAsDate]="oraFine" step="1"/>
-            <button mat-button color="primary" (click) = prepareValuesForSearch(orain.valueAsDate,orafin.valueAsDate,date.value)>Search</button>
+            <label>Scegli ora inizio:</label><input type="time" #orain id="oraInizioGenerale" value="22:16:00" step="2"/>
+            <label>Scegli ora fine:</label><input type="time" #orafin id="oraFineGenerale" value="22:18:00" step="1"/>
+            <button mat-button color="primary" (click) = prepareValuesForSearch(orain.value,orafin.value,date.value)>Search</button>
 
         </div>
         <div class = "center">
             <div *ngIf="sensorListDisplayed">
                 <mat-selection-list #sensoriSelezionati role="listbox">
-                    <mat-list-option role="option" *ngFor="let item of listaSensori">
-                        {{item}}
+                    <mat-list-option role="option" *ngFor="let item of listaSensori" [value]="item">
+                        {{item | strRemUnderscore | titlecase}}
                     </mat-list-option>
                 </mat-selection-list>
             </div>

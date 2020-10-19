@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/firebase-auth",
+            "outputPath": "dist/UninaCorse",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -140,7 +140,7 @@
       }
     }
   },
-  "defaultProject": "firebase-auth",
+  "defaultProject": "TelemetriaAngular",
   "cli": {
     "analytics": "aaca0b9d-ba41-42e9-9c7d-f48229af598d"
   }

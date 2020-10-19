@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from "@angular/fire/database";
-import { StoricoComponent } from './storico/storico.component';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import { DialogTestComponent } from '../app/dialog-test/dialog-test.component';
-import {Observable} from 'rxjs';
-
-
+import { AngularFireDatabase } from '@angular/fire/database';
+import { MatDialog } from '@angular/material/dialog';
 
 class StrutturaSensori {
   id: string;
@@ -15,7 +10,7 @@ class StrutturaSensori {
   providedIn: 'root'
 })
 export class StoricoDueService {
-  positionSensorId: string = "010"; //DOVREBBE ESSERE PRESO DALLA MAPPA DEI SENSORI
+  gpsSensorId = '010'; // DOVREBBE ESSERE PRESO DALLA MAPPA DEI SENSORI
   sensori: Array<StrutturaSensori> = new Array<StrutturaSensori>();
   constructor(private db: AngularFireDatabase, public dialog: MatDialog) {}
 
@@ -23,15 +18,16 @@ export class StoricoDueService {
     this.sensori.splice(0, this.sensori.length);
     const oraInizNum = oraI.getTime();
     const oraFineNum = oraF.getTime();
+    console.log(new Date(oraInizNum), new Date(oraFineNum));
     await this.db.database.ref('storico').once('value').then(value => {
       value.forEach(child => {
         const tempMap = new Map<number, number>();
         child.forEach(nephew => {
-          if(Number(nephew.key) >= oraInizNum && Number(nephew.key) <= oraFineNum){
+          if (Number(nephew.key) >= oraInizNum && Number(nephew.key) <= oraFineNum){
             tempMap.set(Number(nephew.key), nephew.val());
           }
         });
-        if(tempMap.size > 0 && child.key !== this.positionSensorId) {
+        if (tempMap.size > 0 && child.key !== this.gpsSensorId) {
           this.sensori.push({id: child.key, info: tempMap});
         }
       });
