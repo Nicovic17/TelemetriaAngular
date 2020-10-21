@@ -54,10 +54,11 @@ export class HighchartstestComponent implements OnInit {
         const oraI = new Date(val3);
         const oraF = new Date(val3);
         //checkIfValuesFine(val1,val2,val3);
+        console.log(val1,val2);
         let time = val1.split(':');
-        oraI.setHours(Number(time[0]), Number(time[1]), Number(time[2]));
+        oraI.setHours(Number(time[0]), Number(time[1]), Number(time[2]) || 0);
         time = val2.split(':');
-        oraF.setHours(Number(time[0]), Number(time[1]), Number(time[2]));
+        oraF.setHours(Number(time[0]), Number(time[1]), Number(time[2]) || 0);
         console.log(oraI, oraF);
         await this.startSearch(oraI, oraF);
     }
