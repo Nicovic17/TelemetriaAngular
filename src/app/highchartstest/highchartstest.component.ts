@@ -38,81 +38,7 @@ export class HighchartstestComponent implements OnInit {
     public listaSensori = [];  // Contiene la lista dei sensori disponibili per l'intervallo di tempo selezionato
     public idSensoriScelti = [];  // contiene gli id dei sensori selezionati
     @ViewChild('sensoriSelezionati', {static: false}) private listObj: MatSelectionList;
-    @ViewChild('graph', {static: false}) private  listGraph;
-
-    // Indica le opzioni standard per i grafici
-    public options: any = {
-        chart: {
-            type: 'line',
-            height: 300,
-            zoomType: 'x',
-            panning: true,
-            panKey: 'shift',
-        },
-        title: {
-            text: 'Grafici Storico:'
-        },
-        credits: {
-            enabled: false
-        },
-        tooltip: {
-            formatter() {
-                // Highcharts rileva this.x come orario GMT, getTimezoneOffset ritorna la differenza di minuti tra GMT e ora locale
-                // quindi bisogna cambiare il segno al risultato. In fine 1 min = 60000ms.
-                return 'Timestamp: ' + Highcharts.dateFormat('%H:%M:%S:%L', this.x - new Date().getTimezoneOffset() * 60000) +
-                    '  Value: ' + this.y.toFixed(3);
-            },
-            // formatter: function() {
-            //   return this.points.reduce(function (s, point) {
-            //     return s + '<br/>' + point.series.name + ': ' +
-            //       point.y + 'm';
-            //   }, '<b>' + this.x + '</b>');
-            // },
-            shared: true,
-            split: true,
-        },
-        xAxis: {
-            type: 'datetime',
-            labels: {
-              formatter() {
-                // Highcharts rileva this.x come orario GMT, getTimezoneOffset ritorna la differenza di minuti tra GMT e ora locale
-                // quindi bisogna cambiare il segno al risultato. In fine 1 min = 60000ms.
-                return Highcharts.dateFormat('%H:%M:%S', this.value - new Date().getTimezoneOffset() * 60000);
-              }
-            },
-            crosshair: true,
-            minorTicks: false,
-            minorTickInterval: 100,
-            minorTickLength: 3,
-        },
-        yAxis: {
-          type: 'linear',
-          title: 'Values',
-        },
-        series: [
-            {
-                name: 'Normal',
-                // turboThreshold: 500000,
-                data: []
-            }
-        ],
-        // responsive: {
-        //   rules: [{
-        //     condition: {
-        //       maxWidth: 500
-        //     },
-        //     chartOptions: {
-        //       plotOptions: {
-        //         series: {
-        //           marker: {
-        //             radius: 2.5
-        //           }
-        //         }
-        //       }
-        //     }
-        //   }]
-        // }
-    };
+    @ViewChild('graph', {static: false}) private graphSection;
 
   // tslint:disable-next-line:variable-name
     constructor(public _service: StoricoDueService, public auth: AngularFireAuth, public ngZone: NgZone) {
@@ -127,18 +53,11 @@ export class HighchartstestComponent implements OnInit {
     async prepareValuesForSearch(val1: string, val2: string, val3){
         const oraI = new Date(val3);
         const oraF = new Date(val3);
-        let h;
-        let m;
-        let s;
-
-        h = val1.substr(0, 2);
-        m = val1.substr(3, 2);
-        s = val1.substr(6, 2);
-        oraI.setHours(h, m, s);
-        h = val2.substr(0, 2);
-        m = val2.substr(3, 2);
-        s = val2.substr(6, 2);
-        oraF.setHours(h, m, s);
+        //checkIfValuesFine(val1,val2,val3);
+        let time = val1.split(':');
+        oraI.setHours(Number(time[0]), Number(time[1]), Number(time[2]));
+        time = val2.split(':');
+        oraF.setHours(Number(time[0]), Number(time[1]), Number(time[2]));
         console.log(oraI, oraF);
         await this.startSearch(oraI, oraF);
     }
@@ -147,11 +66,13 @@ export class HighchartstestComponent implements OnInit {
         selezionato dall'utente.
      */
     async startSearch(oraI: Date, oraF: Date){
+        // Resetta tutte le strutture per inserire nuovi grafici
         this.chartsListDisplayed = false;
         this.canJoinGraph = false;
         this.listaSensori.splice(0, this.listaSensori.length);
         this.idSensoriScelti.splice(0, this.idSensoriScelti.length);
-        // Vengono d'apprima caricati i dati dei sensori e la mappa in modo Sincrono
+        if (this.graphSection !== undefined) { for (let i of this.graphSection.nativeElement.children) { i.remove(); } }
+        // Vengono dapprima caricati i dati dei sensori e la mappa in modo Sincrono
         this.aviableSensors = await this._service.getAviableSensors(oraI, oraF);
         this.sensorsMap = await this._service.getSensorsMap();
         // Utilizzando la mappa gli id dei sensori vengono convertiti in nomi
@@ -184,30 +105,18 @@ export class HighchartstestComponent implements OnInit {
             // converto la mappa in array
             const arrayData = [...tempVal.info.entries() ];
             console.log(arrayData);
-            this.options.series[0].data = arrayData;
-            this.options.series[0].name = this.sensorsMap.get(i);
-            this.options.title.text = this.toTitleCase(this.sensorsMap.get(i).replace(/_/g, ' '));
+            const myOpt = this.createNewChartOption(this.toTitleCase(this.sensorsMap.get(i).replace(/_/g, ' ')),
+                                            false,
+                                          [{name: this.sensorsMap.get(i), data: arrayData}]);
             $('#grafici').append('<div id=\'' + i + '\'></div>'); // Il metodo ngFor non faceva rendereizzare il grafico
-            Highcharts.chart(String(i), this.options);
+            Highcharts.chart(String(i), myOpt);
         }
         this.canJoinGraph = true;
     }
 
     unisciGrafici(){
-        const myOpt: any = this.options;
+        const myOpt = this.createNewChartOption('Unione Grafici', true );
         const newSeries = [];
-        myOpt.tooltip = {
-          formatter() {
-            // tslint:disable-next-line:only-arrow-functions
-            return this.points.reduce(function(s, point) {
-              return s + '<br/>' + point.series.name + ': ' +
-                point.y.toFixed(3);
-            }, '<b>' + Highcharts.dateFormat('%H:%M:%S:%L', this.x - new Date().getTimezoneOffset() * 60000) + '</b>');
-          },
-          shared: true,
-        };
-        console.log(this.idSensoriScelti);
-        myOpt.title.text = 'Unione Grafici';
         for (const i of this.idSensoriScelti){
             const tempVal = this.aviableSensors.find(value => value.id === i);
             const arrayData = [...tempVal.info.entries() ];
@@ -215,7 +124,7 @@ export class HighchartstestComponent implements OnInit {
         }
         myOpt.series = newSeries;
         $('#grafici').append('<div id=\'uni\'></div>');
-        Highcharts.chart('uni', this.options);
+        Highcharts.chart('uni', myOpt);
     }
 
     convertDate(time: number): number{
@@ -249,30 +158,67 @@ export class HighchartstestComponent implements OnInit {
         });
     }
 
-    /*getData(){
-    let arrayData = [];
-    this._service.getCronologySensorData("004").subscribe(dbData => {
-        console.log(dbData);
-        dbData.forEach((value, key) => {
-            console.log(this.convertDate(key));
-            arrayData.push([Number(key), value]);
-        });
-        console.log(arrayData);
-        this.options.series[0]['data'] = arrayData;
-        Highcharts.chart('chart1',this.options);
-    });
+  /**
+   * RITORNA UN OGGETTO OPTION RELATIVO AD UN GRAFICO DI HIGHCHART PRONTO DA ESSERE INIZIALIZZATO
+   * @param title: Indica il titolo del grafico
+   * @param isShared: True se è un grafico con più series
+   * @param chartsData: (Optional) Array di Oggetti con 2 parametri: 1. Il nome della serie 2. Un Array di Array[timestamp, valore]
+   */
+  createNewChartOption(title: string, isShared: boolean, chartsData?: [{name: string, data: [number, number][]}]): any{
+    const newObj = {
+      chart: {
+        type: 'line',
+        height: 300,
+        zoomType: 'x',
+        panning: true,
+        panKey: 'shift',
+      },
+      title: {
+        text: title
+      },
+      credits: {
+        enabled: false
+      },
+      tooltip: {},
+      xAxis: {
+        type: 'datetime',
+        labels: {
+          formatter() {
+            // Highcharts rileva this.x come orario GMT, getTimezoneOffset ritorna la differenza di minuti tra GMT e ora locale
+            // quindi bisogna cambiare il segno al risultato. In fine 1 min = 60000ms.
+            return Highcharts.dateFormat('%H:%M:%S', this.value - new Date().getTimezoneOffset() * 60000);
+          },
+          crosshair: true
+        },
+      },
+      yAxis: {
+        type: 'linear',
+        title: 'Values'
+      },
+      series: chartsData
+    };
+    if ( isShared ){
+      newObj.tooltip = {
+        formatter() {
+          // tslint:disable-next-line:only-arrow-functions
+          return this.points.reduce(function(s, point) {
+            return s + '<br/>' + point.series.name + ': ' +
+              point.y.toFixed(3);
+          }, '<b>' + Highcharts.dateFormat('%H:%M:%S:%L', this.x - new Date().getTimezoneOffset() * 60000) + '</b>');
+        },
+        shared: true,
+      };
+    }else{
+      newObj.tooltip = {
+        formatter(){
+          return 'Timestamp: ' + Highcharts.dateFormat('%H:%M:%S:%L', this.x - new Date().getTimezoneOffset() * 60000) +
+            '  Value: ' + this.y.toFixed(3);
+        }
+      };
     }
-    getData2(){
-        let arrayData = [];
-        this._service.getCronologySensorData("001").subscribe(dbData => {
-            console.log(dbData);
-            dbData.forEach((value, key) => {
-                console.log(this.convertDate(key));
-                arrayData.push([Number(key), value]);
-            });
-            console.log(arrayData);
-            this.options.series[0]['data'] = arrayData;
-            Highcharts.chart('chart2',this.options);
-        });
-    }*/
+    return newObj;
+  }
+  checkIfValuesFine(orai: string, oraf: string, day: Date){
+
+  }
 }

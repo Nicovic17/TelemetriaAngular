@@ -15,13 +15,13 @@ export class BarsComponent implements OnInit {
   ngOnInit(): void {
     this._barsService.getThrottleValue().subscribe(value => {
       this.ngZone.run(() => {
-        this.throttleValue = value + "%";
-      })
+        this.throttleValue = value;
+      });
     });
     this._barsService.getBreakValue().subscribe(value => {
       this.ngZone.run(() => {
-        this.breakValue = value + "%";
-      })
+        this.breakValue = value;
+      });
     });
   }
 
