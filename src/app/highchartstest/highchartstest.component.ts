@@ -10,11 +10,17 @@ declare var require: any;
 const Boost = require('highcharts/modules/boost');
 const noData = require('highcharts/modules/no-data-to-display');
 const More = require('highcharts/highcharts-more');
+const Exporting = require('highcharts/modules/exporting');
+const ExportData = require('highcharts/modules/export-data');
+const Accessibility = require('highcharts/modules/accessibility');
 
 Boost(Highcharts);
 noData(Highcharts);
 More(Highcharts);
 noData(Highcharts);
+Exporting(Highcharts);
+ExportData(Highcharts);
+Accessibility(Highcharts);
 
 interface StrutturaSensori {
     id: string;
@@ -78,7 +84,7 @@ export class HighchartstestComponent implements OnInit {
         this.sensorsMap = await this._service.getSensorsMap();
         // Utilizzando la mappa gli id dei sensori vengono convertiti in nomi
         this.aviableSensors.forEach(value => {
-            this.listaSensori.push(this.sensorsMap.get(value.id));
+            this.listaSensori.push(this.sensorsMap.get(value.id) || "DATA NOT AVIABLE IN THE MAP");
         });
         // Vengono visualizzati
         this.ngZone.run(() => {

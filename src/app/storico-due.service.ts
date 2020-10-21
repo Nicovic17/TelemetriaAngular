@@ -27,7 +27,7 @@ export class StoricoDueService {
             tempMap.set(Number(nephew.key), nephew.val());
           }
         });
-        if (tempMap.size > 0 && child.key !== this.gpsSensorId) {
+        if (tempMap.size > 0 && child.key !== this.gpsSensorId && child.key) {
           this.sensori.push({id: child.key, info: tempMap});
         }
       });
