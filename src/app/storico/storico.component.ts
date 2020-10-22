@@ -105,9 +105,26 @@ export class StoricoComponent implements OnInit {
 
   ]
 
+  user:Boolean;
+
   constructor(public auth: AngularFireAuth, public firebase: AngularFireDatabase, public _storicoService: StoricoService, private _adapter
     : DateAdapter<any>, public dialog: MatDialog) {
-    this.checkIfUserIsLogged()
+    //this.user=this._storicoService.checkIfUserIsLoggedIn()
+    //this.showToUser(this.user)
+  }
+
+  showToUser(userLogged)
+  {
+    if(userLogged) //Ha effettuato l'accesso
+    {
+       document.getElementById("login_div").style.display = "none";
+        document.getElementById("user_div").style.display = "none";
+        document.getElementById("router").style.display = "block";
+    }
+    else //Non ha effettuato l'accesso
+    {
+        document.getElementById("login_div").style.display = "block";
+    }
   }
 
 
@@ -554,23 +571,7 @@ export class StoricoComponent implements OnInit {
   }
 
   checkIfUserIsLogged() {
-    this.auth.onAuthStateChanged(function (user) {
-      if (user) {
-        console.log("Loggato");
-        console.log(user.email + "");
-
-        document.getElementById("user_div").style.display = "none";
-        document.getElementById("router").style.display = "block";
-
-        return true;
-      }
-      else {
-        console.log("Non Loggato");
-        document.getElementById("login_div").style.display = "block";
-
-        return -1;
-      }
-    })
+    
 
 
   }

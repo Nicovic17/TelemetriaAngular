@@ -3,6 +3,7 @@ import { AngularFireDatabase } from "@angular/fire/database";
 import { StoricoComponent } from './storico/storico.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogTestComponent } from '../app/dialog-test/dialog-test.component'
+import { AngularFireAuth } from '@angular/fire/auth';
 
 var arrayID = [], jsonObject = [], jsonDateForDropDown = [], arrayMapID = []
 
@@ -13,7 +14,7 @@ var arrayID = [], jsonObject = [], jsonDateForDropDown = [], arrayMapID = []
 
 
 export class StoricoService {
-  constructor(private db: AngularFireDatabase, public dialog: MatDialog) {
+  constructor(private db: AngularFireDatabase, public dialog: MatDialog, public auth: AngularFireAuth) {
 
 
   }
@@ -211,6 +212,22 @@ export class StoricoService {
     button.style.display = "none";
   }
 
+  checkIfUserIsLoggedIn()
+  {
+    this.auth.onAuthStateChanged(function (user) {
+      if (user) {
+        console.log("Loggato");
+        console.log(user.email + "");
+        return true;
+      }
+      else {
+        console.log("Non Loggato");
+        return false;
+      }
+    })
+
+    return false;
+  }
 
 
 

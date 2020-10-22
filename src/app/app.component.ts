@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-
 import { AngularFireAuth } from '@angular/fire/auth'
-
 import { auth } from 'firebase/app'
 import { Observable } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { domainToUnicode } from 'url';
+
+import {  AppcomponentService } from '../app/appcomponent.service'
 
 
 
@@ -18,57 +18,69 @@ import { domainToUnicode } from 'url';
 
 export class AppComponent {
   title = 'firebase-auth';
+  userIsLogged:any;
+  constructor(public auth: AngularFireAuth, public _appComponentService: AppcomponentService) {
 
-  auth2:AngularFireAuth;
+  }
 
-  constructor(public auth: AngularFireAuth) {
-    this.auth2=auth;
-    this.checkIfUserIsLogged();
+  ngOnInit()
+  {
+    this.getCurrentUser()
+  }
+
+   getCurrentUser()
+  {
+    this._appComponentService.isLoggedIn().subscribe(value=>{
+      this.showToUser(value)
+    })
   }
 
   login() {
-    this.auth.signInWithPopup(new auth.GoogleAuthProvider());
+    this._appComponentService.login()
   }
   logout() {
-    this.auth.signOut();
+    this._appComponentService.logout();
   }
 
-  checkIfUserIsLogged()
+  showToUser(userIsLogged)
   {
-    this.auth.onAuthStateChanged(function(user){
-      if(user){
-          console.log("Loggato");
-          console.log(user.email+"");
-
+    if(userIsLogged)
+    {
           document.getElementById("user_div").style.display="block";
           document.getElementById("login_div").style.display="none";
           document.getElementById("router").style.display="none";
-         
-      }
-      else{
-        console.log("Non Loggato");
-
+    }
+    else
+    {
         document.getElementById("user_div").style.display = "none";
         document.getElementById("login_div").style.display = "block";
         document.getElementById("router").style.display="none";
-      }
-    })
+    }
   }
 
   textUsername:Object;
   textPassword:Object;
-  
-  myLogin(){
+  successLogin:any;
+ async myLogin(){
     
     this.textUsername=(document.getElementById("username") as (HTMLInputElement)).value;
     console.log(this.textUsername+"")
     this.textPassword=(document.getElementById("password") as (HTMLInputElement)).value;
 
-    this.auth2.signInWithEmailAndPassword(this.textUsername.toString(),this.textPassword.toString()).catch(function(error){
-      //Errore in login
-      window.alert("Errore login");
-    });
+    this.successLogin=await this._appComponentService.myLogin(this.textUsername.toString(),this.textPassword.toString());
     
+    if(this.successLogin)
+    {
+          document.getElementById("user_div").style.display="block";
+          document.getElementById("login_div").style.display="none";
+          document.getElementById("router").style.display="none";
+    }
+    else
+    {
+      document.getElementById("user_div").style.display = "none";
+      document.getElementById("login_div").style.display = "block";
+      document.getElementById("router").style.display="none";
+    }
   }
 
   mostra()

@@ -78,7 +78,7 @@ import { StrRemUnderscore } from './stringformat.pipe';
 
   providers: [SpeedometerService,
     BatteryService, BarsService, VolanteService, MapService,
-    StoricoService, EngineService, MatDatepickerModule, DiagnosticaService, StoricoDueService],
+    StoricoService, EngineService, MatDatepickerModule, DiagnosticaService, StoricoDueService, AppComponent],
 
   bootstrap: [AppComponent]
 })
