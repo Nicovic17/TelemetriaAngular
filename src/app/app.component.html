@@ -5,10 +5,14 @@
       <embed src="../assets/svg/eteam.svg" width="40%" height="40%">
     </object>
   <h3>Benvenuto</h3>
-    <button (click)="showRouter()" routerLink="uninacorse">Mostra BOX</button>
-    <button (click)="showRouter()" routerLink="storico">Storico</button>
+    <!--<button (click)="showRouter()" routerLink="uninacorse">Mostra BOX</button>-->
+    <button class="myButton myHover" mat-raised-button color="primary" (click)="showRouter()" routerLink="uninacorse">Mostra BOX</button>
+    <button class="myButton myHover" mat-raised-button color="primary" (click)="showRouter()" routerLink="storico">Storico</button>
+    <button class="myButton myHover" mat-raised-button color="primary" (click)="showRouter()" routerLink="cambiopassword">Cambia password</button>
+    <button class="myButton myHover" mat-raised-button color="primary" (click)="logout()" >Logout</button>
+    <!--<button (click)="showRouter()" routerLink="storico">Storico</button>
     <button (click)="showRouter()" routerLink="cambiopassword">Cambia password</button> 
-    <button (click)="logout()">Logout</button>
+    <button (click)="logout()">Logout</button>-->
   </div>
 
 
@@ -18,9 +22,27 @@
       <embed src="../assets/svg/eteam.svg" width="40%" height="40%">
   </object>
     <h3>Effettua login</h3>
-    <input type="text" id="username" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-    <button (click)="myLogin()">Login</button>
+    <!-- <input type="text" id="username" placeholder="Email">-->
+    <p>
+      <mat-form-field appearance="legacy">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" [formControl]="email" [disabled]="emailDisabled">
+        <mat-icon matSuffix>email</mat-icon>
+      </mat-form-field>
+    </p>
+    <!--<input type="password" id="password" placeholder="Password">-->
+    <p>
+      <mat-form-field appearance="legacy">
+        <mat-label>Password</mat-label>
+        <input matInput [type]="hideNewPassword ? 'password' : 'text'" placeholder="Password" [formControl]="password" required>
+        <button mat-icon-button matSuffix (click)="hideNewPassword = !hideNewPassword"
+        [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideNewPassword">
+        <mat-icon>{{hideNewPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+    </p>
+    <!--<button (click)="myLogin()">Login</button>-->
+    <button class="myButton myHover" mat-raised-button color="primary" (click)="myLogin()">Login</button>
   </div>
 
   <div id="router">

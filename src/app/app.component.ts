@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 import { domainToUnicode } from 'url';
 
 import {  AppcomponentService } from '../app/appcomponent.service'
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 
@@ -18,7 +19,17 @@ import {  AppcomponentService } from '../app/appcomponent.service'
 
 export class AppComponent {
   title = 'firebase-auth';
+  email = new FormControl({
+    value: "uninacorse@gmail.com",
+    disabled: true
+  })
+  password = new FormControl('', [Validators.required])
   userIsLogged:any;
+  hideNewPassword=true;
+  emailDisabled=true;
+  
+
+
   constructor(public auth: AngularFireAuth, public _appComponentService: AppcomponentService) {
 
   }
@@ -63,11 +74,11 @@ export class AppComponent {
   successLogin:any;
  async myLogin(){
     
-    this.textUsername=(document.getElementById("username") as (HTMLInputElement)).value;
-    console.log(this.textUsername+"")
-    this.textPassword=(document.getElementById("password") as (HTMLInputElement)).value;
+    //this.textUsername=(document.getElementById("username") as (HTMLInputElement)).value;
+    //console.log(this.textUsername+"")
+    //this.textPassword=(document.getElementById("password") as (HTMLInputElement)).value;
 
-    this.successLogin=await this._appComponentService.myLogin(this.textUsername.toString(),this.textPassword.toString());
+    this.successLogin=await this._appComponentService.myLogin(this.email.value,this.password.value);
     
     if(this.successLogin)
     {
