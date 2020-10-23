@@ -15,6 +15,24 @@
     max-height: 680px;
     overflow: auto;
 }
+.centerTrasparent {
+  margin: auto;
+  width: 60%;
+  padding: 10px;
+  max-height: 680px;
+  overflow: visible;
+  position: relative;
+}
+.right {
+  position: absolute;
+  right: 0px;
+  width: 300px;
+  /*border: 3px solid #73AD21;*/
+  padding: 10px;
+}
+.buttonDistance {
+  margin-left: 10px;
+}
 .textClass{
     font-family: 'Open Sans', sans-serif;
     color: whitesmoke;
