@@ -1,4 +1,4 @@
-import {Component, NgZone, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, NgZone, OnInit, ViewChild} from '@angular/core';
 import {MatListModule, MatSelectionList} from '@angular/material/list';
 import {AngularFireAuth} from "@angular/fire/auth";
 import {DiagnosticaService} from "../diagnostica.service";
@@ -13,7 +13,7 @@ export class DiagnosticaComponent implements OnInit {
   messagesList: Array<string> = ['root'];
   messageMap = new Map();//Map del tipo <Messaggio>:<Key>
   isWait = true;
-  visibility = "display:none";
+  visibility = 'display:none';
   @ViewChild('msg', {static: true}) private listObj: MatSelectionList;
 
   constructor(public auth: AngularFireAuth, private _diagService: DiagnosticaService, private ngZone: NgZone) {

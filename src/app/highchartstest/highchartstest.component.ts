@@ -21,7 +21,7 @@ noData(Highcharts);
 More(Highcharts);
 noData(Highcharts);
 Exporting(Highcharts);
-ExportData(Highcharts);
+//ExportData(Highcharts);
 Accessibility(Highcharts);
 
 interface StrutturaSensori {
@@ -216,20 +216,20 @@ export class HighchartstestComponent implements OnInit {
         title: 'Values'
       },
       series: chartsData,
-      responsive: {
-        rules: [{
-          condition: {
-            maxWidth: '100px',
-          },
-          chartOptions: {
-            legend: {
-              layout: 'horizontal',
-              align: 'center',
-              verticalAlign: 'bottom'
-            }
-          }
-        }]
-      }
+      // responsive: {
+      //   rules: [{
+      //     condition: {
+      //       maxWidth: '100px',
+      //     },
+      //     chartOptions: {
+      //       legend: {
+      //         layout: 'horizontal',
+      //         align: 'center',
+      //         verticalAlign: 'bottom'
+      //       }
+      //     }
+      //   }]
+      // }
     };
     if ( isShared ){
       newObj.tooltip = {
@@ -303,5 +303,8 @@ export class HighchartstestComponent implements OnInit {
         top: '13%',
       },
     });
+  }
+  deselectAll(){
+    this.listObj.deselectAll();
   }
 }

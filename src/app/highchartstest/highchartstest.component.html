@@ -35,7 +35,7 @@
             <button mat-button color="primary" disabled *ngIf="date.value.length<=7" style="font-size: 17px">Search</button>
         </div>
         <div class = "center">
-            <div *ngIf="sensorListDisplayed">
+            <div [hidden]="!sensorListDisplayed">
               <div style="max-height: 600px; overflow: auto">
                 <mat-selection-list #sensoriSelezionati role="listbox">
                   <mat-list-option role="option" *ngFor="let item of listaSensori" [value]="item">
@@ -51,10 +51,11 @@
             </div>
             <div #graph id="grafici" *ngIf="chartsListDisplayed"></div>
         </div>
-        <div style="margin-left: 70%">
-          <div class="button-row">
-            <button mat-raised-button color="primary" (click)="mostraGrafici()" *ngIf="sensorListDisplayed">Mostra Grafici</button>
-            <button mat-raised-button color="primary" (click)="unisciGrafici()" *ngIf="!sensorListDisplayed && canJoinGraph">Unisci</button>
+        <div class="centerTrasparent">
+          <div class="right">
+            <button mat-raised-button color="primary" class="buttonDistance" (click)="mostraGrafici()" *ngIf="sensorListDisplayed">Mostra Grafici</button>
+            <button mat-raised-button color="primary" class="buttonDistance" (click)="unisciGrafici()" *ngIf="!sensorListDisplayed && canJoinGraph">Unisci</button>
+            <button mat-raised-button color="primary" class="buttonDistance" [disabled]="(sensoriSelezionati.selectedOptions.selected.length < 2)" (click)="deselectAll()" *ngIf="sensorListDisplayed">Deselect All</button>
           </div>
         </div>
     </body>
