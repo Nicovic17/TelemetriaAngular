@@ -54,5 +54,5 @@ export const routingComponents = [
     GforceSectionComponent,
     DiagnosticaComponent,
     AnglesComponent,
-    HighchartstestComponent
-]
+    HighchartstestComponent,
+];

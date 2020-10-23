@@ -1,0 +1,7 @@
+<h1 mat-dialog-title>{{title}}</h1>
+<mat-dialog-content *ngFor="let i of body">
+  {{i}}
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button (click)="closeDialog()">Close</button>
+</mat-dialog-actions>

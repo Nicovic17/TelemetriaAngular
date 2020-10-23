@@ -3,6 +3,8 @@ import * as Highcharts from 'highcharts';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {MatSelectionList} from '@angular/material/list';
 import {StoricoDueService} from '../storico-due.service';
+import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
+import {MatDialogComponent} from '../mat-dialog/mat-dialog.component';
 
 // Per utilizzare jQuery in TS
 declare var $: any;
@@ -43,11 +45,11 @@ export class HighchartstestComponent implements OnInit {
     public sensorsMap: Map<string, string>;  // Conserva la mappa dei sensori
     public listaSensori = [];  // Contiene la lista dei sensori disponibili per l'intervallo di tempo selezionato
     public idSensoriScelti = [];  // contiene gli id dei sensori selezionati
-    @ViewChild('sensoriSelezionati', {static: false}) private listObj: MatSelectionList;
+    @ViewChild('sensoriSelezionati', {static: false}) public listObj: MatSelectionList;
     @ViewChild('graph', {static: false}) private graphSection;
 
   // tslint:disable-next-line:variable-name
-    constructor(public _service: StoricoDueService, public auth: AngularFireAuth, public ngZone: NgZone) {
+    constructor(public _service: StoricoDueService, public auth: AngularFireAuth, public ngZone: NgZone, private errDialog: MatDialog) {
         this.checkIfUserIsLogged();
     }
     ngOnInit(): void {
@@ -59,14 +61,15 @@ export class HighchartstestComponent implements OnInit {
     async prepareValuesForSearch(val1: string, val2: string, val3){
         const oraI = new Date(val3);
         const oraF = new Date(val3);
-        //checkIfValuesFine(val1,val2,val3);
-        console.log(val1,val2);
         let time = val1.split(':');
         oraI.setHours(Number(time[0]), Number(time[1]), Number(time[2]) || 0);
         time = val2.split(':');
         oraF.setHours(Number(time[0]), Number(time[1]), Number(time[2]) || 0);
-        console.log(oraI, oraF);
-        await this.startSearch(oraI, oraF);
+        if (this.ifValuesFine(oraI,oraF)){
+          await this.startSearch(oraI, oraF);
+        }else{
+          this.showErrorTimeDialog();
+        }
     }
     /*
         Questo metodo carica in aviableSensors i dati dei sensori SOLO nell'intervallo
@@ -84,43 +87,53 @@ export class HighchartstestComponent implements OnInit {
         this.sensorsMap = await this._service.getSensorsMap();
         // Utilizzando la mappa gli id dei sensori vengono convertiti in nomi
         this.aviableSensors.forEach(value => {
-            this.listaSensori.push(this.sensorsMap.get(value.id) || "DATA NOT AVIABLE IN THE MAP");
+            this.listaSensori.push(this.sensorsMap.get(value.id) || 'SENSOR NOT AVIABLE IN THE MAP');
         });
         // Vengono visualizzati
-        this.ngZone.run(() => {
+        if (this.aviableSensors.length === 0){
+          this.showErrorNoData();
+        }else{
+          this.ngZone.run(() => {
             this.sensorListDisplayed = true;
             this.chartsListDisplayed = true;
-        });
+          });
+        }
     }
     /*
         Questo metodo viene chiamato alla pressione del pulsante
      */
     mostraGrafici(){
-        this.sensorListDisplayed = false;
-        // Riempe l'array idSensoriScelti
-        this.listObj.selectedOptions.selected.forEach(value => {
-            const key = value.value;
-            // Effettua conversione inversa "Nome sensore" -> ID
-            const keys = [...this.sensorsMap.entries()].filter(({ 1: v }) => v === key).map(([k]) => k);
-            this.idSensoriScelti.push(keys[0]);
-        });
-        // console.log(this.idSensoriScelti);
-
-        // Per ogni id scelto ricava da aviableSensors la mappa che contiene tutta la cronologia
-        for (const i of this.idSensoriScelti){
-            const tempVal = this.aviableSensors.find(value => value.id === i);
-            // converto la mappa in array
-            const arrayData = [...tempVal.info.entries() ];
-            console.log(arrayData);
-            const myOpt = this.createNewChartOption(this.toTitleCase(this.sensorsMap.get(i).replace(/_/g, ' ')),
-                                            false,
-                                          [{name: this.sensorsMap.get(i), data: arrayData}]);
-            $('#grafici').append('<div id=\'' + i + '\'></div>'); // Il metodo ngFor non faceva rendereizzare il grafico
-            Highcharts.chart(String(i), myOpt);
+        if (this.listObj.selectedOptions.selected.length === 0){
+          this.showErrorNoSelection();
+        }else{
+          this.inizializzaGrafici();
         }
-        this.canJoinGraph = true;
     }
+    inizializzaGrafici(){
+      this.sensorListDisplayed = false;
+      // Riempe l'array idSensoriScelti
+      this.listObj.selectedOptions.selected.forEach(value => {
+        const key = value.value;
+        // Effettua conversione inversa "Nome sensore" -> ID
+        const keys = [...this.sensorsMap.entries()].filter(({ 1: v }) => v === key).map(([k]) => k);
+        this.idSensoriScelti.push(keys[0]);
+      });
+      // console.log(this.idSensoriScelti);
 
+      // Per ogni id scelto ricava da aviableSensors la mappa che contiene tutta la cronologia
+      for (const i of this.idSensoriScelti){
+        const tempVal = this.aviableSensors.find(value => value.id === i);
+        // converto la mappa in array
+        const arrayData = [...tempVal.info.entries() ];
+        console.log(arrayData);
+        const myOpt = this.createNewChartOption(this.toTitleCase(this.sensorsMap.get(i).replace(/_/g, ' ')),
+          false,
+          [{name: this.sensorsMap.get(i), data: arrayData}]);
+        $('#grafici').append('<div id=\'' + i + '\'></div>'); // Il metodo ngFor non faceva rendereizzare il grafico
+        Highcharts.chart(String(i), myOpt);
+      }
+      this.canJoinGraph = true;
+    }
     unisciGrafici(){
         const myOpt = this.createNewChartOption('Unione Grafici', true );
         const newSeries = [];
@@ -225,7 +238,56 @@ export class HighchartstestComponent implements OnInit {
     }
     return newObj;
   }
-  checkIfValuesFine(orai: string, oraf: string, day: Date){
-
+  ifValuesFine(orai: Date, oraf: Date): boolean{
+    return orai < oraf;
+  }
+  showErrorTimeDialog(){
+    this.errDialog.open(MatDialogComponent, {
+      maxWidth: '400px',
+      maxHeight: '400px',
+      data: {
+        title: 'Attenzione!',
+        body: [
+          'L\'ora iniziale deve essere antecedente a quella finale.'
+        ],
+      },
+      disableClose: true,
+      position: {
+        top: '13%',
+      }
+    });
+  }
+  showErrorNoData(){
+    this.errDialog.open(MatDialogComponent, {
+      maxWidth: '400px',
+      maxHeight: '400px',
+      data: {
+        title: 'Attenzione!',
+        body: [
+          'Nell\'intervallo temporale selezionato non sono presenti dati all\'intrno del database.',
+          'Visualizzare la sezione tracciato per sapere quali dati sono presenti nel Database.'
+        ],
+      },
+      disableClose: true,
+      position: {
+        top: '13%',
+      },
+    });
+  }
+  showErrorNoSelection(){
+    this.errDialog.open(MatDialogComponent, {
+      maxWidth: '400px',
+      maxHeight: '400px',
+      data: {
+        title: 'Selezione Non Valida',
+        body: [
+          'Per visualizzare i grafici selezionare almeno un sensore',
+        ],
+      },
+      disableClose: true,
+      position: {
+        top: '13%',
+      },
+    });
   }
 }

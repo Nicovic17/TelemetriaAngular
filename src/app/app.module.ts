@@ -21,26 +21,19 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import {
-  MAT_MOMENT_DATE_FORMATS,
-  MomentDateAdapter,
-  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-} from '@angular/material-moment-adapter';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from './footer/footer.component';
 import {MatExpansionModule} from '@angular/material/expansion';
-import {MatDialog, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
+import {MatDialogModule} from '@angular/material/dialog';
 import { DialogTestComponent } from './dialog-test/dialog-test.component';
 import {MatListModule} from '@angular/material/list';
 import {DiagnosticaService} from './diagnostica.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {StoricoDueService} from './storico-due.service';
 import { StrRemUnderscore } from './stringformat.pipe';
-
-
+import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
 
 // ATTENZIONE NON IMPORTARE QUA I COMPONENT, VANNO IN --> app-routing.module.ts
 
@@ -51,31 +44,34 @@ import { StrRemUnderscore } from './stringformat.pipe';
     FooterComponent,
     DialogTestComponent,
     StrRemUnderscore,
+    MatDialogComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
+  imports: [
+      BrowserModule,
+      AppRoutingModule,
 
-        AngularFireModule.initializeApp(environment.firebaseConfig),
-        AngularFirestoreModule,
-        FontAwesomeModule,
-        FormsModule,
-        BrowserAnimationsModule,
-        MatDatepickerModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatNativeDateModule,
-        MatToolbarModule,
-        MatIconModule,
-        HttpClientModule,
-        MatExpansionModule,
-        MatDialogModule,
-        FormsModule,
-        MatListModule,
-        MatProgressSpinnerModule
-    ],
-
+      AngularFireModule.initializeApp(environment.firebaseConfig),
+      AngularFirestoreModule,
+      FontAwesomeModule,
+      FormsModule,
+      BrowserAnimationsModule,
+      MatDatepickerModule,
+      MatFormFieldModule,
+      MatInputModule,
+      MatButtonModule,
+      MatNativeDateModule,
+      MatToolbarModule,
+      MatIconModule,
+      HttpClientModule,
+      MatExpansionModule,
+      MatDialogModule,
+      FormsModule,
+      MatListModule,
+      MatProgressSpinnerModule
+  ],
+  entryComponents: [
+    MatDialogComponent,
+  ],
   providers: [SpeedometerService,
     BatteryService, BarsService, VolanteService, MapService,
     StoricoService, EngineService, MatDatepickerModule, DiagnosticaService, StoricoDueService],
