@@ -215,7 +215,21 @@ export class HighchartstestComponent implements OnInit {
         type: 'linear',
         title: 'Values'
       },
-      series: chartsData
+      series: chartsData,
+      responsive: {
+        rules: [{
+          condition: {
+            maxWidth: '100px',
+          },
+          chartOptions: {
+            legend: {
+              layout: 'horizontal',
+              align: 'center',
+              verticalAlign: 'bottom'
+            }
+          }
+        }]
+      }
     };
     if ( isShared ){
       newObj.tooltip = {
