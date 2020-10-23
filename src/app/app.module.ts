@@ -6,7 +6,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // IMPORT DEI SERVICE
 import { BarsService } from './bars.service';
 import { SpeedometerService } from './speedometer.service';
@@ -44,7 +44,7 @@ import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
     FooterComponent,
     DialogTestComponent,
     StrRemUnderscore,
-    MatDialogComponent,
+    MatDialogComponent
   ],
   imports: [
       BrowserModule,
@@ -67,14 +67,15 @@ import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
       MatDialogModule,
       FormsModule,
       MatListModule,
-      MatProgressSpinnerModule
+      MatProgressSpinnerModule,
+      ReactiveFormsModule
   ],
   entryComponents: [
     MatDialogComponent,
   ],
   providers: [SpeedometerService,
     BatteryService, BarsService, VolanteService, MapService,
-    StoricoService, EngineService, MatDatepickerModule, DiagnosticaService, StoricoDueService],
+    StoricoService, EngineService, MatDatepickerModule, DiagnosticaService, StoricoDueService, AppComponent],
 
   bootstrap: [AppComponent]
 })

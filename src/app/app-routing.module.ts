@@ -57,4 +57,5 @@ export const routingComponents = [
     DiagnosticaComponent,
     AnglesComponent,
     HighchartstestComponent,
+    CambiaPasswordComponent
 ];
