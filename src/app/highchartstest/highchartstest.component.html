@@ -19,15 +19,22 @@
     </head>
     <body class="bodyClass">
         <app-nav-bar></app-nav-bar>
+
+        <div class="overlay" *ngIf="isLoading">
+          <div class="overlay__inner">
+            <div class="overlay__content"><span class="spinner"></span></div>
+          </div>
+        </div>
+
         <div class="center">
             <mat-form-field appearance="fill">
                 <mat-label>Choose a date</mat-label>
-              <input matInput #date [matDatepicker]="picker" readonly>
+              <input matInput #date [matDatepicker]="picker" [max]="maxDate" readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             &nbsp;&nbsp;&nbsp;
-            <label>Scegli ora inizio:&nbsp;</label><input type="time" #orain id="oraInizioGenerale" value="22:16:00" step="2">
+            <label>Scegli ora inizio:&nbsp;</label><input type="time" #orain id="oraInizioGenerale" value="22:16:00" step="1">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <label>Scegli ora fine:&nbsp;</label><input type="time" #orafin id="oraFineGenerale" value="22:18:00" step="1">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -52,9 +59,9 @@
             <div #graph id="grafici" *ngIf="chartsListDisplayed"></div>
         </div>
         <div class="centerTrasparent">
-          <div class="right">
+          <div class="right" align="right">
             <button mat-raised-button color="primary" class="buttonDistance" (click)="mostraGrafici()" *ngIf="sensorListDisplayed">Mostra Grafici</button>
-            <button mat-raised-button color="primary" class="buttonDistance" (click)="unisciGrafici()" *ngIf="!sensorListDisplayed && canJoinGraph">Unisci</button>
+            <button mat-raised-button color="primary" class="buttonDistance" (click)="unisciGrafici()" *ngIf="canJoinGraph">Unisci</button>
             <button mat-raised-button color="primary" class="buttonDistance" [disabled]="(sensoriSelezionati.selectedOptions.selected.length < 2)" (click)="deselectAll()" *ngIf="sensorListDisplayed">Deselect All</button>
           </div>
         </div>

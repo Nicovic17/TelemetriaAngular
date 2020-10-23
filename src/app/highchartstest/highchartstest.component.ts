@@ -37,9 +37,10 @@ interface StrutturaSensori {
 export class HighchartstestComponent implements OnInit {
     public oraInizio;
     public oraFine;
-    public ddd = '10/8/2020'; // Da Togliere
+    public maxDate: Date;
     public sensorListDisplayed = false;  // Stabilisce se la lista dei sensori deve essere visibile
     public chartsListDisplayed = false;  // Stabilisce se la lista dei grafici deve essere visibile
+    public isLoading = false;
     public canJoinGraph = false; // Stabilisce se il pulsante per unire i grafici è visibile
     public aviableSensors: StrutturaSensori[];  // Struttura definità dopra il decorator serve per mantenere tutti i dati dei sensori
     public sensorsMap: Map<string, string>;  // Conserva la mappa dei sensori
@@ -53,6 +54,7 @@ export class HighchartstestComponent implements OnInit {
         this.checkIfUserIsLogged();
     }
     ngOnInit(): void {
+      this.maxDate = this.setMaxDate();
     }
     /*
         Questo metodo prepara gli input dell'utente convertendoli in millisecondi
@@ -66,7 +68,9 @@ export class HighchartstestComponent implements OnInit {
         time = val2.split(':');
         oraF.setHours(Number(time[0]), Number(time[1]), Number(time[2]) || 0);
         if (this.ifValuesFine(oraI,oraF)){
+          this.isLoading = true;
           await this.startSearch(oraI, oraF);
+          this.isLoading = false;
         }else{
           this.showErrorTimeDialog();
         }
@@ -77,6 +81,7 @@ export class HighchartstestComponent implements OnInit {
      */
     async startSearch(oraI: Date, oraF: Date){
         // Resetta tutte le strutture per inserire nuovi grafici
+        this.sensorListDisplayed = false;
         this.chartsListDisplayed = false;
         this.canJoinGraph = false;
         this.listaSensori.splice(0, this.listaSensori.length);
@@ -145,6 +150,8 @@ export class HighchartstestComponent implements OnInit {
         myOpt.series = newSeries;
         $('#grafici').append('<div id=\'uni\'></div>');
         Highcharts.chart('uni', myOpt);
+        this.showDialogChartsJoined();
+        this.canJoinGraph = false;
     }
 
     convertDate(time: number): number{
@@ -278,7 +285,8 @@ export class HighchartstestComponent implements OnInit {
       data: {
         title: 'Attenzione!',
         body: [
-          'Nell\'intervallo temporale selezionato non sono presenti dati all\'intrno del database.',
+          'Nell\'intervallo temporale selezionato non sono presenti dati all\'interno del database.',
+          '.',
           'Visualizzare la sezione tracciato per sapere quali dati sono presenti nel Database.'
         ],
       },
@@ -304,7 +312,25 @@ export class HighchartstestComponent implements OnInit {
       },
     });
   }
+  showDialogChartsJoined(){
+    this.errDialog.open(MatDialogComponent, {
+      maxWidth: '400px',
+      maxHeight: '400px',
+      data: {
+        title: 'Grafici Uniti con Successo!',
+        body: [],
+      },
+      disableClose: true,
+      position: {
+        top: '13%',
+      },
+    });
+  }
   deselectAll(){
     this.listObj.deselectAll();
+  }
+  setMaxDate(): Date{
+    const today = new Date();
+    return new Date(today.getFullYear(), today.getMonth(), today.getDate());
   }
 }
