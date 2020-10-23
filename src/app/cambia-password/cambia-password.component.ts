@@ -14,7 +14,10 @@ export class CambiaPasswordComponent implements OnInit {
   
   hideNewPassword=true;
   hideConfirmNewPassword=true;
-  confirmButtonDisabled = false;
+  confirmButtonDisabled = true;
+  confirmFlag1=true;
+  confirmFlag2=true;
+
   confirmPswDisabled = true;
 
   newPsw = new FormControl('', [Validators.required, Validators.minLength(5)])
@@ -23,6 +26,32 @@ export class CambiaPasswordComponent implements OnInit {
   constructor(public _appComponentService: AppcomponentService, public dialog:MatDialog) { }
 
   ngOnInit(): void {
+
+    this.newPsw.valueChanges.subscribe(val=>{
+      
+      if(this.newPsw.hasError('required') || this.newPsw.hasError('minlength'))
+      {
+        this.confirmFlag1=true
+      }
+      else
+      this.confirmFlag1=false;
+
+      if(!this.confirmFlag1 && !this.confirmFlag2)this.confirmButtonDisabled=false;
+    })
+
+    this.confirmNewPsw.valueChanges.subscribe(val=>{
+      if(this.confirmNewPsw.hasError('required') || this.confirmNewPsw.hasError('minlength'))
+      {
+        this.confirmFlag2=true
+      }
+      else
+      this.confirmFlag2=false;
+
+      if(!this.confirmFlag1 && !this.confirmFlag2)this.confirmButtonDisabled=false;
+    })
+
+    
+
   }
 
   openDialog()

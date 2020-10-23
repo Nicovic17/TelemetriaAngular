@@ -42,7 +42,8 @@
       </mat-form-field>
     </p>
     <!--<button (click)="myLogin()">Login</button>-->
-    <button class="myButton myHover" mat-raised-button color="primary" (click)="myLogin()">Login</button>
+   <button class="myButton myHover" mat-raised-button color="primary" (click)="myLogin()" [disabled]="loginButtonDisabled">Login</button>
+
   </div>
 
   <div id="router">

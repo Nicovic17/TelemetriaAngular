@@ -27,7 +27,7 @@ export class AppComponent {
   userIsLogged:any;
   hideNewPassword=true;
   emailDisabled=true;
-  
+  loginButtonDisabled=true;
 
 
   constructor(public auth: AngularFireAuth, public _appComponentService: AppcomponentService) {
@@ -36,6 +36,16 @@ export class AppComponent {
 
   ngOnInit()
   {
+    this.password.valueChanges.subscribe(val=>{
+      if(this.password.hasError('required'))
+      {
+        this.loginButtonDisabled=true
+      }
+      else
+      this.loginButtonDisabled=false;
+    })
+
+    
     this.getCurrentUser()
   }
 
