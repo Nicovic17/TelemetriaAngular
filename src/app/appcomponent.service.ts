@@ -33,6 +33,31 @@ export class AppcomponentService {
     })
   }
 
+ async updatePassword(newPassword)
+  {
+    var user=await this.auth.currentUser;
+    user.updatePassword(newPassword).then(function(){
+      //window.alert("Password aggiornata.")
+    }).catch(error=>{
+      window.alert("Errore: "+error)
+    })
+  }
+
+ async resetPassword()
+  {
+    var user=await this.auth.currentUser;
+    this.auth.sendPasswordResetEmail(user.email).then(function(){
+      //window.alert("Email di reset inviata correttamente.")
+    }).catch(error=>{
+      window.alert("Errore nell'invio della email.")
+    })
+  }
+
+  getCurrentUser()
+  {
+   return this.auth.currentUser;
+  }
+
 
   login()
   {

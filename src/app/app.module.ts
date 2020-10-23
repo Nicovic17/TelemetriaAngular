@@ -6,7 +6,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // IMPORT DEI SERVICE
 import { BarsService } from './bars.service';
 import { SpeedometerService } from './speedometer.service';
@@ -39,6 +39,7 @@ import {DiagnosticaService} from './diagnostica.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {StoricoDueService} from './storico-due.service';
 import { StrRemUnderscore } from './stringformat.pipe';
+import { CambiaPasswordComponent } from './cambia-password/cambia-password.component';
 
 
 
@@ -51,7 +52,10 @@ import { StrRemUnderscore } from './stringformat.pipe';
     FooterComponent,
     DialogTestComponent,
     StrRemUnderscore,
+    CambiaPasswordComponent,
   ],
+  entryComponents:[DialogTestComponent],
+
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -73,7 +77,8 @@ import { StrRemUnderscore } from './stringformat.pipe';
         MatDialogModule,
         FormsModule,
         MatListModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        ReactiveFormsModule
     ],
 
   providers: [SpeedometerService,

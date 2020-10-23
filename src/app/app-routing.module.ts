@@ -19,6 +19,7 @@ import {GforceSectionComponent} from './gforce-section/gforce-section.component'
 import { AnglesComponent } from './angles/angles.component';
 import { DiagnosticaComponent } from './diagnostica/diagnostica.component';
 import { HighchartstestComponent } from './highchartstest/highchartstest.component';
+import { CambiaPasswordComponent } from './cambia-password/cambia-password.component';
 
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'storico', component: StoricoComponent },
   { path: 'diagnostica', component: DiagnosticaComponent},
   { path: 'test', component: HighchartstestComponent},
+  { path: 'cambiopassword', component: CambiaPasswordComponent},
   { path: '**', component: PageNotFoundComponent } //ATTENZIONE DEVE ESSERE SEMPRE L'ULTIMA DELL'ARRAY
 ];
 

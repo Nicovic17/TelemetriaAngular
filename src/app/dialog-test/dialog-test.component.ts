@@ -10,20 +10,13 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angu
 })
 export class DialogTestComponent implements OnInit {
 
-  
-
   constructor(
-
-
     private dialogRef: MatDialogRef<DialogTestComponent>
-
   ) {
 
   }
 
   ngOnInit(): void {
-
-
   }
 
   save() {
@@ -32,8 +25,5 @@ export class DialogTestComponent implements OnInit {
 
   close() {
     this.dialogRef.close()
-    
-    
   }
-
 }

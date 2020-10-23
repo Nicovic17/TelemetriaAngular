@@ -83,16 +83,10 @@ export class AppComponent {
     }
   }
 
-  mostra()
+  showRouter()
   {
     document.getElementById("user_div").style.display="none";
     document.getElementById("router").style.display="block";
-  }
-
-  mostraStorico(){
-    document.getElementById("user_div").style.display="none";
-    document.getElementById("router").style.display="block";
-
   }
 
 }
