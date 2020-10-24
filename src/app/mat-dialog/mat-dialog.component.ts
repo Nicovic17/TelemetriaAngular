@@ -10,10 +10,14 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 export class MatDialogComponent implements OnInit {
   public title;
   public body: [];
+  public isChoice = false;
 
   constructor(public dialogRef: MatDialogRef<MatDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any) {
     this.title = data.title;
     this.body = data.body;
+    if (data.isChoice === true){
+      this.isChoice = true;
+    }
   }
 
   ngOnInit(): void {
@@ -21,6 +25,12 @@ export class MatDialogComponent implements OnInit {
 
   closeDialog(){
     this.dialogRef.close();
+  }
+  yesChoice(){
+    this.dialogRef.close(1);
+  }
+  noChoice(){
+    this.dialogRef.close(0);
   }
 
 }

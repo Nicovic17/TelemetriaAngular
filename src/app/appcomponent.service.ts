@@ -11,7 +11,7 @@ import { take, map } from 'rxjs/operators';
 })
 export class AppcomponentService {
 
- 
+
   constructor(public auth: AngularFireAuth, public appComponent: AppComponent) {
 
    }
@@ -28,22 +28,20 @@ export class AppcomponentService {
         {
           subscriber.next(false);
         }
-        
+
       })
     })
   }
 
- async updatePassword(newPassword)
+ async updatePassword(newPassword): Promise<boolean>
   {
-    var user=await this.auth.currentUser;
-    var ris=await user.updatePassword(newPassword).then(function(){
-      //window.alert("Password aggiornata.")
-      return true
-    }).catch(error=>{
-      return false
-    })
+    const user = await this.auth.currentUser;
+    const ris = await user.updatePassword(newPassword).then(() => {
+      return true;
+    }).catch(error => {
+      return false;
+    });
     return ris;
-    
   }
 
  async resetPassword()
@@ -77,7 +75,7 @@ export class AppcomponentService {
 
     const ris=await this.auth.signInWithEmailAndPassword(email,password).then(function(user)
     {
-      
+
       return true;
     }).catch(function(error){
       //Errore in login

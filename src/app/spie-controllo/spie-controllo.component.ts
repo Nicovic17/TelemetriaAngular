@@ -142,6 +142,4 @@ export class SpieControlloComponent implements OnInit {
       return value;
     }
   }
-
-
 }

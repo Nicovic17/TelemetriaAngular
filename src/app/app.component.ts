@@ -49,7 +49,7 @@ export class AppComponent {
       }
     })
 
-    
+
     this.getCurrentUser()
   }
 
@@ -87,13 +87,13 @@ export class AppComponent {
   textPassword:Object;
   successLogin:any;
  async myLogin(){
-    
+
     //this.textUsername=(document.getElementById("username") as (HTMLInputElement)).value;
     //console.log(this.textUsername+"")
     //this.textPassword=(document.getElementById("password") as (HTMLInputElement)).value;
 
     this.successLogin=await this._appComponentService.myLogin(this.email.value,this.password.value);
-    
+
     if(this.successLogin)
     {
           document.getElementById("user_div").style.display="block";
@@ -106,6 +106,7 @@ export class AppComponent {
       document.getElementById("login_div").style.display = "block";
       document.getElementById("router").style.display="none";
     }
+    this.password.reset();
   }
 
   showRouter()

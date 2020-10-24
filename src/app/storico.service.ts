@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from "@angular/fire/database";
 import { StoricoComponent } from './storico/storico.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { DialogTestComponent } from '../app/dialog-test/dialog-test.component'
 import { AngularFireAuth } from '@angular/fire/auth';
 
 var arrayID = [], jsonObject = [], jsonDateForDropDown = [], arrayMapID = []
@@ -184,7 +183,7 @@ export class StoricoService {
     });
   }
 
-  //Richiamato in startHighChart 
+  //Richiamato in startHighChart
   //Restituisce oggetto id-tempo-valore dei sensori richiesti in istanti di tempo selezionati
   getJsonObject() {
     if (jsonObject.length == 0) {

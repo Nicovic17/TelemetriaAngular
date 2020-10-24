@@ -115,8 +115,10 @@ export class HighchartstestComponent implements OnInit {
         }
     }
     inizializzaGrafici(){
-      this.sensorListDisplayed = false;
+      let isFailed = false;
+
       // Riempe l'array idSensoriScelti
+      this.idSensoriScelti.splice(0, this.idSensoriScelti.length);
       this.listObj.selectedOptions.selected.forEach(value => {
         const key = value.value;
         // Effettua conversione inversa "Nome sensore" -> ID
@@ -124,20 +126,30 @@ export class HighchartstestComponent implements OnInit {
         this.idSensoriScelti.push(keys[0]);
       });
       // console.log(this.idSensoriScelti);
-
-      // Per ogni id scelto ricava da aviableSensors la mappa che contiene tutta la cronologia
       for (const i of this.idSensoriScelti){
-        const tempVal = this.aviableSensors.find(value => value.id === i);
-        // converto la mappa in array
-        const arrayData = [...tempVal.info.entries() ];
-        console.log(arrayData);
-        const myOpt = this.createNewChartOption(this.toTitleCase(this.sensorsMap.get(i).replace(/_/g, ' ')),
-          false,
-          [{name: this.sensorsMap.get(i), data: arrayData}]);
-        $('#grafici').append('<div id=\'' + i + '\'></div>'); // Il metodo ngFor non faceva rendereizzare il grafico
-        Highcharts.chart(String(i), myOpt);
+        if (i === undefined){
+          isFailed = true;
+          break;
+        }
       }
-      this.canJoinGraph = true;
+      // Per ogni id scelto ricava da aviableSensors la mappa che contiene tutta la cronologia
+      if (!isFailed) {
+        this.sensorListDisplayed = false;
+        for (const i of this.idSensoriScelti){
+          const tempVal = this.aviableSensors.find(value => value.id === i);
+          // converto la mappa in array
+          const arrayData = [...tempVal.info.entries() ];
+          console.log(arrayData);
+          const myOpt = this.createNewChartOption(this.toTitleCase(this.sensorsMap.get(i).replace(/_/g, ' ')),
+            false,
+            [{name: this.sensorsMap.get(i), data: arrayData}]);
+          $('#grafici').append('<div id=\'' + i + '\'></div>'); // Il metodo ngFor non faceva rendereizzare il grafico
+          Highcharts.chart(String(i), myOpt);
+          this.canJoinGraph = true;
+        }
+      }else{
+        this.showDialog('Errore!', ['Sono stati selezionati uno o più sensori non presenti nella Mappa dei Sensori', 'Evitare di selezionare i sensori \'Sensor not Aviable in The Map\'']);
+      }
     }
     unisciGrafici(){
         const myOpt = this.createNewChartOption('Unione Grafici', true );
@@ -332,5 +344,19 @@ export class HighchartstestComponent implements OnInit {
   setMaxDate(): Date{
     const today = new Date();
     return new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  }
+  showDialog(titolo: string, corpo: string[]){
+    this.errDialog.open(MatDialogComponent, {
+      maxWidth: '400px',
+      maxHeight: '400px',
+      data: {
+        title: titolo,
+        body: corpo,
+      },
+      disableClose: true,
+      position: {
+        top: '13%',
+      },
+    });
   }
 }

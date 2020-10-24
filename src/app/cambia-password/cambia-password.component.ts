@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
-import {  AppcomponentService } from '../appcomponent.service'
+import {  AppcomponentService } from '../appcomponent.service';
 import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { DialogTestComponent } from '../dialog-test/dialog-test.component';
+import { MatDialogComponent } from '../mat-dialog/mat-dialog.component';
 
 @Component({
   selector: 'app-cambia-password',
@@ -11,112 +11,137 @@ import { DialogTestComponent } from '../dialog-test/dialog-test.component';
   styleUrls: ['./cambia-password.component.css']
 })
 export class CambiaPasswordComponent implements OnInit {
-  
-  hideNewPassword=true;
-  hideConfirmNewPassword=true;
+
+  hideNewPassword = true;
+  hideConfirmNewPassword = true;
   confirmButtonDisabled = true;
-  confirmFlag1=true;
-  confirmFlag2=true;
+  confirmFlag1 = true;
+  confirmFlag2 = true;
 
   confirmPswDisabled = true;
 
-  newPsw = new FormControl('', [Validators.required, Validators.minLength(5)])
+  newPsw = new FormControl('', [Validators.required, Validators.minLength(5)]);
   confirmNewPsw = new FormControl('', [Validators.required, Validators.minLength(5)]);
 
-  constructor(public _appComponentService: AppcomponentService, public dialog:MatDialog) { }
+  constructor(public _appComponentService: AppcomponentService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
 
-    this.newPsw.valueChanges.subscribe(val=>{
-      
-      if(this.newPsw.hasError('required') || this.newPsw.hasError('minlength'))
+    this.newPsw.valueChanges.subscribe(val => {
+
+      if (this.newPsw.hasError('required') || this.newPsw.hasError('minlength'))
       {
-        this.confirmFlag1=true
+        this.confirmFlag1 = true;
       }
-      else
-      this.confirmFlag1=false;
+      else {
+      this.confirmFlag1 = false;
+      }
 
-      if(!this.confirmFlag1 && !this.confirmFlag2)this.confirmButtonDisabled=false;
-    })
+      if (!this.confirmFlag1 && !this.confirmFlag2) {this.confirmButtonDisabled = false; }
+    });
 
-    this.confirmNewPsw.valueChanges.subscribe(val=>{
-      if(this.confirmNewPsw.hasError('required') || this.confirmNewPsw.hasError('minlength'))
+    this.confirmNewPsw.valueChanges.subscribe(val => {
+      if (this.confirmNewPsw.hasError('required') || this.confirmNewPsw.hasError('minlength'))
       {
-        this.confirmFlag2=true
+        this.confirmFlag2 = true;
       }
-      else
-      this.confirmFlag2=false;
+      else {
+      this.confirmFlag2 = false;
+      }
 
-      if(!this.confirmFlag1 && !this.confirmFlag2)this.confirmButtonDisabled=false;
-    })
+      if (!this.confirmFlag1 && !this.confirmFlag2) {this.confirmButtonDisabled = false; }
+    });
 
-    
 
-  }
 
-  openDialog()
-  {
-    this.dialog.open(DialogTestComponent)
   }
 
   getErrorConfirmNewPsw() {
     if (this.confirmNewPsw.hasError('required')) {
-      return "Campo obbligatorio"
+      return 'Campo obbligatorio';
     }
 
     if (this.confirmNewPsw.hasError('minlength')) {
-      return "Minimo 5 caratteri"
+      return 'Minimo 5 caratteri';
     }
   }
 
   getErrorNewPsw() {
     if (this.newPsw.hasError('required')) {
-      return "Campo obbligatorio"
+      return 'Campo obbligatorio';
     }
 
     if (this.newPsw.hasError('minlength')) {
-      return "Minimo 5 caratteri"
+      return 'Minimo 5 caratteri';
     }
   }
 
 
   async updatePassword() {
     if (this.newPsw.invalid || this.confirmNewPsw.invalid) {
-      window.alert("Compilare correttamente i campi")
+      this.showDialog('Errore!', ['Compilare correttamente i cambi']);
     }
     else {
-      var newPassword = this.newPsw.value;
-      var newConfirmPassword = this.confirmNewPsw.value;
+      let newPassword = this.newPsw.value;
+      let newConfirmPassword = this.confirmNewPsw.value;
 
-      if(newPassword==newConfirmPassword)
+      if (newPassword === newConfirmPassword)
       {
-        
-        var ris=await this._appComponentService.updatePassword(newPassword)
-       if(ris)
-       {
-        this._appComponentService.logout()
-        this.newPsw.setValue("");
-        this.confirmNewPsw.setValue("")
-        this.openDialog()
-       }
-       else
-       {
-         window.alert("Aggiornamento password non riuscito")
-       }
-        
+
+        let ris = await this._appComponentService.updatePassword(newPassword);
+        if (ris)
+        {
+          this._appComponentService.logout();
+          this.showDialog('Aggiornamento effettuato!',
+            ['La password è stata  correttamente aggiornata.', 'Effettua nuovamente l\'accesso.']);
+        }
+        else
+        {
+          const choice = this.showChoiceDialog('Password NON modificata!',
+            ['Per modificare la password è necessario rieffettuare il login.', '.', 'Vuoi Procedere ?']);
+          choice.afterClosed().subscribe(result => {
+            if (result === 1){
+              this._appComponentService.logout();
+            }
+          });
+        }
+        this.newPsw.setValue('');
+        this.confirmNewPsw.setValue('');
       }
       else
       {
-        window.alert("Password non corrispondenti")
+        this.showDialog('Errore!', ['Le password non corrispondono']);
       }
     }
-
   }
-
-  goBack()
-  {
-    document.getElementById("user_div").style.display="block";
-    document.getElementById("router").style.display="none";
+  showDialog(titolo: string, corpo: string[]){
+    this.dialog.open(MatDialogComponent, {
+      maxWidth: '400px',
+      maxHeight: '400px',
+      data: {
+        title: titolo,
+        body: corpo,
+      },
+      disableClose: true,
+      position: {
+        top: '13%',
+      },
+    });
+  }
+  showChoiceDialog(titolo: string, corpo: string[]){
+    return this.dialog.open(MatDialogComponent, {
+      maxWidth: '400px',
+      maxHeight: '400px',
+      data: {
+        title: titolo,
+        body: corpo,
+        isChoice: true,
+      },
+      disableClose: true,
+      position: {
+        top: '13%',
+      },
+    });
   }
 }
 

@@ -41,7 +41,7 @@
             <button mat-button color="primary" *ngIf="date.value.length>7" (click)=prepareValuesForSearch(orain.value,orafin.value,date.value) style="font-size: 17px">Search</button>
             <button mat-button color="primary" disabled *ngIf="date.value.length<=7" style="font-size: 17px">Search</button>
         </div>
-        <div class = "center">
+        <div class = "center" [hidden]="!sensorListDisplayed && !chartsListDisplayed">
             <div [hidden]="!sensorListDisplayed">
               <div style="max-height: 600px; overflow: auto">
                 <mat-selection-list #sensoriSelezionati role="listbox">

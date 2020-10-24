@@ -27,7 +27,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from './footer/footer.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDialogModule} from '@angular/material/dialog';
-import { DialogTestComponent } from './dialog-test/dialog-test.component';
 import {MatListModule} from '@angular/material/list';
 import {DiagnosticaService} from './diagnostica.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -42,7 +41,6 @@ import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
     AppComponent,
     routingComponents, // Array collocato in app-routing.module.ts in esso vanno dichiarati i Component
     FooterComponent,
-    DialogTestComponent,
     StrRemUnderscore,
     MatDialogComponent
   ],
@@ -72,7 +70,6 @@ import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
   ],
   entryComponents: [
     MatDialogComponent,
-    DialogTestComponent
   ],
   providers: [SpeedometerService,
     BatteryService, BarsService, VolanteService, MapService,

@@ -26,11 +26,10 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full'},
   { path: 'uninacorse', component: UninacorseComponent },
   { path: 'login', component: AppComponent },
-  { path: 'storico', component: StoricoComponent },
+  { path: 'storico', component: HighchartstestComponent },
   { path: 'diagnostica', component: DiagnosticaComponent},
-  { path: 'test', component: HighchartstestComponent},
   { path: 'cambiopassword', component: CambiaPasswordComponent},
-  { path: '**', component: PageNotFoundComponent } //ATTENZIONE DEVE ESSERE SEMPRE L'ULTIMA DELL'ARRAY
+  { path: '**', component: PageNotFoundComponent } // ATTENZIONE DEVE ESSERE SEMPRE L'ULTIMA DELL'ARRAY
 ];
 
 @NgModule({

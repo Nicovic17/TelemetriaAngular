@@ -3,5 +3,7 @@
   {{i}}
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button mat-button (click)="closeDialog()">Close</button>
+  <button *ngIf="!isChoice" mat-button (click)="closeDialog()">Close</button>
+  <button *ngIf="isChoice" mat-button (click)="yesChoice()">Si</button>
+  <button *ngIf="isChoice" mat-button (click)="noChoice()">No</button>
 </mat-dialog-actions>
