@@ -4,9 +4,10 @@ import { auth } from 'firebase/app'
 import { Observable } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { domainToUnicode } from 'url';
-
+import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
 import {  AppcomponentService } from '../app/appcomponent.service'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {MatDialog} from '@angular/material/dialog';
 
 
 
@@ -30,7 +31,7 @@ export class AppComponent {
   loginButtonDisabled=true;
 
 
-  constructor(public auth: AngularFireAuth, public _appComponentService: AppcomponentService) {
+  constructor(public auth: AngularFireAuth, public _appComponentService: AppcomponentService, private matDialog: MatDialog) {
 
   }
 
@@ -102,9 +103,11 @@ export class AppComponent {
     }
     else
     {
+
       document.getElementById("user_div").style.display = "none";
       document.getElementById("login_div").style.display = "block";
       document.getElementById("router").style.display="none";
+      this.showDialog('Attenzione!', ['La password inserita non è valida.']);
     }
     this.password.reset();
   }
@@ -114,5 +117,18 @@ export class AppComponent {
     document.getElementById("user_div").style.display="none";
     document.getElementById("router").style.display="block";
   }
-
+  showDialog(titolo: string, corpo: string[]){
+    this.matDialog.open(MatDialogComponent, {
+      maxWidth: '400px',
+      maxHeight: '400px',
+      data: {
+        title: titolo,
+        body: corpo,
+      },
+      disableClose: true,
+      position: {
+        top: '13%',
+      },
+    });
+  }
 }

@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth'
-import { auth, User } from 'firebase/app'
-import { Observable } from 'rxjs';
-import { AppComponent } from '../app/app.component'
-import { take, map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {AngularFireAuth} from '@angular/fire/auth';
+import {auth} from 'firebase/app';
+import {Observable} from 'rxjs';
+import {AppComponent} from '../app/app.component';
 
 
 @Injectable({
@@ -36,12 +35,11 @@ export class AppcomponentService {
  async updatePassword(newPassword): Promise<boolean>
   {
     const user = await this.auth.currentUser;
-    const ris = await user.updatePassword(newPassword).then(() => {
+    return await user.updatePassword(newPassword).then(() => {
       return true;
     }).catch(error => {
       return false;
     });
-    return ris;
   }
 
  async resetPassword()
@@ -79,7 +77,6 @@ export class AppcomponentService {
       return true;
     }).catch(function(error){
       //Errore in login
-      window.alert("Errore login");
       return false;
     });
 
