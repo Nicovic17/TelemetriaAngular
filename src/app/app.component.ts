@@ -39,10 +39,14 @@ export class AppComponent {
     this.password.valueChanges.subscribe(val=>{
       if(this.password.hasError('required'))
       {
+        //document.getElementById("loginButton").classList.remove("myHover")
         this.loginButtonDisabled=true
       }
       else
-      this.loginButtonDisabled=false;
+      {
+        //document.getElementById("loginButton").classList.add("myHover")
+        this.loginButtonDisabled=false;
+      }
     })
 
     

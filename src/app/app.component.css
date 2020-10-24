@@ -1,27 +1,20 @@
+
+.loginHeader{
+    font-size: 20px;
+}
 body{
     background: #383140;
     padding: 0px;
     margin: 0px;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
-    animation: color-change 10s alternate infinite;
+    /*animation: color-change 10s alternate infinite;*/
 }
 
-@keyframes color-change{
-    0%{
-        background: #383140;
-    }
-    100%{
-        background: white;
-    }
-}
 
 input, button{
 
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 700;
-
-
+   
 }
 
 .main-div, .loggedin-div, .register-div{
@@ -30,8 +23,9 @@ input, button{
     margin-top: 150px;
     padding: 20px;
     text-align: center;
-
+    background-color: whitesmoke;
     display: none;
+    border-radius: 3px;
 }
 
 .main-div input, .register-div input{
