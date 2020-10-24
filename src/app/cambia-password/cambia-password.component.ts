@@ -91,11 +91,19 @@ export class CambiaPasswordComponent implements OnInit {
       if(newPassword==newConfirmPassword)
       {
         
-        this._appComponentService.updatePassword(newPassword)
+        var ris=await this._appComponentService.updatePassword(newPassword)
+       if(ris)
+       {
         this._appComponentService.logout()
         this.newPsw.setValue("");
         this.confirmNewPsw.setValue("")
         this.openDialog()
+       }
+       else
+       {
+         window.alert("Aggiornamento password non riuscito")
+       }
+        
       }
       else
       {

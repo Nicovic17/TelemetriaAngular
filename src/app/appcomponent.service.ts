@@ -36,11 +36,14 @@ export class AppcomponentService {
  async updatePassword(newPassword)
   {
     var user=await this.auth.currentUser;
-    user.updatePassword(newPassword).then(function(){
+    var ris=await user.updatePassword(newPassword).then(function(){
       //window.alert("Password aggiornata.")
+      return true
     }).catch(error=>{
-      window.alert("Errore: "+error)
+      return false
     })
+    return ris;
+    
   }
 
  async resetPassword()

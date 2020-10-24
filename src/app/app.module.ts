@@ -72,6 +72,7 @@ import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
   ],
   entryComponents: [
     MatDialogComponent,
+    DialogTestComponent
   ],
   providers: [SpeedometerService,
     BatteryService, BarsService, VolanteService, MapService,
