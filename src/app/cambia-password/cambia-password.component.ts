@@ -105,8 +105,8 @@ export class CambiaPasswordComponent implements OnInit {
             }
           });
         }
-        this.newPsw.setValue('');
-        this.confirmNewPsw.setValue('');
+        this.newPsw.reset()
+        this.confirmNewPsw.reset()
       }
       else
       {
