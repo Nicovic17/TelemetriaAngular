@@ -7,6 +7,8 @@ import { domainToUnicode } from 'url';
 
 import {  AppcomponentService } from '../app/appcomponent.service'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialogComponent } from '../app/mat-dialog/mat-dialog.component';
 
 
 
@@ -30,7 +32,7 @@ export class AppComponent {
   loginButtonDisabled=true;
 
 
-  constructor(public auth: AngularFireAuth, public _appComponentService: AppcomponentService) {
+  constructor(public auth: AngularFireAuth, public _appComponentService: AppcomponentService, public dialog: MatDialog) {
 
   }
 
@@ -102,6 +104,10 @@ export class AppComponent {
     }
     else
     {
+
+      this.showDialog('Errore autenticazione!',
+            ['Password errata.']);
+
       document.getElementById("user_div").style.display = "none";
       document.getElementById("login_div").style.display = "block";
       document.getElementById("router").style.display="none";
@@ -113,6 +119,21 @@ export class AppComponent {
   {
     document.getElementById("user_div").style.display="none";
     document.getElementById("router").style.display="block";
+  }
+
+  showDialog(titolo: string, corpo: string[]){
+    this.dialog.open(MatDialogComponent, {
+      maxWidth: '400px',
+      maxHeight: '400px',
+      data: {
+        title: titolo,
+        body: corpo,
+      },
+      disableClose: true,
+      position: {
+        top: '13%',
+      },
+    });
   }
 
 }

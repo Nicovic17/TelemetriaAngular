@@ -79,7 +79,6 @@ export class AppcomponentService {
       return true;
     }).catch(function(error){
       //Errore in login
-      window.alert("Errore login");
       return false;
     });
 
