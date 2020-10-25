@@ -1,15 +1,9 @@
 import { Component } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth'
-import { auth } from 'firebase/app'
-import { Observable } from 'rxjs';
-import { RouterLink } from '@angular/router';
-import { domainToUnicode } from 'url';
 import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
 import {  AppcomponentService } from '../app/appcomponent.service'
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
-
-
 
 @Component({
   selector: 'app-root',
@@ -20,9 +14,13 @@ import {MatDialog} from '@angular/material/dialog';
 
 export class AppComponent {
   title = 'firebase-auth';
+  nomeUtente=new FormControl({
+    value: "UninaCorse",
+    disabled: true
+  })
   email = new FormControl({
     value: "uninacorse@gmail.com",
-    disabled: true
+    disabled: true 
   })
   password = new FormControl('', [Validators.required])
   userIsLogged:any;
@@ -31,7 +29,7 @@ export class AppComponent {
   loginButtonDisabled=true;
 
 
-  constructor(public auth: AngularFireAuth, public _appComponentService: AppcomponentService, private matDialog: MatDialog) {
+  constructor(public _appComponentService: AppcomponentService, private matDialog: MatDialog) {
 
   }
 
@@ -40,12 +38,10 @@ export class AppComponent {
     this.password.valueChanges.subscribe(val=>{
       if(this.password.hasError('required'))
       {
-        //document.getElementById("loginButton").classList.remove("myHover")
         this.loginButtonDisabled=true
       }
       else
       {
-        //document.getElementById("loginButton").classList.add("myHover")
         this.loginButtonDisabled=false;
       }
     })
@@ -84,18 +80,12 @@ export class AppComponent {
     }
   }
 
-  textUsername:Object;
-  textPassword:Object;
-  successLogin:any;
+ 
  async myLogin(){
 
-    //this.textUsername=(document.getElementById("username") as (HTMLInputElement)).value;
-    //console.log(this.textUsername+"")
-    //this.textPassword=(document.getElementById("password") as (HTMLInputElement)).value;
+    let successLogin=await this._appComponentService.myLogin(this.email.value,this.password.value);
 
-    this.successLogin=await this._appComponentService.myLogin(this.email.value,this.password.value);
-
-    if(this.successLogin)
+    if(successLogin)
     {
           document.getElementById("user_div").style.display="block";
           document.getElementById("login_div").style.display="none";

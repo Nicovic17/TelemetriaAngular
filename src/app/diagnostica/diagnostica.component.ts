@@ -1,6 +1,5 @@
 import {Component, Input, NgZone, OnInit, ViewChild} from '@angular/core';
 import {MatListModule, MatSelectionList} from '@angular/material/list';
-import {AngularFireAuth} from "@angular/fire/auth";
 import {DiagnosticaService} from "../diagnostica.service";
 
 
@@ -16,8 +15,8 @@ export class DiagnosticaComponent implements OnInit {
   visibility = 'display:none';
   @ViewChild('msg', {static: true}) private listObj: MatSelectionList;
 
-  constructor(public auth: AngularFireAuth, private _diagService: DiagnosticaService, private ngZone: NgZone) {
-    this.checkIfUserIsLogged();
+  constructor( private _diagService: DiagnosticaService, private ngZone: NgZone) {
+    
   }
 
   ngOnInit(): void {
@@ -72,20 +71,5 @@ export class DiagnosticaComponent implements OnInit {
     }
   }
 
-  checkIfUserIsLogged() {
-    this.auth.onAuthStateChanged(function (user) {
-      if (user) {
-        document.getElementById("user_div").style.display = "none";
-        document.getElementById("router").style.display = "block";
-
-        return true;
-      }
-      else {
-        console.log("Non Loggato");
-        document.getElementById("login_div").style.display = "block";
-
-        return -1;
-      }
-    });
-  }
+  
 }
