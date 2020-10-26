@@ -11,17 +11,17 @@
         </object>
       <h3 class="loginHeader">Bentornato</h3>
         <!--<button (click)="showRouter()" routerLink="uninacorse">Mostra BOX</button>-->
-        <button class="myButton myHover" mat-raised-button color="primary" (click)="showRouter()" routerLink="uninacorse">Mostra BOX</button>
+        <button class="myButton myHover" mat-raised-button color="primary" (click)="showRouter()" routerLink="uninacorse">Stato Generale</button>
         <button class="myButton myHover" mat-raised-button color="primary" (click)="showRouter()" routerLink="storico">Storico</button>
         <button class="myButton myHover" mat-raised-button color="primary" (click)="showRouter()" routerLink="cambiopassword">Cambia password</button>
         <button class="myButton myHover" mat-raised-button color="primary" (click)="logout()" >Logout</button>
         <!--<button (click)="showRouter()" routerLink="storico">Storico</button>
-        <button (click)="showRouter()" routerLink="cambiopassword">Cambia password</button> 
+        <button (click)="showRouter()" routerLink="cambiopassword">Cambia password</button>
         <button (click)="logout()">Logout</button>-->
       </div>
-    
-    
-    
+
+
+
       <div #showLogin class="loggedin-div"  id="login_div">
         <object>
           <embed src="../assets/svg/eteam.svg" width="40%" height="40%">
@@ -48,9 +48,9 @@
         </p>
         <!--<button (click)="myLogin()">Login</button>-->
        <button id="loginButton" class="myButton" mat-raised-button color="primary" (click)="myLogin()" [disabled]="loginButtonDisabled">Login</button>
-    
+
       </div>
-    
+
       <div id="router">
         <router-outlet></router-outlet>
       </div>

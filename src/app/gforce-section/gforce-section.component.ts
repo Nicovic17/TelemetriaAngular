@@ -45,15 +45,15 @@ export class GforceSectionComponent implements OnInit {
     });
   }
   updateGForce(){
-    const zeroLat = 16;
-    const zeroLong = -1;
+    const zeroLat = 47;  // est-ovest 47
+    const zeroLong = 48;  // nord-sud 48
     let tempLat;
-    if(this.latDir=='L'){
-      tempLat = this.lateral * -6.78;
+    if(this.latDir === 'L'){
+      tempLat = this.lateral * -5.30612;
     }else{
-      tempLat = this.lateral * 6.78;
+      tempLat = this.lateral * 5.30612;
     }
-    let tempLong = this.longitudinal * -6.78;
+    const tempLong = this.longitudinal * -5.30612;
 
     this.x_axis = zeroLat + tempLat + 'px';
     this.y_axis = zeroLong + tempLong + 'px';

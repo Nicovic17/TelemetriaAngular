@@ -2,11 +2,15 @@
 .banner-font{
 
   font-family: Impact, sans-serif;
+  position: relative;
+  left: 57px;
 
 }
 
 .sopra{
     position: relative;
+    margin-right: 15px;
+    margin-bottom: 15px;
 }
 
 .sotto{
@@ -17,9 +21,8 @@
 .btn {
     position: absolute;
     display: block;
-    margin: 5px auto;
     padding: 0;
-
+    max-width: 96px;
     overflow: hidden;
 
     border-width: 0;
