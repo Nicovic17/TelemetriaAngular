@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {AngularFireDatabase} from "@angular/fire/database";
 import {Observable} from "rxjs";
+import {childOfKind} from 'tslint';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class DiagnosticaService {
   getDiagMessages(): Observable<string[]>{
     return new Observable<string[]>(subscriber => {
       this.db.database.ref("/diagnostica").on("child_added", child =>{
-        subscriber.next([child.key,child.val()]);
+        subscriber.next([child.key, child.val()]);
       });
     });
   }

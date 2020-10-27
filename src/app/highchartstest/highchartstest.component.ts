@@ -49,10 +49,7 @@ export class HighchartstestComponent implements OnInit {
     @ViewChild('sensoriSelezionati', {static: false}) public listObj: MatSelectionList;
     @ViewChild('graph', {static: false}) private graphSection;
 
-  // tslint:disable-next-line:variable-name
-    constructor(public _service: StoricoDueService, public auth: AngularFireAuth, public ngZone: NgZone, private errDialog: MatDialog) {
-        this.checkIfUserIsLogged();
-    }
+    constructor(public _service: StoricoDueService, public ngZone: NgZone, private errDialog: MatDialog) {}
     ngOnInit(): void {
       this.maxDate = this.setMaxDate();
     }
@@ -177,24 +174,6 @@ export class HighchartstestComponent implements OnInit {
         .split(' ')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
-    }
-
-    checkIfUserIsLogged() {
-      // tslint:disable-next-line:only-arrow-functions
-        this.auth.onAuthStateChanged(function(user) {
-            if (user) {
-                document.getElementById('user_div').style.display = 'none';
-                document.getElementById('router').style.display = 'block';
-
-                return true;
-            }
-            else {
-                console.log('Non Loggato');
-                document.getElementById('login_div').style.display = 'block';
-
-                return -1;
-            }
-        });
     }
 
   /**

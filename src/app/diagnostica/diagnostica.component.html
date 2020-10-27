@@ -14,29 +14,37 @@
 
     <app-nav-bar></app-nav-bar>
 
+<!--    <div class="overlay" *ngIf="isLoading">-->
+<!--      <div class="overlay__inner">-->
+<!--        <div class="overlay__content"><span class="spinner"></span></div>-->
+<!--      </div>-->
+<!--    </div>-->
+
     <div class="txtCenter">
         <p class="textClass">Messaggi di Diagnostica</p>
     </div>
-    <div class="loading">
-        <mat-progress-spinner mode="indeterminate" style="margin: auto" *ngIf="isWait">
-        </mat-progress-spinner>
-    </div>
-    <div class="center" [style]="visibility">
-        <mat-selection-list #msg role="listbox">
-            <mat-list-option role="option" *ngFor="let item of messagesList">
+    <div class="center">
+        <mat-form-field style="width: 60%; left: 2%">
+          <mat-label>Filtraggio Dati</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Esempi: 'on', 'temp', '52:17' " #input>
+          <button mat-icon-button class="clearButton" (click)="input.value = ''; applyFilter(null)" [disabled]="input.value.length == 0">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <mat-selection-list #msg (selectionChange)="selectionChange($event.option)">
+            <mat-list-option *ngFor="let item of messagesList" [value]="item" [selected]="messageControl.value && messageControl.value?.indexOf(item) >= 0">
                 {{item}}
             </mat-list-option>
+            <p class="listNoValue" *ngIf="input.value.length > 0 && messagesList.length == 0">Nessun risultato per: "{{input.value}}"</p>
+            <p class="listNoValue" *ngIf="messagesList.length == 0 && input.value.length == 0">Non sono presenti messaggi di Diagnostica</p>
         </mat-selection-list>
     </div>
     <div style="margin-left: 70%">
-        <div class="button-row" [style]="visibility">
+        <div class="button-row">
             <button mat-raised-button color="primary" (click)="selectAll()" *ngIf="msg.selectedOptions.selected.length<messagesList.length && messagesList.length>1">&nbsp;&nbsp;Select All&nbsp;&nbsp;</button>
             <button mat-raised-button disabled color="primary" *ngIf="messagesList.length<=1" (click)="msg.selectAll()">Select All</button>
             <button mat-raised-button color="basic" (click)="selectNone()" *ngIf="msg.selectedOptions.selected.length==messagesList.length && messagesList.length>1">Deselect All</button>
-            <button mat-fab color="primary" *ngIf="msg.selectedOptions.selected.length>0" (click)="deleteMessages(msg.selectedOptions.selected)">
-                <mat-icon>delete</mat-icon>
-            </button>
-            <button mat-fab disabled color="primary" *ngIf="msg.selectedOptions.selected.length==0">
+            <button mat-fab color="primary" [disabled]="msg.selectedOptions.selected.length==0" (click)="deleteMessages()">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>
