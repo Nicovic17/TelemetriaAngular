@@ -12,10 +12,20 @@ export class DiagnosticaService {
 
   getDiagMessages(): Observable<string[]>{
     return new Observable<string[]>(subscriber => {
-      this.db.database.ref("/diagnostica").on("child_added", child =>{
+      this.db.database.ref('/diagnostica').on("child_added", child =>{
         subscriber.next([child.key, child.val()]);
       });
     });
+  }
+
+  async getMessagesNumber(): Promise<number>{
+    let counter = 0;
+    await this.db.database.ref('/diagnostica').once('value').then(value => {
+      value.forEach(child => {
+        counter++;
+      });
+    });
+    return counter;
   }
 
   deleteKey(key){

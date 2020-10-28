@@ -2,8 +2,6 @@ import {Component, Input, NgZone, OnInit, ViewChild} from '@angular/core';
 import {MatListModule, MatListOption, MatSelectionList} from '@angular/material/list';
 import {DiagnosticaService} from '../diagnostica.service';
 import {FormControl} from '@angular/forms';
-import {debounce, debounceTime, startWith, switchMap} from 'rxjs/operators';
-import {of} from 'rxjs';
 
 
 @Component({
@@ -14,7 +12,7 @@ import {of} from 'rxjs';
 export class DiagnosticaComponent implements OnInit {
 
   constructor( private _diagService: DiagnosticaService, private ngZone: NgZone) {}
-  messagesList: Array<string> = ['root'];
+  messagesList: Array<string> = [];
   messageListBackup = []; // Utilizzato per la funzionalità di filtraggio dei dati
   messageMap = new Map(); // Map del tipo <Messaggio>:<Key>
   @ViewChild('msg', {static: true}) private listObj: MatSelectionList;
@@ -24,7 +22,6 @@ export class DiagnosticaComponent implements OnInit {
   ngOnInit(): void {
     this.listUpdate();
   }
-
   selectAll(){
     this.listObj.selectAll();
     this.listObj.selectedOptions.selected.forEach(value => {
@@ -38,10 +35,9 @@ export class DiagnosticaComponent implements OnInit {
     });
     this.listObj.deselectAll();
   }
-
-  listUpdate(){
+  async listUpdate(){
+    let messagesNumber = await this._diagService.getMessagesNumber();
     let message: string;
-    this.messagesList.pop();
     this._diagService.getDiagMessages().subscribe(value => {
       message = this.convertDate(Number(value[0]));
       this.ngZone.run(() => {
@@ -50,8 +46,13 @@ export class DiagnosticaComponent implements OnInit {
         this.messageListBackup.unshift(message);
       });
       this.messageMap.set(message, value[0]); // L'array conserva l'associazione key-value del db per la cancellazione
+      messagesNumber--;
+      if (messagesNumber === 0){
+        this.isLoading = false;
+      }
     });
   }
+
   convertDate(time: number): string{
     const stamp = new Date(time);
     const h = this.normalizeTimes(stamp.getHours(), false);

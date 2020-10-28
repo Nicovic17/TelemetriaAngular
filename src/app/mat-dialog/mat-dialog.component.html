@@ -3,7 +3,12 @@
   {{i}}
 </mat-dialog-content>
 <mat-dialog-actions align="center">
-  <button *ngIf="!isChoice" mat-button (click)="closeDialog()">Close</button>
+  <button *ngIf="!isChoice && !isPersonalized" mat-button (click)="closeDialog()">Close</button>
   <button *ngIf="isChoice" mat-button (click)="yesChoice()">Si</button>
   <button *ngIf="isChoice" mat-button (click)="noChoice()">No</button>
+  <ng-container *ngIf="isPersonalized">
+    <ng-container *ngFor="let button of choices">
+      <button mat-button color="primary" (click)="personalizedChoice(button.returnValue)">{{button.name}}</button>
+    </ng-container>
+  </ng-container>
 </mat-dialog-actions>

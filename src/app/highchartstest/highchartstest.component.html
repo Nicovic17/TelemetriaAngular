@@ -26,7 +26,7 @@
           </div>
         </div>
 
-        <div class="center">
+        <div class="center" *ngIf="!canFilter">
             <mat-form-field appearance="fill">
                 <mat-label>Choose a date</mat-label>
               <input matInput #date [matDatepicker]="picker" [max]="maxDate" readonly>
@@ -34,12 +34,22 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             &nbsp;&nbsp;&nbsp;
-            <label>Scegli ora inizio:&nbsp;</label><input type="time" #orain id="oraInizioGenerale" value="22:16:00" step="1">
+            <label>Scegli ora inizio:&nbsp;</label><input type="time" #orain id="oraInizioGenerale" value="15:16:00" step="1">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <label>Scegli ora fine:&nbsp;</label><input type="time" #orafin id="oraFineGenerale" value="22:18:00" step="1">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button mat-button color="primary" *ngIf="date.value.length>7" (click)=prepareValuesForSearch(orain.value,orafin.value,date.value) style="font-size: 17px">Search</button>
             <button mat-button color="primary" disabled *ngIf="date.value.length<=7" style="font-size: 17px">Search</button>
+        </div>
+        <div class="center" *ngIf="canFilter">
+          <mat-form-field style="width: 50%; left: 2%">
+            <mat-label>Filtraggio Dati</mat-label>
+            <input matInput placeholder="Esempi: 'on', 'temp', '52:17' " #input>
+            <button mat-icon-button class="clearButton" [disabled]="input.value.length == 0">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+          <button mat-button color="primary" class="inCenterButton" (click)="this.canFilter = false; this.sensorListDisplayed = false" >Nuova Ricerca</button>
         </div>
         <div class = "center" [hidden]="!sensorListDisplayed && !chartsListDisplayed">
             <div [hidden]="!sensorListDisplayed">

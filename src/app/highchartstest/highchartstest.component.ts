@@ -42,6 +42,7 @@ export class HighchartstestComponent implements OnInit {
     public chartsListDisplayed = false;  // Stabilisce se la lista dei grafici deve essere visibile
     public isLoading = false;
     public canJoinGraph = false; // Stabilisce se il pulsante per unire i grafici è visibile
+    public canFilter = false;
     public aviableSensors: StrutturaSensori[];  // Struttura definità dopra il decorator serve per mantenere tutti i dati dei sensori
     public sensorsMap: Map<string, string>;  // Conserva la mappa dei sensori
     public listaSensori = [];  // Contiene la lista dei sensori disponibili per l'intervallo di tempo selezionato
@@ -77,6 +78,7 @@ export class HighchartstestComponent implements OnInit {
         selezionato dall'utente.
      */
     async startSearch(oraI: Date, oraF: Date){
+        this.canFilter = true;
         // Resetta tutte le strutture per inserire nuovi grafici
         this.sensorListDisplayed = false;
         this.chartsListDisplayed = false;
@@ -93,6 +95,7 @@ export class HighchartstestComponent implements OnInit {
         });
         // Vengono visualizzati
         if (this.aviableSensors.length === 0){
+          this.canFilter = false;
           this.showErrorNoData();
         }else{
           this.ngZone.run(() => {
@@ -108,10 +111,10 @@ export class HighchartstestComponent implements OnInit {
         if (this.listObj.selectedOptions.selected.length === 0){
           this.showErrorNoSelection();
         }else{
-          this.inizializzaGrafici();
+          this.chooseChartType();
         }
     }
-    inizializzaGrafici(){
+    inizializzaGrafici(isSingle: boolean){
       let isFailed = false;
 
       // Riempe l'array idSensoriScelti
@@ -131,21 +134,23 @@ export class HighchartstestComponent implements OnInit {
       }
       // Per ogni id scelto ricava da aviableSensors la mappa che contiene tutta la cronologia
       if (!isFailed) {
+        isSingle ? this.mostraGraficiSingoli() : this.unisciGrafici();
         this.sensorListDisplayed = false;
-        for (const i of this.idSensoriScelti){
-          const tempVal = this.aviableSensors.find(value => value.id === i);
-          // converto la mappa in array
-          const arrayData = [...tempVal.info.entries() ];
-          console.log(arrayData);
-          const myOpt = this.createNewChartOption(this.toTitleCase(this.sensorsMap.get(i).replace(/_/g, ' ')),
-            false,
-            [{name: this.sensorsMap.get(i), data: arrayData}]);
-          $('#grafici').append('<div id=\'' + i + '\'></div>'); // Il metodo ngFor non faceva rendereizzare il grafico
-          Highcharts.chart(String(i), myOpt);
-          this.canJoinGraph = true;
-        }
       }else{
         this.showDialog('Errore!', ['Sono stati selezionati uno o più sensori non presenti nella Mappa dei Sensori', 'Evitare di selezionare i sensori \'Sensor not Aviable in The Map\'']);
+      }
+    }
+    mostraGraficiSingoli(){
+      for (const i of this.idSensoriScelti){
+        const tempVal = this.aviableSensors.find(value => value.id === i);
+        // converto la mappa in array
+        const arrayData = [...tempVal.info.entries() ];
+        const myOpt = this.createNewChartOption(this.toTitleCase(this.sensorsMap.get(i).replace(/_/g, ' ')),
+          false,
+          [{name: this.sensorsMap.get(i), data: arrayData}]);
+        $('#grafici').append('<div id=\'' + i + '\'></div>'); // Il metodo ngFor non faceva rendereizzare il grafico
+        Highcharts.chart(String(i), myOpt);
+        this.canJoinGraph = true;
       }
     }
     unisciGrafici(){
@@ -161,6 +166,18 @@ export class HighchartstestComponent implements OnInit {
         Highcharts.chart('uni', myOpt);
         this.showDialogChartsJoined();
         this.canJoinGraph = false;
+    }
+
+    chooseChartType(){
+      const matRef = this.showTypeOfChartChoice();
+      matRef.afterClosed().subscribe(value => {
+        console.log('value is' + value);
+        if (value === 0){
+          this.inizializzaGrafici(true);
+        }else{
+          this.inizializzaGrafici(false);
+        }
+      });
     }
 
     convertDate(time: number): number{
@@ -331,6 +348,33 @@ export class HighchartstestComponent implements OnInit {
       data: {
         title: titolo,
         body: corpo,
+      },
+      disableClose: true,
+      position: {
+        top: '13%',
+      },
+    });
+  }
+  showTypeOfChartChoice(){
+    return this.errDialog.open(MatDialogComponent, {
+      maxWidth: '400px',
+      maxHeight: '400px',
+      data: {
+        title: 'Modalità Grafici',
+        body: [
+          'Si desidera visualizzare i grafici singoli o un solo Grafico Unito?',
+        ],
+        isChoice: false,
+        isPersonalized: true,
+        choices: [
+          { name: 'Grafici Singoli',
+            returnValue: 0
+          },
+          {
+            name: 'Grafico Unito',
+            returnValue: 1
+          }
+        ]
       },
       disableClose: true,
       position: {

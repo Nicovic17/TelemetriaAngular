@@ -24,12 +24,23 @@
   overflow: visible;
   position: relative;
 }
+.inCenterButton {
+  font-size: 17px;
+  position: relative;
+  margin-left: 10%;
+  margin-top: 2%;
+}
 .right {
   position: absolute;
   right: 0px;
   width: 300px;
   /*border: 3px solid #73AD21;*/
   padding: 10px;
+}
+.clearButton {
+  position: absolute;
+  margin-left: -5%;
+  bottom: 1%;
 }
 .buttonDistance {
   margin-left: 10px;
