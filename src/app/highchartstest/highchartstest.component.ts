@@ -115,7 +115,7 @@ export class HighchartstestComponent implements OnInit {
         this.sensorsMap = await this._service.getSensorsMap();
         // Utilizzando la mappa gli id dei sensori vengono convertiti in nomi
         this.aviableSensors.forEach(value => {
-            this.listaSensori.push(this.sensorsMap.get(value.id) || 'SENSOR NOT AVIABLE IN THE MAP');
+            this.listaSensori.push(this.sensorsMap.get(value.id) || 'SENSOR NOT AVAILABLE IN THE MAP');
         });
         // Vengono visualizzati
         if (this.aviableSensors.length === 0){
@@ -132,9 +132,10 @@ export class HighchartstestComponent implements OnInit {
         Questo metodo viene chiamato alla pressione del pulsante
      */
     mostraGrafici(){
-        if (this.listObj.selectedOptions.selected.length === 0){
+        if (this.searchControl.value === null || this.searchControl.value?.length === 0){
           this.showErrorNoSelection();
         }else{
+          this.search.reset();
           this.chooseChartType();
         }
     }
