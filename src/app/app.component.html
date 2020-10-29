@@ -39,7 +39,7 @@
         <p>
           <mat-form-field appearance="legacy">
             <mat-label>Password</mat-label>
-            <input matInput [type]="hideNewPassword ? 'password' : 'text'" placeholder="Password" [formControl]="password" required>
+            <input id="inputPassword" matInput [type]="hideNewPassword ? 'password' : 'text'" placeholder="Password" [formControl]="password" required>
             <button mat-icon-button matSuffix (click)="hideNewPassword = !hideNewPassword"
             [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideNewPassword">
             <mat-icon>{{hideNewPassword ? 'visibility_off' : 'visibility'}}</mat-icon>

@@ -31,6 +31,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { StoricoDueService } from './storico-due.service';
 import { StrRemUnderscore } from './stringformat.pipe';
 import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
+import { AppcomponentService } from './appcomponent.service';
+
 
 // ATTENZIONE NON IMPORTARE QUA I COMPONENT, VANNO IN --> app-routing.module.ts
 
@@ -70,7 +72,7 @@ import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
   ],
   providers: [SpeedometerService,
     BatteryService, BarsService, VolanteService, MapService,
-    EngineService, MatDatepickerModule, DiagnosticaService, StoricoDueService, AppComponent],
+    EngineService, MatDatepickerModule, DiagnosticaService, StoricoDueService, AppComponent, AppcomponentService],
 
   bootstrap: [AppComponent]
 })

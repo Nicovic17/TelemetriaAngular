@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {auth} from 'firebase/app';
 import {Observable} from 'rxjs';
-import {AppComponent} from '../app/app.component';
 
 
 @Injectable({
@@ -11,7 +10,7 @@ import {AppComponent} from '../app/app.component';
 export class AppcomponentService {
 
 
-  constructor(public auth: AngularFireAuth, public appComponent: AppComponent) {
+  constructor(public auth: AngularFireAuth) {
 
    }
 

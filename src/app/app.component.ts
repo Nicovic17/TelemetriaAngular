@@ -52,6 +52,18 @@ export class AppComponent {
     this.getCurrentUser()
   }
 
+  ngAfterViewInit()
+  {
+    let inputPassword=document.getElementById("inputPassword");
+
+    inputPassword.addEventListener("keyup",event=>{
+      if(event.key == "Enter" && !this.loginButtonDisabled)
+      {
+        this.myLogin();
+      }
+    })
+  }
+
    getCurrentUser()
   {
     this._appComponentService.isLoggedIn().subscribe(value=>{
