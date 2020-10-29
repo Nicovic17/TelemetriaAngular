@@ -5,6 +5,9 @@ import {MatSelectionList} from '@angular/material/list';
 import {StoricoDueService} from '../storico-due.service';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {MatDialogComponent} from '../mat-dialog/mat-dialog.component';
+import {FormControl} from '@angular/forms';
+import {debounceTime, startWith, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 // Per utilizzare jQuery in TS
 declare var $: any;
@@ -49,6 +52,26 @@ export class HighchartstestComponent implements OnInit {
     public idSensoriScelti = [];  // contiene gli id dei sensori selezionati
     @ViewChild('sensoriSelezionati', {static: false}) public listObj: MatSelectionList;
     @ViewChild('graph', {static: false}) private graphSection;
+    search = new FormControl();
+    searchControl = new FormControl();
+
+    $search = this.search.valueChanges.pipe(
+      startWith(null),
+      debounceTime(5),
+      switchMap((res: string) => {
+        if (!res){ return of(this.listaSensori); }
+        res = res.trim().toLowerCase();
+        return of(
+          this.listaSensori.filter(x => x.toLowerCase().indexOf(res) >= 0)
+        );
+      })
+    );
+
+    filterChange(option: any){
+      let value = this.searchControl.value || [];
+      option.selected ? value.push(option.value) : value = value.filter((x: any) => x !== option.value);
+      this.searchControl.setValue(value);
+    }
 
     constructor(public _service: StoricoDueService, public ngZone: NgZone, private errDialog: MatDialog) {}
     ngOnInit(): void {
@@ -80,6 +103,7 @@ export class HighchartstestComponent implements OnInit {
     async startSearch(oraI: Date, oraF: Date){
         this.canFilter = true;
         // Resetta tutte le strutture per inserire nuovi grafici
+        this.searchControl.reset();
         this.sensorListDisplayed = false;
         this.chartsListDisplayed = false;
         this.canJoinGraph = false;

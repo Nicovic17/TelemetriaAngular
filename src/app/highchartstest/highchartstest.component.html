@@ -41,21 +41,23 @@
             <button mat-button color="primary" *ngIf="date.value.length>7" (click)=prepareValuesForSearch(orain.value,orafin.value,date.value) style="font-size: 17px">Search</button>
             <button mat-button color="primary" disabled *ngIf="date.value.length<=7" style="font-size: 17px">Search</button>
         </div>
+        <!-- Inizio modulo filtraggio dati -->
         <div class="center" *ngIf="canFilter">
           <mat-form-field style="width: 50%; left: 2%">
             <mat-label>Filtraggio Dati</mat-label>
-            <input matInput placeholder="Esempi: 'on', 'temp', '52:17' " #input>
-            <button mat-icon-button class="clearButton" [disabled]="input.value.length == 0">
+            <input matInput placeholder="" [formControl]="search" #input>
+            <button mat-icon-button class="clearButton" (click)="search.reset()" [disabled]="input.value.length == 0">
               <mat-icon>close</mat-icon>
             </button>
           </mat-form-field>
           <button mat-button color="primary" class="inCenterButton" (click)="this.canFilter = false; this.sensorListDisplayed = false" >Nuova Ricerca</button>
         </div>
+        <!-- Fine Modulo filtraggio dati-->
         <div class = "center" [hidden]="!sensorListDisplayed && !chartsListDisplayed">
             <div [hidden]="!sensorListDisplayed">
               <div style="max-height: 600px; overflow: auto">
-                <mat-selection-list #sensoriSelezionati role="listbox">
-                  <mat-list-option role="option" *ngFor="let item of listaSensori" [value]="item">
+                <mat-selection-list #sensoriSelezionati (selectionChange)="filterChange($event.option)">
+                  <mat-list-option  *ngFor="let item of $search|async" [value]="item" [selected]="searchControl.value && searchControl.value?.indexOf(item) >= 0">
                     {{item | strRemUnderscore | titlecase}}
                   </mat-list-option>
                 </mat-selection-list>
@@ -63,7 +65,7 @@
               <div>
                 <mat-divider></mat-divider>
                 <br>
-                <label class="textClassSmall">&nbsp;&nbsp;&nbsp;Sensori Selezionati: {{sensoriSelezionati.selectedOptions.selected.length}}</label>
+                <label class="textClassSmall">&nbsp;&nbsp;&nbsp;Sensori Selezionati: {{searchControl.value?.length || 0}}</label>
               </div>
             </div>
             <div #graph id="grafici" *ngIf="chartsListDisplayed"></div>
@@ -72,7 +74,7 @@
           <div class="right" align="right">
             <button mat-raised-button color="primary" class="buttonDistance" (click)="mostraGrafici()" *ngIf="sensorListDisplayed">Mostra Grafici</button>
             <button mat-raised-button color="primary" class="buttonDistance" (click)="unisciGrafici()" *ngIf="canJoinGraph">Unisci</button>
-            <button mat-raised-button color="primary" class="buttonDistance" [disabled]="(sensoriSelezionati.selectedOptions.selected.length < 2)" (click)="deselectAll()" *ngIf="sensorListDisplayed">Deselect All</button>
+            <button mat-raised-button color="primary" class="buttonDistance" [disabled]="(searchControl.value?.length < 2)" (click)="searchControl.reset()" *ngIf="sensorListDisplayed">Deselect All</button>
           </div>
         </div>
     </body>
