@@ -1,8 +1,8 @@
-import { StringformatPipe } from './stringformat.pipe';
+import { StrRemUnderscore } from './stringformat.pipe';
 
-describe('StringformatPipe', () => {
+describe('StrRemUnderscore', () => {
   it('create an instance', () => {
-    const pipe = new StringformatPipe();
+    const pipe = new StrRemUnderscore();
     expect(pipe).toBeTruthy();
   });
 });
