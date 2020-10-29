@@ -13,24 +13,22 @@ import { SpeedometerService } from './speedometer.service';
 import { BatteryService } from './battery.service';
 import { VolanteService } from './volante.service';
 import { MapService } from './map.service';
-import {StoricoService} from './storico.service';
-import {EngineService} from './engine.service';
+import { EngineService } from './engine.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
-import { FooterComponent } from './footer/footer.component';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatListModule} from '@angular/material/list';
-import {DiagnosticaService} from './diagnostica.service';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {StoricoDueService} from './storico-due.service';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
+import { DiagnosticaService } from './diagnostica.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { StoricoDueService } from './storico-due.service';
 import { StrRemUnderscore } from './stringformat.pipe';
 import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
 
@@ -40,7 +38,6 @@ import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
   declarations: [
     AppComponent,
     routingComponents, // Array collocato in app-routing.module.ts in esso vanno dichiarati i Component
-    FooterComponent,
     StrRemUnderscore,
     MatDialogComponent
   ],
@@ -73,7 +70,7 @@ import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
   ],
   providers: [SpeedometerService,
     BatteryService, BarsService, VolanteService, MapService,
-    StoricoService, EngineService, MatDatepickerModule, DiagnosticaService, StoricoDueService, AppComponent],
+    EngineService, MatDatepickerModule, DiagnosticaService, StoricoDueService, AppComponent],
 
   bootstrap: [AppComponent]
 })
