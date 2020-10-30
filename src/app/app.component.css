@@ -44,6 +44,20 @@ input, button{
     border: 1px solid #999;
 
 }
+
+.myButtonNoHover{
+
+    border: 0px;
+    border-radius: 5px;
+    padding: 15px;
+    margin-top: 10px;
+    display: block;
+    width: 100%;
+    transition: 0.3s;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+
+}
 .myButton{
     border: 0px;
     border-radius: 5px;

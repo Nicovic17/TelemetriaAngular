@@ -13,7 +13,7 @@
         <!--<button (click)="showRouter()" routerLink="uninacorse">Mostra BOX</button>-->
         <button class="myButton myHover" mat-raised-button color="primary" (click)="showRouter()" routerLink="uninacorse">Stato Generale</button>
         <button class="myButton myHover" mat-raised-button color="primary" (click)="showRouter()" routerLink="storico">Storico</button>
-        <button class="myButton myHover" mat-raised-button color="primary" (click)="showRouter()" routerLink="cambiopassword">Cambia password</button>
+        <button class="myButton myHover" mat-raised-button color="primary" (click)="showRouter()" routerLink="cambiopassword">Account</button>
         <button class="myButton myHover" mat-raised-button color="primary" (click)="logout()" >Logout</button>
         <!--<button (click)="showRouter()" routerLink="storico">Storico</button>
         <button (click)="showRouter()" routerLink="cambiopassword">Cambia password</button>
@@ -30,9 +30,9 @@
         <!-- <input type="text" id="username" placeholder="Email">-->
         <p>
           <mat-form-field appearance="legacy">
-            <mat-label>Email</mat-label>
+            <mat-label>Username</mat-label>
             <input matInput placeholder="Email" [formControl]="nomeUtente" [disabled]="emailDisabled">
-            <mat-icon matSuffix>email</mat-icon>
+            <mat-icon matSuffix>account_circle</mat-icon>
           </mat-form-field>
         </p>
         <!--<input type="password" id="password" placeholder="Password">-->
@@ -47,7 +47,7 @@
           </mat-form-field>
         </p>
         <!--<button (click)="myLogin()">Login</button>-->
-       <button id="loginButton" class="myButton" mat-raised-button color="primary" (click)="myLogin()" [disabled]="loginButtonDisabled">Login</button>
+       <button id="loginButton" class="myButtonNoHover" mat-raised-button color="primary" (click)="myLogin()" [disabled]="loginButtonDisabled">Login</button>
 
       </div>
 

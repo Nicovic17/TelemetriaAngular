@@ -39,10 +39,12 @@ export class AppComponent {
       if(this.password.hasError('required'))
       {
         this.loginButtonDisabled=true
+        document.getElementById("loginButton").classList.remove("myButton");
       }
       else
       {
         this.loginButtonDisabled=false;
+        document.getElementById("loginButton").classList.add("myButton");
       }
     })
 
