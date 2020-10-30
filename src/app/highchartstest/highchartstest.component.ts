@@ -50,7 +50,6 @@ export class HighchartstestComponent implements OnInit {
     public sensorsMap: Map<string, string>;  // Conserva la mappa dei sensori
     public listaSensori = [];  // Contiene la lista dei sensori disponibili per l'intervallo di tempo selezionato
     public idSensoriScelti = [];  // contiene gli id dei sensori selezionati
-    @ViewChild('sensoriSelezionati', {static: false}) public listObj: MatSelectionList;
     @ViewChild('graph', {static: false}) private graphSection;
     search = new FormControl();
     searchControl = new FormControl();
@@ -74,6 +73,7 @@ export class HighchartstestComponent implements OnInit {
     }
 
     constructor(public _service: StoricoDueService, public ngZone: NgZone, private errDialog: MatDialog) {}
+
     ngOnInit(): void {
       this.maxDate = this.setMaxDate();
     }
@@ -135,7 +135,7 @@ export class HighchartstestComponent implements OnInit {
         if (this.searchControl.value === null || this.searchControl.value?.length === 0){
           this.showErrorNoSelection();
         }else{
-          this.search.reset();
+          //this.search.reset();
           this.chooseChartType();
         }
     }
@@ -144,12 +144,18 @@ export class HighchartstestComponent implements OnInit {
 
       // Riempe l'array idSensoriScelti
       this.idSensoriScelti.splice(0, this.idSensoriScelti.length);
-      this.listObj.selectedOptions.selected.forEach(value => {
-        const key = value.value;
+      this.searchControl.value.forEach(value => {
+        const key = value;
         // Effettua conversione inversa "Nome sensore" -> ID
         const keys = [...this.sensorsMap.entries()].filter(({ 1: v }) => v === key).map(([k]) => k);
         this.idSensoriScelti.push(keys[0]);
       });
+      // this.listObj.selectedOptions.selected.forEach(value => {
+      //   const key = value.value;
+      //   // Effettua conversione inversa "Nome sensore" -> ID
+      //   const keys = [...this.sensorsMap.entries()].filter(({ 1: v }) => v === key).map(([k]) => k);
+      //   this.idSensoriScelti.push(keys[0]);
+      // });
       // console.log(this.idSensoriScelti);
       for (const i of this.idSensoriScelti){
         if (i === undefined){
@@ -161,6 +167,8 @@ export class HighchartstestComponent implements OnInit {
       if (!isFailed) {
         isSingle ? this.mostraGraficiSingoli() : this.unisciGrafici();
         this.sensorListDisplayed = false;
+        this.search.reset();
+        this.search.disable();
       }else{
         this.showDialog('Errore!', ['Sono stati selezionati uno o più sensori non presenti nella Mappa dei Sensori', 'Evitare di selezionare i sensori \'Sensor not Aviable in The Map\'']);
       }
@@ -358,9 +366,6 @@ export class HighchartstestComponent implements OnInit {
         top: '13%',
       },
     });
-  }
-  deselectAll(){
-    this.listObj.deselectAll();
   }
   setMaxDate(): Date{
     const today = new Date();
