@@ -31,7 +31,7 @@
         <p>
           <mat-form-field appearance="legacy">
             <mat-label>Username</mat-label>
-            <input id="inputEmail" matInput placeholder="Email" [formControl]="nomeUtente" [disabled]="emailDisabled">
+            <input id="inputEmail"  matInput placeholder="Email" [formControl]="nomeUtente" [disabled]="emailDisabled">
             <mat-icon matSuffix>account_circle</mat-icon>
           </mat-form-field>
         </p>
@@ -39,7 +39,7 @@
         <p>
           <mat-form-field appearance="legacy">
             <mat-label>Password</mat-label>
-            <input id="inputPassword" matInput [type]="hideNewPassword ? 'password' : 'text'" placeholder="Password" [formControl]="password" required>
+            <input id="inputPassword" (keyup)="handleEvent($event)" matInput [type]="hideNewPassword ? 'password' : 'text'" placeholder="Password" [formControl]="password" required>
             <button mat-icon-button matSuffix (click)="hideNewPassword = !hideNewPassword"
             [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideNewPassword">
             <mat-icon>{{hideNewPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
