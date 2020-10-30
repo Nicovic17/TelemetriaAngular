@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth'
 import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
 import {  AppcomponentService } from '../app/appcomponent.service'
 import { FormControl, Validators } from '@angular/forms';
