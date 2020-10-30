@@ -4,6 +4,17 @@ import {  AppcomponentService } from '../app/appcomponent.service'
 import { FormControl, Validators } from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 
+//Permette di salvare valori in formato key-value per la sessione seguente (fino a chiusura browser)
+sessionStorage.setItem("mostraResize","true")
+//Permette di salvare valori in formato key-value localmente sul browser (persistenza finché non rimossi)
+
+if(localStorage.getItem("mostraResize")==undefined)
+{
+  localStorage.setItem("mostraResize","true");
+}
+
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -27,9 +38,10 @@ export class AppComponent {
   emailDisabled=true;
   loginButtonDisabled=true;
 
+  
 
   constructor(public _appComponentService: AppcomponentService, private matDialog: MatDialog) {
-
+   
   }
 
   ngOnInit()
@@ -53,14 +65,15 @@ export class AppComponent {
 
   ngAfterViewInit()
   {
-    let inputPassword=document.getElementById("inputPassword");
+    
+  }
 
-    inputPassword.addEventListener("keyup",event=>{
-      if(event.key == "Enter" && !this.loginButtonDisabled)
-      {
-        this.myLogin();
-      }
-    })
+  handleEvent(event: any)
+  {
+    if(event.key == "Enter" && !this.loginButtonDisabled)
+    {
+      this.myLogin();
+    }
   }
 
    getCurrentUser()
@@ -75,6 +88,9 @@ export class AppComponent {
   }
   logout() {
     this._appComponentService.logout();
+    
+    sessionStorage.clear()
+    localStorage.setItem("mostraResize","true")
   }
 
   showToUser(userIsLogged)
