@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HighchartstestComponent } from './highchartstest.component';
+import { StoricoComponent } from './storico.component';
 
-describe('HighchartstestComponent', () => {
-  let component: HighchartstestComponent;
-  let fixture: ComponentFixture<HighchartstestComponent>;
+describe('StoricoComponent', () => {
+  let component: StoricoComponent;
+  let fixture: ComponentFixture<StoricoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HighchartstestComponent ]
+      declarations: [ StoricoComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HighchartstestComponent);
+    fixture = TestBed.createComponent(StoricoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

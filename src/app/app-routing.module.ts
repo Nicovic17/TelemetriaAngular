@@ -16,7 +16,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { GforceSectionComponent } from './gforce-section/gforce-section.component';
 import { AnglesComponent } from './angles/angles.component';
 import { DiagnosticaComponent } from './diagnostica/diagnostica.component';
-import { HighchartstestComponent } from './highchartstest/highchartstest.component';
+import { StoricoComponent } from './storico/storico.component';
 import { CambiaPasswordComponent } from './cambia-password/cambia-password.component';
 
 
@@ -24,7 +24,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full'},
   { path: 'uninacorse', component: UninacorseComponent },
   { path: 'login', component: AppComponent },
-  { path: 'storico', component: HighchartstestComponent },
+  { path: 'storico', component: StoricoComponent },
   { path: 'diagnostica', component: DiagnosticaComponent},
   { path: 'cambiopassword', component: CambiaPasswordComponent},
   { path: '**', component: PageNotFoundComponent } // ATTENZIONE DEVE ESSERE SEMPRE L'ULTIMA DELL'ARRAY
@@ -51,6 +51,6 @@ export const routingComponents = [
     GforceSectionComponent,
     DiagnosticaComponent,
     AnglesComponent,
-    HighchartstestComponent,
+    StoricoComponent,
     CambiaPasswordComponent
 ];

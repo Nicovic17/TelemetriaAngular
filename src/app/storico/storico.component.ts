@@ -1,7 +1,5 @@
 import {Component, NgZone, OnInit, ViewChild} from '@angular/core';
 import * as Highcharts from 'highcharts';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {MatSelectionList} from '@angular/material/list';
 import {StoricoDueService} from '../storico-due.service';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {MatDialogComponent} from '../mat-dialog/mat-dialog.component';
@@ -34,10 +32,10 @@ interface StrutturaSensori {
 
 @Component({
   selector: 'app-highchartstest',
-  templateUrl: './highchartstest.component.html',
-  styleUrls: ['./highchartstest.component.css']
+  templateUrl: './storico.component.html',
+  styleUrls: ['./storico.component.css']
 })
-export class HighchartstestComponent implements OnInit {
+export class StoricoComponent implements OnInit {
     public oraInizio;
     public oraFine;
     public maxDate: Date;
@@ -46,7 +44,7 @@ export class HighchartstestComponent implements OnInit {
     public isLoading = false;
     public canJoinGraph = false; // Stabilisce se il pulsante per unire i grafici è visibile
     public canFilter = false;
-    public aviableSensors: StrutturaSensori[];  // Struttura definità dopra il decorator serve per mantenere tutti i dati dei sensori
+    public availableSensors: StrutturaSensori[];  // Struttura definità dopra il decorator serve per mantenere tutti i dati dei sensori
     public sensorsMap: Map<string, string>;  // Conserva la mappa dei sensori
     public listaSensori = [];  // Contiene la lista dei sensori disponibili per l'intervallo di tempo selezionato
     public idSensoriScelti = [];  // contiene gli id dei sensori selezionati
@@ -97,7 +95,7 @@ export class HighchartstestComponent implements OnInit {
         }
     }
     /*
-        Questo metodo carica in aviableSensors i dati dei sensori SOLO nell'intervallo
+        Questo metodo carica in availableSensors i dati dei sensori SOLO nell'intervallo
         selezionato dall'utente.
      */
     async startSearch(oraI: Date, oraF: Date){
@@ -111,14 +109,14 @@ export class HighchartstestComponent implements OnInit {
         this.idSensoriScelti.splice(0, this.idSensoriScelti.length);
         if (this.graphSection !== undefined) { for (let i of this.graphSection.nativeElement.children) { i.remove(); } }
         // Vengono dapprima caricati i dati dei sensori e la mappa in modo Sincrono
-        this.aviableSensors = await this._service.getAviableSensors(oraI, oraF);
+        this.availableSensors = await this._service.getAviableSensors(oraI, oraF);
         this.sensorsMap = await this._service.getSensorsMap();
         // Utilizzando la mappa gli id dei sensori vengono convertiti in nomi
-        this.aviableSensors.forEach(value => {
+        this.availableSensors.forEach(value => {
             this.listaSensori.push(this.sensorsMap.get(value.id) || 'SENSOR NOT AVAILABLE IN THE MAP');
         });
         // Vengono visualizzati
-        if (this.aviableSensors.length === 0){
+        if (this.availableSensors.length === 0){
           this.canFilter = false;
           this.showErrorNoData();
         }else{
@@ -163,7 +161,7 @@ export class HighchartstestComponent implements OnInit {
           break;
         }
       }
-      // Per ogni id scelto ricava da aviableSensors la mappa che contiene tutta la cronologia
+      // Per ogni id scelto ricava da availableSensors la mappa che contiene tutta la cronologia
       if (!isFailed) {
         isSingle ? this.mostraGraficiSingoli() : this.unisciGrafici();
         this.sensorListDisplayed = false;
@@ -175,7 +173,7 @@ export class HighchartstestComponent implements OnInit {
     }
     mostraGraficiSingoli(){
       for (const i of this.idSensoriScelti){
-        const tempVal = this.aviableSensors.find(value => value.id === i);
+        const tempVal = this.availableSensors.find(value => value.id === i);
         // converto la mappa in array
         const arrayData = [...tempVal.info.entries() ];
         const myOpt = this.createNewChartOption(this.toTitleCase(this.sensorsMap.get(i).replace(/_/g, ' ')),
@@ -190,7 +188,7 @@ export class HighchartstestComponent implements OnInit {
         const myOpt = this.createNewChartOption('Unione Grafici', true );
         const newSeries = [];
         for (const i of this.idSensoriScelti){
-            const tempVal = this.aviableSensors.find(value => value.id === i);
+            const tempVal = this.availableSensors.find(value => value.id === i);
             const arrayData = [...tempVal.info.entries() ];
             newSeries.push({name: this.sensorsMap.get(i), data: arrayData});
         }
