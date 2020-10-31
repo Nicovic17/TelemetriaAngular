@@ -24,8 +24,12 @@ describe('AppComponent', () => {
   let appComponent: AppComponent;
   let matDialogComponent: MatDialogComponent;
 
+  let appComponentService: AppcomponentService;
+
   let fixture: ComponentFixture<AppComponent>
   let fixtureMatDialogComp: ComponentFixture<MatDialogComponent>
+
+  let authService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -49,19 +53,23 @@ describe('AppComponent', () => {
       ],
       
     })
-    
+    .overrideModule(BrowserDynamicTestingModule,{
+      set:{
+        entryComponents:[MatDialogComponent]
+      }
+    })
     .compileComponents().then(()=>{
 
       fixture=TestBed.createComponent(AppComponent)
       appComponent=fixture.componentInstance
 
-     
+
+
+      authService=TestBed.inject(AngularFireAuth)
+      appComponentService=TestBed.inject(AppcomponentService)
       
     });
 
-    
-    
-    
   }));
 
   beforeEach(()=>{
@@ -69,9 +77,10 @@ describe('AppComponent', () => {
     appComponent=fixture.componentInstance
     fixture.detectChanges()
 
+
   })
 
-  it('mostra il login se utente non loggato',()=>{
+  it('#showToUser mostra il login se utente non loggato',()=>{
 
     appComponent.showToUser(false);
 
@@ -81,7 +90,7 @@ describe('AppComponent', () => {
 
   })
 
-  it('mostra menu principale se utente loggato',()=>{
+  it('#showToUser mostra menu principale se utente loggato',()=>{
     appComponent.showToUser(true);
 
     expect(document.getElementById("user_div").style.display).toEqual("block")
@@ -90,33 +99,155 @@ describe('AppComponent', () => {
 
   })
 
-  it('run myLogin function',()=>{
-    
-    
-    fixtureMatDialogComp=TestBed.createComponent(MatDialogComponent)
-    matDialogComponent=fixtureMatDialogComp.componentInstance
-    fixtureMatDialogComp.detectChanges
+  
 
+  it('#myLogin in appComponent failed, no email and password provided', async ()=>{
+
+
+    const ris= await appComponent.myLogin();
+    expect(ris).toBe(false);
+
+  })
+
+  it('#myLogin in appComponent success', async ()=>{
+
+    appComponent.email.setValue("uninacorse@gmail.com");
+    appComponent.password.setValue("Uninacorse")
+
+    const ris= await appComponent.myLogin();
+
+    expect(ris).toBe(true);
+
+  })
+
+  it('#myLogin in appComponent failed, wrong email and password', async ()=>{
+
+    appComponent.email.setValue("uninacorsssse@gmail.com");
+    appComponent.password.setValue("Uninaaaacorse")
+
+    const ris= await appComponent.myLogin();
+    expect(ris).toBe(false);
+
+  })
+
+  it('#logout in appComponent', async()=>{
+
+    let ris= await appComponent.logout()
+
+    
+    expect(localStorage.getItem("mostraResize")).toMatch("true")
+
+  })
+
+  it('#handleEvent ,Enter handle success', async ()=>{
+
+   let evento={
+     key:"Enter"
+   }
+
+   appComponent.loginButtonDisabled=false;
+   let handled=appComponent.handleEvent(evento)
+
+   expect(handled).toBe(true)
+
+  })
+
+  //Service test
+
+  it('#myLogin service success', async ()=>{
+    
+    let email="uninacorse@gmail.com"
+    let password="Uninacorse";
+
+
+    const ris=await appComponentService.myLogin(email,password)
+    expect(ris).toBe(true)
    
 
   })
- /* it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });*/
 
-  /*
-  it(`should have as title 'firebase-auth'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('firebase-auth');
-  });
+  it('#myLogin service failed wrong email', async ()=>{
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('firebase-auth app is running!');
-  });*/
+    let email="uninacorseee@gmail.com"
+    let password="Uninacorse";
+
+    const ris=await appComponentService.myLogin(email,password);
+    expect(ris).toBe(false, 'Access failed, wrong email');
+
+  })
+
+  it('#myLogin service failed wrong password', async ()=>{
+
+    let email="uninacorse@gmail.com"
+    let password="Uninacorrrse";
+
+    const ris=await appComponentService.myLogin(email,password);
+    expect(ris).toBe(false, 'Access failed, wrong password');
+
+  })
+
+  it('#myLogin service failed, wrong password and email', async ()=>{
+
+    let email="uninacorseeee@gmail.com"
+    let password="Uninacorrrse";
+
+    const ris=await appComponentService.myLogin(email,password);
+    expect(ris).toBe(false, 'Access failed, wrong password and email');
+  } )
+
+  it('#logout service success', async ()=>{
+
+    let email="uninacorse@gmail.com"
+    let password="Uninacorse";
+
+    const ris=await appComponentService.myLogin(email,password);
+    let logOut=null;
+    if(ris)
+    logOut=await appComponent._appComponentService.logout()
+
+    expect(logOut).toBe(true)
+
+  })
+
+
+  it('#getCurretUser service success', async ()=>{
+
+    let email="uninacorse@gmail.com"
+    let password="Uninacorse";
+    let currUser;
+    const ris=await appComponentService.myLogin(email,password);
+    if(ris)
+    currUser= await appComponentService.getCurrentUser()
+
+    expect(currUser).not.toBeNull()
+  })
+
+  it('#updatePassword service success',async ()=>{
+
+    let email="uninacorse@gmail.com"
+    let password="Uninacorse";
+    let ris;
+    const login=await appComponentService.myLogin(email,password);
+    let newPassword="Uninacorse";
+
+    if(login)
+    ris=await appComponentService.updatePassword(newPassword)
+
+    expect(ris).toBe(true)
+
+  })
+
+  it('#updatePassword service not success',async ()=>{
+
+   
+    let ris;
+    let newPassword="Uninacorse";
+
+    ris=await appComponentService.updatePassword(newPassword)
+
+    expect(ris).toBe(true)
+
+  })
+
+
 });

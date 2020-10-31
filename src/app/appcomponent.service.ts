@@ -41,30 +41,29 @@ export class AppcomponentService {
     });
   }
 
- async resetPassword()
-  {
-    var user=await this.auth.currentUser;
-    this.auth.sendPasswordResetEmail(user.email).then(function(){
-      //window.alert("Email di reset inviata correttamente.")
-    }).catch(error=>{
-      window.alert("Errore nell'invio della email.")
-    })
-  }
 
   getCurrentUser()
   {
-   return this.auth.currentUser;
+    try {
+     return this.auth.currentUser;
+   } catch (error) {
+     return null;
+   }
   }
 
-
-  login()
+ async logout()
   {
-    this.auth.signInWithPopup(new auth.GoogleAuthProvider());
-  }
+   let ris=await this.auth.signOut()
+   .then(ris=>{
+    return true;
+   })
+   .catch(error =>{
+    return false;
+   })
 
-  logout()
-  {
-    this.auth.signOut();
+   return ris;
+
+    
   }
 
  async myLogin(email, password)
@@ -81,4 +80,7 @@ export class AppcomponentService {
 
     return ris;
   }
+
+
 }
+

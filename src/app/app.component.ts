@@ -28,7 +28,7 @@ export class AppComponent {
     value: "UninaCorse",
     disabled: true
   })
-  email = new FormControl({
+   email = new FormControl({
     value: "uninacorse@gmail.com",
     disabled: true 
   })
@@ -37,8 +37,6 @@ export class AppComponent {
   hideNewPassword=true;
   emailDisabled=true;
   loginButtonDisabled=true;
-
-  
 
   constructor(public _appComponentService: AppcomponentService, private matDialog: MatDialog) {
    
@@ -73,7 +71,9 @@ export class AppComponent {
     if(event.key == "Enter" && !this.loginButtonDisabled)
     {
       this.myLogin();
+      return true;
     }
+    return false;
   }
 
    getCurrentUser()
@@ -83,14 +83,13 @@ export class AppComponent {
     })
   }
 
-  login() {
-    this._appComponentService.login()
-  }
   logout() {
     this._appComponentService.logout();
     
     sessionStorage.clear()
     localStorage.setItem("mostraResize","true")
+
+    return true;
   }
 
   showToUser(userIsLogged)
@@ -127,9 +126,13 @@ export class AppComponent {
       document.getElementById("login_div").style.display = "block";
       document.getElementById("router").style.display="none";
       this.showDialog('Attenzione!', ['La password inserita non è valida.']);
+
+      return false;
     }
     this.password.reset();
+    return true;
   }
+
 
   showRouter()
   {
