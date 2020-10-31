@@ -3,6 +3,7 @@ import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
 import {  AppcomponentService } from '../app/appcomponent.service'
 import { FormControl, Validators } from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
+import * as jQuery from 'jquery';
 
 //Permette di salvare valori in formato key-value per la sessione seguente (fino a chiusura browser)
 sessionStorage.setItem("mostraResize","true")
@@ -30,7 +31,7 @@ export class AppComponent {
   })
    email = new FormControl({
     value: "uninacorse@gmail.com",
-    disabled: true 
+    disabled: true
   })
   password = new FormControl('', [Validators.required])
   userIsLogged:any;
@@ -44,6 +45,7 @@ export class AppComponent {
 
   ngOnInit()
   {
+    this.stopScrolling();
     this.password.valueChanges.subscribe(val=>{
       if(this.password.hasError('required'))
       {
@@ -108,7 +110,7 @@ export class AppComponent {
     }
   }
 
- 
+
  async myLogin(){
 
     let successLogin=await this._appComponentService.myLogin(this.email.value,this.password.value);
@@ -152,5 +154,17 @@ export class AppComponent {
         top: '13%',
       },
     });
+  }
+  stopScrolling(){
+    // Modulo disattivazione scroll della pagina
+    const scrollPosition = [
+      self.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft,
+      self.pageYOffset || document.documentElement.scrollTop  || document.body.scrollTop
+    ];
+    const html = jQuery('html');
+    html.data('scroll-position', scrollPosition);
+    html.data('previous-overflow', html.css('overflow'));
+    html.css('overflow', 'hidden');
+    window.scrollTo(scrollPosition[0], scrollPosition[1]);
   }
 }
