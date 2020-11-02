@@ -11,7 +11,7 @@ class StrutturaSensori {
 })
 export class StoricoDueService {
   gpsSensorId = '010'; // DOVREBBE ESSERE PRESO DALLA MAPPA DEI SENSORI
-  sensori: Array<StrutturaSensori> = new Array<StrutturaSensori>();
+  private sensori: Array<StrutturaSensori> = new Array<StrutturaSensori>();
   constructor(private db: AngularFireDatabase, public dialog: MatDialog) {}
 
   async getAviableSensors(oraI: Date, oraF: Date): Promise<StrutturaSensori[]>{

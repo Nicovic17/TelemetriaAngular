@@ -36,8 +36,6 @@ interface StrutturaSensori {
   styleUrls: ['./storico.component.css']
 })
 export class StoricoComponent implements OnInit {
-    public oraInizio;
-    public oraFine;
     public maxDate: Date;
     public sensorListDisplayed = false;  // Stabilisce se la lista dei sensori deve essere visibile
     public chartsListDisplayed = false;  // Stabilisce se la lista dei grafici deve essere visibile
