@@ -10,6 +10,9 @@ const p = 'storico/'; //Parte statica del path del db
 export class MapService {
   constructor(private db: AngularFireDatabase) { }
 
+ /**
+   * Restituisce l'ultimo valore longitudinale ottenuto dalla vettura presente nel database RealTime
+   */
   getLongitude(): Observable<number>{
     return new Observable(subscriber => {
       this.db.database.ref('mappa/posizione_veicolo').once("value").then(value => {
@@ -20,6 +23,9 @@ export class MapService {
     });
   }
 
+   /**
+   * Restituisce l'ultimo valore latitudinale ottenuto dalla vettura presente nel database RealTime
+   */
   getLatitude(): Observable<number>{
     return new Observable(subscriber => {
       this.db.database.ref('mappa/posizione_veicolo').once("value").then(value => {

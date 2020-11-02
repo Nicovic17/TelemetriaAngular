@@ -11,6 +11,9 @@ export class SpeedometerService {
 
   constructor(private db: AngularFireDatabase) { }
 
+  /**
+   * Restituisce l'ultimo valore della velocità ottenuto dalla vettura presente nel database RealTime
+   */
   getSpeed(): Observable<number>{
     return new Observable(subscriber => {
       this.db.database.ref('mappa/velocita_assoluta').once("value").then(value => {

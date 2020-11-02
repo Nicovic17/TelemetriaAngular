@@ -12,6 +12,10 @@ export class VolanteService {
 
   constructor( public db:AngularFireDatabase) { }
 
+
+  /**
+   * Restituisce l'ultimo valore della rotazione del volante ottenuto dalla vettura presente nel database RealTime
+   */
   getGradiVolante(): Observable<number>{
     return new Observable<number>(subscriber => {
       this.db.database.ref('mappa/angolo_di_sterzo').once("value").then(value => {

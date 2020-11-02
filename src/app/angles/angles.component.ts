@@ -17,6 +17,10 @@ export class AnglesComponent implements OnInit {
     this.ascoltaImbardata();
     this.ascoltaBeccheggio();
   }
+
+  /**
+   * Si mette in ascolto sul metodo di tipo Observable getAngoloRollio() e aggiorna dati RealTime
+   */
   ascoltaRollio(){
     this._controllerService.getAngoloRollio().subscribe(value => {
       this.ngZone.run(() => {
@@ -24,6 +28,9 @@ export class AnglesComponent implements OnInit {
       });
     });
   }
+  /**
+   * Si mette in ascolto sul metodo di tipo Observable getAngoloBeccheggio() e aggiorna dati RealTime
+   */
   ascoltaBeccheggio(){
     this._controllerService.getAngoloBeccheggio().subscribe(value => {
       this.ngZone.run(() => {
@@ -31,6 +38,9 @@ export class AnglesComponent implements OnInit {
       });
     });
   }
+  /**
+   * Si mette in ascolto sul metodo di tipo Observable getAngoloImbardata() e aggiorna dati RealTime
+   */
   ascoltaImbardata(){
     this._controllerService.getAngoloImbardata().subscribe(value => {
       this.ngZone.run(() => {

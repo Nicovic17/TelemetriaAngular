@@ -6,13 +6,23 @@ import {MatDialog} from '@angular/material/dialog';
 import * as jQuery from 'jquery';
 
 //Permette di salvare valori in formato key-value per la sessione seguente (fino a chiusura browser)
-sessionStorage.setItem("mostraResize","true")
-//Permette di salvare valori in formato key-value localmente sul browser (persistenza finché non rimossi)
+if(sessionStorage.getItem("primoAccesso")==undefined)
+{
+  sessionStorage.setItem("primoAccesso","true");
+}
 
+if(sessionStorage.getItem("isInMenu")==undefined)
+{
+  sessionStorage.setItem("isInMenu","true");
+}
+
+//Permette di salvare valori in formato key-value localmente sul browser (persistenza finché non rimossi)
 if(localStorage.getItem("mostraResize")==undefined)
 {
   localStorage.setItem("mostraResize","true");
 }
+
+
 
 
 
@@ -24,7 +34,7 @@ if(localStorage.getItem("mostraResize")==undefined)
 
 
 export class AppComponent {
-  title = 'firebase-auth';
+  title = 'UninaCorse E-Team';
   nomeUtente=new FormControl({
     value: "UninaCorse",
     disabled: true
@@ -40,12 +50,20 @@ export class AppComponent {
   loginButtonDisabled=true;
 
   constructor(public _appComponentService: AppcomponentService, private matDialog: MatDialog) {
-   
   }
 
   ngOnInit()
   {
     this.stopScrolling();
+    this.ascoltaFormPassword()
+    this.getCurrentUser()
+  }
+
+  /**
+   * Controlla che nel form password venga inserita una password che rispetti i parametri settati
+   */
+  ascoltaFormPassword()
+  {
     this.password.valueChanges.subscribe(val=>{
       if(this.password.hasError('required'))
       {
@@ -58,16 +76,12 @@ export class AppComponent {
         document.getElementById("loginButton").classList.add("myButton");
       }
     })
-
-
-    this.getCurrentUser()
   }
 
-  ngAfterViewInit()
-  {
-    
-  }
-
+  /**
+   * Gestisce l'evento "Enter" ottenuto dalla tastiera
+   * @param event : evento ottenuto dalla tastiera
+   */
   handleEvent(event: any)
   {
     if(event.key == "Enter" && !this.loginButtonDisabled)
@@ -78,6 +92,9 @@ export class AppComponent {
     return false;
   }
 
+  /**
+   * Controlla se l'utente è autenticato e mostra la view adeguata
+   */
    getCurrentUser()
   {
     this._appComponentService.isLoggedIn().subscribe(value=>{
@@ -85,22 +102,26 @@ export class AppComponent {
     })
   }
 
+  /**
+   * Effettua il logout e gestisce le variabili di localStorage
+   */
   logout() {
     this._appComponentService.logout();
-    
-    sessionStorage.clear()
     localStorage.setItem("mostraResize","true")
-
     return true;
   }
 
+  /**
+   * Mostra la vista all'utente
+   * @param userIsLogged : variabile Booleana che rappresenta se l'utente è riuscito ad autenticarsi
+   */
   showToUser(userIsLogged)
   {
     if(userIsLogged)
     {
-          document.getElementById("user_div").style.display="block";
-          document.getElementById("login_div").style.display="none";
-          document.getElementById("router").style.display="none";
+      document.getElementById("user_div").style.display = "block";
+      document.getElementById("login_div").style.display = "none";
+      document.getElementById("router").style.display="none";
     }
     else
     {
@@ -110,7 +131,10 @@ export class AppComponent {
     }
   }
 
-
+/**
+ * Effettua l'autenticazione con la password inserita nel form rispettivo
+ * Se la password è errata, mostra un PopUp di errore
+ */
  async myLogin(){
 
     let successLogin=await this._appComponentService.myLogin(this.email.value,this.password.value);
@@ -128,19 +152,26 @@ export class AppComponent {
       document.getElementById("login_div").style.display = "block";
       document.getElementById("router").style.display="none";
       this.showDialog('Attenzione!', ['La password inserita non è valida.']);
-
       return false;
     }
     this.password.reset();
     return true;
   }
 
-
+/**
+ * Mostra i routerLink
+ */
   showRouter()
   {
     document.getElementById("user_div").style.display="none";
     document.getElementById("router").style.display="block";
   }
+
+   /**
+   * Apre un messaggio PopUp
+   * @param titolo Stringa contenente il titolo del messaggio
+   * @param corpo  Array di Stringhe contenente il corpo del messaggio
+   */
   showDialog(titolo: string, corpo: string[]){
     this.matDialog.open(MatDialogComponent, {
       maxWidth: '400px',
@@ -155,8 +186,11 @@ export class AppComponent {
       },
     });
   }
+
+  /**
+   * Disattiva lo scroll della pagina
+   */
   stopScrolling(){
-    // Modulo disattivazione scroll della pagina
     const scrollPosition = [
       self.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft,
       self.pageYOffset || document.documentElement.scrollTop  || document.body.scrollTop

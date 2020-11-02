@@ -15,47 +15,59 @@ export class CambiaPasswordComponent implements OnInit {
   hideNewPassword = true;
   hideConfirmNewPassword = true;
   confirmButtonDisabled = true;
-  confirmFlag1 = true;
-  confirmFlag2 = true;
-
+  newPswHasError = true;
+  confirmNewPswHasError = true;
   confirmPswDisabled = true;
-
   newPsw = new FormControl('', [Validators.required, Validators.minLength(5)]);
   confirmNewPsw = new FormControl('', [Validators.required, Validators.minLength(5)]);
 
   constructor(public _appComponentService: AppcomponentService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
+    this.controllaValiditàFormNewPassword()
+    this.controllaValiditàFormConfirmNewPassword()
+  }
 
+  /**
+   * Controlla che nel form NewPsw venga inserita una password che rispetti i parametri settati
+   * Se tutti i form rispettano i parametri, abilita il button per proseguire
+   */
+  controllaValiditàFormNewPassword()
+  {
     this.newPsw.valueChanges.subscribe(val => {
-
       if (this.newPsw.hasError('required') || this.newPsw.hasError('minlength'))
       {
-        this.confirmFlag1 = true;
+        this.newPswHasError = true;
       }
       else {
-      this.confirmFlag1 = false;
+        this.newPswHasError = false;
       }
-
-      if (!this.confirmFlag1 && !this.confirmFlag2) {this.confirmButtonDisabled = false; }
+      if (!this.newPswHasError && !this.confirmNewPswHasError) {this.confirmButtonDisabled = false; }
     });
+  }
 
+  /**
+   * Controlla che nel form confirmNewPsw venga inserita una password che rispetti i parametri settati
+   * Se tutti i form rispettano i parametri, abilita il button per proseguire
+   */
+  controllaValiditàFormConfirmNewPassword()
+  {
     this.confirmNewPsw.valueChanges.subscribe(val => {
       if (this.confirmNewPsw.hasError('required') || this.confirmNewPsw.hasError('minlength'))
       {
-        this.confirmFlag2 = true;
+        this.confirmNewPswHasError = true;
       }
       else {
-      this.confirmFlag2 = false;
+      this.confirmNewPswHasError = false;
       }
 
-      if (!this.confirmFlag1 && !this.confirmFlag2) {this.confirmButtonDisabled = false; }
+      if (!this.confirmNewPswHasError && !this.confirmNewPswHasError) {this.confirmButtonDisabled = false; }
     });
-
-
-
   }
 
+  /**
+   * Mostra messaggio di errore nel form grafico
+   */
   getErrorConfirmNewPsw() {
     if (this.confirmNewPsw.hasError('required')) {
       return 'Campo obbligatorio';
@@ -66,6 +78,9 @@ export class CambiaPasswordComponent implements OnInit {
     }
   }
 
+  /**
+   * Mostra messaggio di errore nel form grafico
+   */
   getErrorNewPsw() {
     if (this.newPsw.hasError('required')) {
       return 'Campo obbligatorio';
@@ -77,17 +92,15 @@ export class CambiaPasswordComponent implements OnInit {
   }
 
 
+  /**
+   * Effettua l'aggiornamento della password se i campi sono stati compilati correttamente
+   */
   async updatePassword() {
-    if (this.newPsw.invalid || this.confirmNewPsw.invalid) {
-      this.showDialog('Errore!', ['Compilare correttamente i cambi']);
-    }
-    else {
+    
       let newPassword = this.newPsw.value;
       let newConfirmPassword = this.confirmNewPsw.value;
-
       if (newPassword === newConfirmPassword)
       {
-
         let ris = await this._appComponentService.updatePassword(newPassword);
         if (ris)
         {
@@ -112,8 +125,13 @@ export class CambiaPasswordComponent implements OnInit {
       {
         this.showDialog('Errore!', ['Le password non corrispondono']);
       }
-    }
+    
   }
+  /**
+   * Apre un messaggio PopUp
+   * @param titolo Stringa contenente il titolo del messaggio
+   * @param corpo  Array di Stringhe contenente il corpo del messaggio
+   */
   showDialog(titolo: string, corpo: string[]){
     this.dialog.open(MatDialogComponent, {
       maxWidth: '400px',
@@ -128,6 +146,11 @@ export class CambiaPasswordComponent implements OnInit {
       },
     });
   }
+  /**
+   * Apre un messaggio PopUp e restituisce un valore di ritorno alla chiusura
+   * @param titolo Stringa contenente il titolo del messaggio
+   * @param corpo  Array di Stringhe contenente il corpo del messaggio
+   */
   showChoiceDialog(titolo: string, corpo: string[]){
     return this.dialog.open(MatDialogComponent, {
       maxWidth: '400px',
