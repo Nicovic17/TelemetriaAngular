@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { UninacorseComponent } from './uninacorse/uninacorse.component';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { ArticleIndexGalleryComponent } from './article-index-gallery/article-index-gallery.component';
+import { StatoGeneraleComponent } from './stato-generale/stato-generale.component';
 import { SpeedometerSectionComponent } from './speedometer-section/speedometer-section.component';
 import { MapSectionComponent } from './map-section/map-section.component';
 import { NewBatteryComponent } from './new-battery/new-battery.component';
@@ -39,7 +39,7 @@ export class AppRoutingModule { }
 export const routingComponents = [
     UninacorseComponent,
     NavBarComponent,
-    ArticleIndexGalleryComponent,
+    StatoGeneraleComponent,
     SpeedometerSectionComponent,
     MapSectionComponent,
     NewBatteryComponent,
