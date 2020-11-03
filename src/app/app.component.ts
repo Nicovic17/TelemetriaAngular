@@ -38,15 +38,13 @@ export class AppComponent {
 
 
   title = 'UninaCorse E-Team';
- 
-
-  constructor(public _appComponentService: AppcomponentService, private matDialog: MatDialog, private router: Router, private ngZone: NgZone) {
-  }
+  constructor(public _appComponentService: AppcomponentService,
+              private matDialog: MatDialog, private router: Router, private ngZone: NgZone) {}
 
   ngOnInit()
   {
     this.stopScrolling();
-    this.getCurrentUser()
+    this.getCurrentUser();
   }
 
   /**
@@ -58,7 +56,7 @@ export class AppComponent {
       this.showToUser(value)
     })
   }
-  
+
   /**
    * Mostra la vista all'utente
    * @param userIsLogged : variabile Booleana che rappresenta se l'utente è riuscito ad autenticarsi
@@ -70,7 +68,7 @@ export class AppComponent {
       this.ngZone.run(()=>{
         this.router.navigate(['/loggedpage'])
       })
-      
+
     }
     else
     {
