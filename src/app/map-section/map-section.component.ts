@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MapService} from "../map.service";
 
-
 declare var OpenLayers: any;
 
 const url = "https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js";

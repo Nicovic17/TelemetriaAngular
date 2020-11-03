@@ -22,7 +22,7 @@ noData(Highcharts);
 More(Highcharts);
 noData(Highcharts);
 Exporting(Highcharts);
-//ExportData(Highcharts);
+ExportData(Highcharts);
 Accessibility(Highcharts);
 
 interface StrutturaSensori {
@@ -105,7 +105,7 @@ export class StoricoComponent implements OnInit {
         this.canJoinGraph = false;
         this.listaSensori.splice(0, this.listaSensori.length);
         this.idSensoriScelti.splice(0, this.idSensoriScelti.length);
-        if (this.graphSection !== undefined) { for (let i of this.graphSection.nativeElement.children) { i.remove(); } }
+        //if (this.graphSection !== undefined) { for (let i of this.graphSection.nativeElement.children) { i.remove(); } }
         // Vengono dapprima caricati i dati dei sensori e la mappa in modo Sincrono
         this.availableSensors = await this._service.getAviableSensors(oraI, oraF);
         this.sensorsMap = await this._service.getSensorsMap();
@@ -178,6 +178,7 @@ export class StoricoComponent implements OnInit {
           false,
           [{name: this.sensorsMap.get(i), data: arrayData}]);
         $('#grafici').append('<div id=\'' + i + '\'></div>'); // Il metodo ngFor non faceva rendereizzare il grafico
+
         Highcharts.chart(String(i), myOpt);
         this.canJoinGraph = true;
       }
