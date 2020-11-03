@@ -18,7 +18,6 @@ export class SpieControlloComponent implements OnInit {
   public tcs = "button";
   public imd = "button";
 
-  //Implementare service con connessione a database per dati corrispondenti
   constructor(private _controllerService: ControllerService, private ngZone: NgZone) { }
 
   ngOnInit(): void {
@@ -85,7 +84,7 @@ export class SpieControlloComponent implements OnInit {
   ascoltaSpiaBMS(){
     this._controllerService.getSpiaBatteryManagementSystem().subscribe(value => {
       this.ngZone.run(() =>{
-        if (value == 1) {
+        if (value === 1) {
           this.bms = "button danger";
         } else {
           this.bms = "button";
@@ -100,7 +99,7 @@ export class SpieControlloComponent implements OnInit {
   ascoltaSpiaTRQ(){
     this._controllerService.getSpiaTorqueLimitation().subscribe(value => {
       this.ngZone.run(() =>{
-        if (value == 1) {
+        if (value === 1) {
           this.trq = "button danger";
         } else {
           this.trq = "button";
@@ -116,7 +115,7 @@ export class SpieControlloComponent implements OnInit {
   ascoltaSpiaECU(){
     this._controllerService.getSpiaECU().subscribe(value => {
       this.ngZone.run(() =>{
-        if (value == 1) {
+        if (value === 1) {
           this.ecu = "button danger";
         } else {
           this.ecu = "button";
@@ -132,7 +131,7 @@ export class SpieControlloComponent implements OnInit {
   ascoltaSpiaOH(){
     this._controllerService.getSpiaOverHeat().subscribe(value => {
       this.ngZone.run(() =>{
-        if (value == 1) {
+        if (value === 1) {
           this.oh = "button danger";
         } else {
           this.oh = "button";
@@ -148,7 +147,7 @@ export class SpieControlloComponent implements OnInit {
   ascoltaSpiaTCS(){
     this._controllerService.getSpiaTractionControlSystem().subscribe(value => {
       this.ngZone.run(() =>{
-        if (value == 1) {
+        if (value === 1) {
           this.tcs = "button active";
         } else {
           this.tcs = "button";
@@ -164,7 +163,7 @@ export class SpieControlloComponent implements OnInit {
   ascoltaSpiaIMD(){
     this._controllerService.getSpiaIMD().subscribe(value => {
       this.ngZone.run(() =>{
-        if (value == 1) {
+        if (value === 1) {
           this.imd = "button danger";
         } else {
           this.imd = "button";
@@ -179,7 +178,7 @@ export class SpieControlloComponent implements OnInit {
    * @param value 
    */
   isValueValid(value){
-    if(value == "null"){
+    if(value === "null"){
       return "NULL";
     }else {
       return value;
