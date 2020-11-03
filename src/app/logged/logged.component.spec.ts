@@ -8,12 +8,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { environment } from 'src/environments/environment';
 import { AppcomponentService } from '../appcomponent.service';
 
-import { LoggedpageComponent } from './loggedpage.component';
+import { LoggedComponent } from './logged.component';
 
-describe('LoggedpageComponent', () => {
+describe('LoggedComponent', () => {
 
-  let component: LoggedpageComponent;
-  let fixture: ComponentFixture<LoggedpageComponent>;
+  let component: LoggedComponent;
+  let fixture: ComponentFixture<LoggedComponent>;
 
   let appComponentService: AppcomponentService;
 
@@ -26,11 +26,11 @@ describe('LoggedpageComponent', () => {
         AngularFireModule.initializeApp(environment.firebaseConfig),
         AngularFirestoreModule
       ],
-      declarations: [ LoggedpageComponent ],
+      declarations: [ LoggedComponent ],
       providers:[AngularFireAuth, AngularFireDatabase],
     })
     .compileComponents().then(()=>{
-      fixture = TestBed.createComponent(LoggedpageComponent);
+      fixture = TestBed.createComponent(LoggedComponent);
       component=fixture.componentInstance
 
       authService=TestBed.inject(AngularFireAuth)
@@ -39,7 +39,7 @@ describe('LoggedpageComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoggedpageComponent);
+    fixture = TestBed.createComponent(LoggedComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

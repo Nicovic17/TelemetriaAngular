@@ -4,10 +4,10 @@ import { AppcomponentService } from '../appcomponent.service';
 
 @Component({
   selector: 'app-loggedpage',
-  templateUrl: './loggedpage.component.html',
-  styleUrls: ['./loggedpage.component.css']
+  templateUrl: './logged.component.html',
+  styleUrls: ['./logged.component.css']
 })
-export class LoggedpageComponent implements OnInit {
+export class LoggedComponent implements OnInit {
 
   constructor(public _appComponentService: AppcomponentService, private ngZone: NgZone, private router: Router) { }
 
