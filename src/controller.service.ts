@@ -30,16 +30,25 @@ export class ControllerService {
     return this.getDbValue(path);
   }
 
+   /**
+   * Restituisce il valore nel path definito del database RealTime
+   */
   getAngoloImbardata(): Observable<any>{
     let path = 'mappa/angolo_imbardata';
     return this.getDbValue(path);
   }
 
+  /**
+   * Restituisce il valore nel path definito del database RealTime
+   */
   getAngoloRollio(): Observable<any>{
     let path = 'mappa/angolo_rollio';
     return this.getDbValue(path);
   }
 
+   /**
+   * Restituisce il valore nel path definito del database RealTime
+   */
   getAngoloBeccheggio(): Observable<any>{
     let path = 'mappa/angolo_beccheggio';
     return this.getDbValue(path);
@@ -75,6 +84,10 @@ export class ControllerService {
     return this.getDbValue(path);
   }
 
+  /**
+   * Restituisce un Observable contenente il valore presente nel path definito
+   * @param path : Percorso del valore richiesto su database
+   */
   getDbValue(path: string): Observable<any>{
     return new Observable(subscriber => {
       this.db.database.ref(path).once("value").then(value => {

@@ -1,5 +1,4 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import * as jQuery from 'jquery';
 import {MatDialog} from '@angular/material/dialog';
 import {MatDialogComponent} from '../mat-dialog/mat-dialog.component';
 
@@ -12,7 +11,7 @@ import {MatDialogComponent} from '../mat-dialog/mat-dialog.component';
   styleUrls: ['./article-index-gallery.component.css']
 })
 
-// Classe principale che contiene tutte le componenti della pagina
+// Classe principale che contiene tutte le componenti della pagina stato generale
 
 export class ArticleIndexGalleryComponent implements OnInit, AfterViewInit {
 
@@ -21,7 +20,15 @@ export class ArticleIndexGalleryComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
   }
   ngAfterViewInit(){
-      if (localStorage.getItem('mostraResize') === 'true')
+    this.setLocalStorageStatoGenerale()
+  }
+
+  /**
+   * Gestisce le variabili LocalStorage per la visualizzazione dei messaggi di PopUp in stato generale
+   */
+  setLocalStorageStatoGenerale()
+  {
+    if (localStorage.getItem('mostraResize') === 'true')
       {
         const choice = this.showChoiceDialog('La seguente applicazione è ottimizzata per schermi di 32\'\'.',
         ['Se necessario, effettuare un resize (zoom out) tramite browser della pagina mostrata.']);
@@ -31,8 +38,13 @@ export class ArticleIndexGalleryComponent implements OnInit, AfterViewInit {
         }
       });
       }
-
   }
+
+  /**
+   * Apre un messaggio PopUp e restituisce un valore di ritorno alla chiusura
+   * @param titolo Stringa contenente il titolo del messaggio
+   * @param corpo  Array di Stringhe contenente il corpo del messaggio
+   */
   showChoiceDialog(titolo: string, corpo: string[]){
     return this.matDialog.open(MatDialogComponent, {
       maxWidth: '400px',

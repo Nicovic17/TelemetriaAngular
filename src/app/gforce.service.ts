@@ -12,6 +12,9 @@ export class GforceService {
 
   constructor(private db: AngularFireDatabase) { }
 
+  /**
+   * Restituisce l'ultimo valore dell'accelerazione longitudinale ottenuto dalla vettura presente nel database RealTime
+   */
   getLongitudinalAcc(): Observable<number>{
     return new Observable<number>(subscriber => {
       this.db.database.ref('mappa/accelerazione_longitudinale').once("value").then(value => {
@@ -22,6 +25,9 @@ export class GforceService {
     });
   }
 
+  /**
+   * Restituisce l'ultimo valore dell'accelerazione laterale ottenuto dalla vettura presente nel database RealTime
+   */
   getLateralAcc(): Observable<number>{
     return new Observable<number>(subscriber => {
       this.db.database.ref('mappa/accelerazione_laterale').once("value").then(value => {

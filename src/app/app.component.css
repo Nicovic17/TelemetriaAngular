@@ -1,4 +1,10 @@
 
+html{
+    margin: 0; 
+    height: 100%; 
+    overflow: hidden;
+}
+
 .loginHeader{
     font-size: 20px;
 }
@@ -8,14 +14,10 @@ body{
     margin: 0px;
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
-    /*animation: color-change 10s alternate infinite;*/
+    height: 100%; 
+    overflow: hidden;
 }
 
-
-input, button{
-
-   
-}
 
 .main-div, .loggedin-div, .register-div{
     width: 20%;

@@ -19,6 +19,10 @@ export class GforceSectionComponent implements OnInit {
     this.ascoltaAccLong();
     this.ascoltaAccLat();
   }
+
+   /**
+   * Si mette in ascolto sul metodo di tipo Observable getLongitudinalAcc() e aggiorna dati RealTime 
+   */
   ascoltaAccLong(){
     this._gforceService.getLongitudinalAcc().subscribe(value => {
       this.ngZone.run(() => {
@@ -28,6 +32,10 @@ export class GforceSectionComponent implements OnInit {
 
     });
   }
+
+   /**
+   * Si mette in ascolto sul metodo di tipo Observable getLateralAcc() e aggiorna dati RealTime 
+   */
   ascoltaAccLat(){
     this._gforceService.getLateralAcc().subscribe(value => {
       this.ngZone.run(() => {
@@ -44,6 +52,10 @@ export class GforceSectionComponent implements OnInit {
 
     });
   }
+
+  /**
+   * Aggiorna view componente GForce
+   */
   updateGForce(){
     const zeroLat = 47;  // est-ovest 47
     const zeroLong = 48;  // nord-sud 48
@@ -54,7 +66,6 @@ export class GforceSectionComponent implements OnInit {
       tempLat = this.lateral * 5.30612;
     }
     const tempLong = this.longitudinal * -5.30612;
-
     this.x_axis = zeroLat + tempLat + 'px';
     this.y_axis = zeroLong + tempLong + 'px';
 

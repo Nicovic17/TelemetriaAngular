@@ -6,7 +6,7 @@ import { AngularFireDatabase } from '@angular/fire/database'
 import { AngularFireAuth } from '@angular/fire/auth'
 
 import { Observable, from } from 'rxjs'
-import {SpeedometerService} from "../speedometer.service";
+import { SpeedometerService } from "../speedometer.service";
 
 @Component({
   selector: 'app-speedometer-section',
@@ -18,13 +18,25 @@ export class SpeedometerSectionComponent implements OnInit {
   private ctx;
   private speedGradient;
 
-  constructor(private _speedservice: SpeedometerService) {}
+  constructor(private _speedservice: SpeedometerService) { }
 
   ngOnInit(): void {
     this.setUpSpeed();
     this.ascoltaSpeed();
   }
 
+  /**
+  * Si mette in ascolto sul metodo di tipo Observable getSpeed(), aggiorna dati RealTime e aggiorna vista dello speedometer
+  */
+  ascoltaSpeed() {
+    this._speedservice.getSpeed().subscribe(value => {
+      this.drawSpeedo(value);
+    });
+  }
+
+  /**
+   * Crea elementi grafici per la rappresentazione dello speedometer
+   */
   setUpSpeed() {
     this.c = (document.getElementById("canvas") as HTMLCanvasElement);
     this.c.width = 300;
@@ -38,12 +50,10 @@ export class SpeedometerSectionComponent implements OnInit {
     this.speedGradient.addColorStop(1, 'red');
   }
 
-  ascoltaSpeed(){
-    this._speedservice.getSpeed().subscribe(value => {
-      this.drawSpeedo(value);
-    });
-  }
-
+  /**
+   * Aggiorna la vista dello speedometer
+   * @param speed : velocità da rappresentare graficamente
+   */
   drawSpeedo(speed) {
     var topSpeed = 200;
     // DISEGNA LO SFONDO NERO CIRCOLARE
@@ -100,13 +110,24 @@ export class SpeedometerSectionComponent implements OnInit {
     this.speedNeedle(this.calculateSpeedAngle(speed / topSpeed, 133.07888, 38.37) * Math.PI);
   }
 
+  /**
+   * 
+   * @param x 
+   * @param a 
+   * @param b 
+   */
   calculateSpeedAngle(x, a, b) {
     let degree = (a - b) * (x) + b;
     let radian = (degree * Math.PI) / 180;
     return radian <= 2.322 ? radian : 2.322;
   }
 
-  //DISEGNA LE LINEETTE DELLE VELOCITà
+  /**
+   * DISEGNA LE LINEETTE DELLE VELOCITA'
+   * @param rotation 
+   * @param width 
+   * @param speed 
+   */
   drawMiniNeedle(rotation, width, speed) {
     this.ctx.lineWidth = width;
     this.ctx.save();
@@ -123,17 +144,18 @@ export class SpeedometerSectionComponent implements OnInit {
     rotation += Math.PI / 180;
   }
 
+  /**
+   * 
+   * @param rotation 
+   */
   speedNeedle(rotation) {
     this.ctx.lineWidth = 2;
     this.ctx.save();
     this.ctx.translate(250, 250);
     this.ctx.rotate(rotation);
-    //.strokeRect(distanza_lancetta_centro, inclinazione_lancetta,lunghezza_lancetta,spessore_lancetta)
     this.ctx.strokeRect(105, -0.5, 135, 1);
     this.ctx.restore();
     rotation += Math.PI / 180;
-
-
   }
 
 }

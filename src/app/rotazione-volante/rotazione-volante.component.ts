@@ -18,6 +18,9 @@ export class RotazioneVolanteComponent implements OnInit {
   }
 
 
+  /**
+   * Si mette in ascolto sul metodo di tipo Observable getGradiVolante(), aggiorna dati RealTime
+   */
   ascoltaVolante(){
       this._volanteService.getGradiVolante().subscribe(value => {
           this.ngZone.run(() => {
