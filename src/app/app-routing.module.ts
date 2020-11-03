@@ -56,5 +56,7 @@ export const routingComponents = [
     DiagnosticaComponent,
     AnglesComponent,
     StoricoComponent,
-    CambiaPasswordComponent
+    CambiaPasswordComponent,
+    LoggedpageComponent,
+    NotloggedpageComponent
 ];

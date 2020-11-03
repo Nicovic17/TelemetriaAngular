@@ -32,9 +32,6 @@ import { StoricoDueService } from './storico-due.service';
 import { StrRemUnderscore } from './stringformat.pipe';
 import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
 import { AppcomponentService } from './appcomponent.service';
-import { NotloggedpageComponent } from './notloggedpage/notloggedpage.component';
-import { LoggedpageComponent } from './loggedpage/loggedpage.component';
-import { RouterModule } from '@angular/router';
 
 
 // ATTENZIONE NON IMPORTARE QUA I COMPONENT, VANNO IN --> app-routing.module.ts
@@ -45,8 +42,6 @@ import { RouterModule } from '@angular/router';
     routingComponents, // Array collocato in app-routing.module.ts in esso vanno dichiarati i Component
     StrRemUnderscore,
     MatDialogComponent,
-    NotloggedpageComponent,
-    LoggedpageComponent
   ],
   imports: [
       BrowserModule,
