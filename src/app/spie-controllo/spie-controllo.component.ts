@@ -1,5 +1,5 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {ControllerService} from "../controller.service";
+import {ControllerService} from '../controller.service';
 
 @Component({
   selector: 'app-spie-controllo',
@@ -11,12 +11,12 @@ export class SpieControlloComponent implements OnInit {
   public breakTemp;
   public liquidTemperature;
   public liquidStream;
-  public bms = "button";
-  public trq = "button";
-  public ecu = "button";
-  public oh = "button";
-  public tcs = "button";
-  public imd = "button";
+  public bms = 'button';
+  public trq = 'button';
+  public ecu = 'button';
+  public oh = 'button';
+  public tcs = 'button';
+  public imd = 'button';
 
   constructor(private _controllerService: ControllerService, private ngZone: NgZone) { }
 
@@ -72,7 +72,7 @@ export class SpieControlloComponent implements OnInit {
    */
   ascoltaBreakTemperature(){
     this._controllerService.getTempFreno().subscribe(value => {
-      this.ngZone.run(() =>{
+      this.ngZone.run(() => {
         this.breakTemp = this.isValueValid(value);
       });
     });
@@ -83,11 +83,11 @@ export class SpieControlloComponent implements OnInit {
    */
   ascoltaSpiaBMS(){
     this._controllerService.getSpiaBatteryManagementSystem().subscribe(value => {
-      this.ngZone.run(() =>{
+      this.ngZone.run(() => {
         if (value === 1) {
-          this.bms = "button danger";
+          this.bms = 'button danger';
         } else {
-          this.bms = "button";
+          this.bms = 'button';
         }
       });
     });
@@ -98,11 +98,11 @@ export class SpieControlloComponent implements OnInit {
    */
   ascoltaSpiaTRQ(){
     this._controllerService.getSpiaTorqueLimitation().subscribe(value => {
-      this.ngZone.run(() =>{
+      this.ngZone.run(() => {
         if (value === 1) {
-          this.trq = "button danger";
+          this.trq = 'button danger';
         } else {
-          this.trq = "button";
+          this.trq = 'button';
         }
       });
 
@@ -114,11 +114,11 @@ export class SpieControlloComponent implements OnInit {
    */
   ascoltaSpiaECU(){
     this._controllerService.getSpiaECU().subscribe(value => {
-      this.ngZone.run(() =>{
+      this.ngZone.run(() => {
         if (value === 1) {
-          this.ecu = "button danger";
+          this.ecu = 'button danger';
         } else {
-          this.ecu = "button";
+          this.ecu = 'button';
         }
       });
 
@@ -130,11 +130,11 @@ export class SpieControlloComponent implements OnInit {
    */
   ascoltaSpiaOH(){
     this._controllerService.getSpiaOverHeat().subscribe(value => {
-      this.ngZone.run(() =>{
+      this.ngZone.run(() => {
         if (value === 1) {
-          this.oh = "button danger";
+          this.oh = 'button danger';
         } else {
-          this.oh = "button";
+          this.oh = 'button';
         }
       });
 
@@ -146,11 +146,11 @@ export class SpieControlloComponent implements OnInit {
    */
   ascoltaSpiaTCS(){
     this._controllerService.getSpiaTractionControlSystem().subscribe(value => {
-      this.ngZone.run(() =>{
+      this.ngZone.run(() => {
         if (value === 1) {
-          this.tcs = "button active";
+          this.tcs = 'button active';
         } else {
-          this.tcs = "button";
+          this.tcs = 'button';
         }
       });
 
@@ -162,11 +162,11 @@ export class SpieControlloComponent implements OnInit {
    */
   ascoltaSpiaIMD(){
     this._controllerService.getSpiaIMD().subscribe(value => {
-      this.ngZone.run(() =>{
+      this.ngZone.run(() => {
         if (value === 1) {
-          this.imd = "button danger";
+          this.imd = 'button danger';
         } else {
-          this.imd = "button";
+          this.imd = 'button';
         }
       });
 
@@ -174,12 +174,12 @@ export class SpieControlloComponent implements OnInit {
   }
 
   /**
-   * 
-   * @param value 
+   *
+   * @param value
    */
   isValueValid(value){
-    if(value === "null"){
-      return "NULL";
+    if (value === 'null'){
+      return 'NULL';
     }else {
       return value;
     }

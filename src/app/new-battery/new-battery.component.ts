@@ -5,8 +5,6 @@ import { BatteryService } from '../battery.service'
 //Per utilizzare jQuery in TS
 declare var $: any;
 
-var col, colLv;
-
 //const url="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
 
 @Component({
@@ -23,6 +21,8 @@ export class NewBatteryComponent implements OnInit {
     public tensioneLV;
     public tmediaHV;
     public tmediaLV;
+    public colorLV;
+    public colorHV;
 
     constructor(private _interactionService: BatteryService, private ngZone: NgZone) { }
 
@@ -134,18 +134,18 @@ export class NewBatteryComponent implements OnInit {
     batUpdateHighVoltage() {
         if (this.dataHV < 20) {
             // Red - Danger!
-            col = ["#750900", "#c6462b", "#b74424", "#df0a00", "#590700"];
+            this.colorHV = ["#750900", "#c6462b", "#b74424", "#df0a00", "#590700"];
         } else if (this.dataHV < 40) {
             // Yellow - Might wanna this.dataHV soon...
-            col = ["#754f00", "#f2bb00", "#dbb300", "#df8f00", "#593c00"];
+            this.colorHV = ["#754f00", "#f2bb00", "#dbb300", "#df8f00", "#593c00"];
         } else {
             // Green - All good!
-            col = ["#316d08", "#60b939", "#51aa31", "#64ce11", "#255405"];
+            this.colorHV = ["#316d08", "#60b939", "#51aa31", "#64ce11", "#255405"];
         }
 
-        $("#battery").css("background-image", "linear-gradient(to right, transparent 5%, " + col[0] + " 5%, " + col[0] + " 7%, "
-            + col[1] + " 8%, " + col[1] + " 10%, " + col[2] + " 11%, " + col[2] + " " + (this.dataHV - 3) + "%, " + col[3] + " " + (this.dataHV - 2) + "%, "
-            + col[3] + " " + this.dataHV + "%, " + col[4] + " " + this.dataHV + "%, black " + (this.dataHV + 5)
+        $("#battery").css("background-image", "linear-gradient(to right, transparent 5%, " + this.colorHV[0] + " 5%, " + this.colorHV[0] + " 7%, "
+            + this.colorHV[1] + " 8%, " + this.colorHV[1] + " 10%, " + this.colorHV[2] + " 11%, " + this.colorHV[2] + " " + (this.dataHV - 3) + "%, " + this.colorHV[3] + " " + (this.dataHV - 2) + "%, "
+            + this.colorHV[3] + " " + this.dataHV + "%, " + this.colorHV[4] + " " + this.dataHV + "%, black " + (this.dataHV + 5)
             + "%, black 95%, transparent 95%), linear-gradient(to bottom, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.4) " +
             "4%, rgba(255,255,255,0.2) 7%, rgba(255,255,255,0.2) 14%, rgba(255,255,255,0.8) 14%, " +
             "rgba(255,255,255,0.2) 40%, rgba(255,255,255,0) 41%, rgba(255,255,255,0) 80%, rgba(255,255,255,0.2) 80%, " +
@@ -160,18 +160,18 @@ export class NewBatteryComponent implements OnInit {
 
         if (this.dataLV < 20) {
             // Red - Danger!
-            colLv = ["#750900", "#c6462b", "#b74424", "#df0a00", "#590700"];
+            this.colorLV = ["#750900", "#c6462b", "#b74424", "#df0a00", "#590700"];
         } else if (this.dataLV < 40) {
             // Yellow - Might wanna this.dataHV soon...
-            colLv = ["#754f00", "#f2bb00", "#dbb300", "#df8f00", "#593c00"];
+            this.colorLV = ["#754f00", "#f2bb00", "#dbb300", "#df8f00", "#593c00"];
         } else {
             // Green - All good!
-            colLv = ["#316d08", "#60b939", "#51aa31", "#64ce11", "#255405"];
+            this.colorLV = ["#316d08", "#60b939", "#51aa31", "#64ce11", "#255405"];
         }
 
-        $("#battery2").css("background-image", "linear-gradient(to right, transparent 5%, " + colLv[0] + " 5%, " + colLv[0] +
-            " 7%, " + colLv[1] + " 8%, " + colLv[1] + " 10%, " + colLv[2] + " 11%, " + colLv[2] + " " + (this.dataLV - 3) + "%, " + colLv[3] + " "
-            + (this.dataLV - 2) + "%, " + colLv[3] + " " + this.dataLV + "%, " + colLv[4] + " " + this.dataLV + "%, black " + (this.dataLV + 5)
+        $("#battery2").css("background-image", "linear-gradient(to right, transparent 5%, " + this.colorLV[0] + " 5%, " + this.colorLV[0] +
+            " 7%, " + this.colorLV[1] + " 8%, " + this.colorLV[1] + " 10%, " + this.colorLV[2] + " 11%, " + this.colorLV[2] + " " + (this.dataLV - 3) + "%, " + this.colorLV[3] + " "
+            + (this.dataLV - 2) + "%, " + this.colorLV[3] + " " + this.dataLV + "%, " + this.colorLV[4] + " " + this.dataLV + "%, black " + (this.dataLV + 5)
             + "%, black 95%, transparent 95%), linear-gradient(to bottom, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.4) " +
             "4%, rgba(255,255,255,0.2) 7%, rgba(255,255,255,0.2) 14%, rgba(255,255,255,0.8) 14%, rgba(255,255,255,0.2) " +
             "40%, rgba(255,255,255,0) 41%, rgba(255,255,255,0) 80%, rgba(255,255,255,0.2) 80%, rgba(255,255,255,0.4) " +

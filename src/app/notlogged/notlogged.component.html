@@ -9,7 +9,7 @@
         <p>
           <mat-form-field appearance="legacy">
             <mat-label>Username</mat-label>
-            <input id="inputEmail"  matInput placeholder="Email" [formControl]="nomeUtente" [disabled]="emailDisabled">
+            <input matInput disabled value="Unina Corse">
             <mat-icon matSuffix>account_circle</mat-icon>
           </mat-form-field>
         </p>
@@ -23,7 +23,8 @@
             </button>
           </mat-form-field>
         </p>
-       <button id="loginButton" class="myButtonNoHover" mat-raised-button color="primary" (click)="myLogin()" [disabled]="loginButtonDisabled">Login</button>
+       <button id="loginButton" class="myButtonNoHover" disabled mat-raised-button color="primary" *ngIf="loginButtonDisabled">Login</button>
+       <button id="loginButton" class="myButton" mat-raised-button color="primary" (click)="myLogin()" *ngIf="!loginButtonDisabled">Login</button>
       </div>
 
 </body>

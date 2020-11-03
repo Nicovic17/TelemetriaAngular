@@ -7,11 +7,11 @@ import {GforceService} from "../gforce.service";
   styleUrls: ['./gforce-section.component.css']
 })
 export class GforceSectionComponent implements OnInit {
-  public x_axis;  //CENTER 16PX
-  public y_axis;  //CENTER -1PX
-  public longitudinal;
-  public lateral;
-  public latDir;
+  public x_axis;
+  public y_axis;
+  public longitudinal: number;
+  public lateral: number;
+  public latDir: string;
 
   constructor(private _gforceService: GforceService, private ngZone: NgZone) { }
 
@@ -20,8 +20,8 @@ export class GforceSectionComponent implements OnInit {
     this.ascoltaAccLat();
   }
 
-   /**
-   * Si mette in ascolto sul metodo di tipo Observable getLongitudinalAcc() e aggiorna dati RealTime 
+  /**
+   * Si mette in ascolto sul metodo di tipo Observable getLongitudinalAcc() e aggiorna dati RealTime
    */
   ascoltaAccLong(){
     this._gforceService.getLongitudinalAcc().subscribe(value => {
@@ -32,9 +32,8 @@ export class GforceSectionComponent implements OnInit {
 
     });
   }
-
-   /**
-   * Si mette in ascolto sul metodo di tipo Observable getLateralAcc() e aggiorna dati RealTime 
+  /**
+   * Si mette in ascolto sul metodo di tipo Observable getLateralAcc() e aggiorna dati RealTime
    */
   ascoltaAccLat(){
     this._gforceService.getLateralAcc().subscribe(value => {
@@ -66,8 +65,8 @@ export class GforceSectionComponent implements OnInit {
       tempLat = this.lateral * 5.30612;
     }
     const tempLong = this.longitudinal * -5.30612;
-    this.x_axis = zeroLat + tempLat + 'px';
-    this.y_axis = zeroLong + tempLong + 'px';
+    this.x_axis = (zeroLat + tempLat) + 'px';
+    this.y_axis = (zeroLong + tempLong) + 'px';
 
   }
 

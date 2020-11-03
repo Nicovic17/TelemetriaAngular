@@ -16,19 +16,21 @@ export class AppcomponentService {
    /**
     * Si mette in ascolto sull'oggetto auth:AngularFireAuth e restituisce un Observable contenente lo stato dell'utente (Logged/ Not logged)
     */
-  isLoggedIn():Observable<boolean>{
-    return new Observable(subscriber=>{
-      this.auth.onAuthStateChanged((user)=>{
-        if(user)
+  isLoggedIn(): Observable<boolean>{
+    return new Observable(subscriber => {
+      this.auth.onAuthStateChanged((user) => {
+        if (user)
         {
-          subscriber.next(true)
+          subscriber.next(true);
         }
         else
         {
           subscriber.next(false);
         }
-      })
-    })
+      }).then(() => {
+        return null;
+      });
+    });
   }
 
   /**
@@ -40,7 +42,8 @@ export class AppcomponentService {
     const user = await this.auth.currentUser;
     return await user.updatePassword(newPassword).then(() => {
       return true;
-    }).catch(error => {
+    }).catch((error) => {
+      console.log(error.message);
       return false;
     });
   }
@@ -51,10 +54,11 @@ export class AppcomponentService {
   getCurrentUser()
   {
     try {
-     return this.auth.currentUser;
-   } catch (error) {
-     return null;
-   }
+      return this.auth.currentUser;
+    } catch (error) {
+      console.log(error.message);
+      return null;
+    }
   }
 
   /**
@@ -62,14 +66,14 @@ export class AppcomponentService {
    */
  async logout()
   {
-   let ris=await this.auth.signOut()
-   .then(ris=>{
-    return true;
-   })
-   .catch(error =>{
-    return false;
-   })
-   return ris;
+    return await this.auth.signOut()
+     .then(() => {
+       return true;
+     })
+     .catch((error) => {
+       console.log(error.message);
+       return false;
+     });
   }
 
   /**
@@ -79,14 +83,13 @@ export class AppcomponentService {
    */
  async myLogin(email, password)
   {
-    const ris=await this.auth.signInWithEmailAndPassword(email,password).then(function(user)
-    {
+    return await this.auth.signInWithEmailAndPassword(email, password).then(() => {
       return true;
-    }).catch(function(error){
-      //Errore in login
+    }).catch( (error) => {
+      // Errore in login
+      console.log(error.message);
       return false;
     });
-    return ris;
   }
 
 

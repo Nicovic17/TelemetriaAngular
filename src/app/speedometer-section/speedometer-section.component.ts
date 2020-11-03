@@ -1,12 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-
-import { AngularFirestore } from '@angular/fire/firestore'
-import { AngularFireDatabase } from '@angular/fire/database'
-import { AngularFireAuth } from '@angular/fire/auth'
-
-import { Observable, from } from 'rxjs'
-import { SpeedometerService } from "../speedometer.service";
+import { SpeedometerService } from '../speedometer.service';
 
 @Component({
   selector: 'app-speedometer-section',
@@ -30,7 +24,7 @@ export class SpeedometerSectionComponent implements OnInit {
   */
   ascoltaSpeed() {
     this._speedservice.getSpeed().subscribe(value => {
-      this.drawSpeedo(value);
+      this.drawSpeed(value);
     });
   }
 
@@ -54,8 +48,8 @@ export class SpeedometerSectionComponent implements OnInit {
    * Aggiorna la vista dello speedometer
    * @param speed : velocità da rappresentare graficamente
    */
-  drawSpeedo(speed) {
-    var topSpeed = 200;
+  drawSpeed(speed) {
+    const topSpeed = 200;
     // DISEGNA LO SFONDO NERO CIRCOLARE
     this.ctx.clearRect(0, 0, 500, 500);
     this.ctx.beginPath();
@@ -73,7 +67,7 @@ export class SpeedometerSectionComponent implements OnInit {
     //CERCHIO INTERNO
     this.ctx.arc(250, 250, 100, 0, 2 * Math.PI);
     this.ctx.strokeStyle = "#333"; //COLORE LINEA CERCHIO PICCOLO
-    this.ctx.lineWidth = 10; //SPESSORE 
+    this.ctx.lineWidth = 10; //SPESSORE
 
     this.ctx.stroke();
     //CREA UN CERCHIO DI CONTORNO INTORNO ALLO SPEEDOMETRO
@@ -111,10 +105,10 @@ export class SpeedometerSectionComponent implements OnInit {
   }
 
   /**
-   * 
-   * @param x 
-   * @param a 
-   * @param b 
+   *
+   * @param x
+   * @param a
+   * @param b
    */
   calculateSpeedAngle(x, a, b) {
     let degree = (a - b) * (x) + b;
@@ -124,9 +118,9 @@ export class SpeedometerSectionComponent implements OnInit {
 
   /**
    * DISEGNA LE LINEETTE DELLE VELOCITA'
-   * @param rotation 
-   * @param width 
-   * @param speed 
+   * @param rotation
+   * @param width
+   * @param speed
    */
   drawMiniNeedle(rotation, width, speed) {
     this.ctx.lineWidth = width;
@@ -145,8 +139,8 @@ export class SpeedometerSectionComponent implements OnInit {
   }
 
   /**
-   * 
-   * @param rotation 
+   *
+   * @param rotation
    */
   speedNeedle(rotation) {
     this.ctx.lineWidth = 2;

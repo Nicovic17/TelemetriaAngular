@@ -7,14 +7,14 @@ import {BarsService} from "../bars.service";
   styleUrls: ['./bars.component.css']
 })
 export class BarsComponent implements OnInit {
-  throttleValue;
-  breakValue;
+  public throttleValue: number;
+  public breakValue: number;
 
   constructor(private _barsService: BarsService, private ngZone: NgZone) { }
 
   ngOnInit(): void {
-    this.ascoltaThrottle()
-    this.ascoltaBreak()
+    this.ascoltaThrottle();
+    this.ascoltaBreak();
   }
 
   /**
@@ -23,10 +23,10 @@ export class BarsComponent implements OnInit {
   ascoltaThrottle()
   {
     this._barsService.getThrottleValue().subscribe(value=>{
-      this.ngZone.run(()=>{
+      this.ngZone.run(() => {
         this.throttleValue = value;
-      })
-    })
+      });
+    });
   }
 
   /**

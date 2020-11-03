@@ -10,7 +10,7 @@ const p = 'storico/'; //Parte statica del path del db
 })
 export class VolanteService {
 
-  constructor( public db:AngularFireDatabase) { }
+  constructor( public db: AngularFireDatabase) { }
 
 
   /**

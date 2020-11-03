@@ -13,19 +13,10 @@ export class MatDialogComponent implements OnInit {
   public isChoice = false;
   public isPersonalized = false;
   public choices: any;
-  public resizeOption=false;
 
   constructor(public dialogRef: MatDialogRef<MatDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any) {
     this.title = data.title;
     this.body = data.body;
-
-    if(data.resizeOption == true)
-    {
-      this.resizeOption=true;
-      if(data.isPersonalized==true)
-        this.isPersonalized=true;
-    }
-
     if (data.isChoice === true){
       this.isChoice = true;
     }else{

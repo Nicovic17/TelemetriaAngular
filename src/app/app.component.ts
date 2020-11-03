@@ -1,43 +1,31 @@
 import { Component, NgZone } from '@angular/core';
-import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
-import {  AppcomponentService } from '../app/appcomponent.service'
-import { FormControl, Validators } from '@angular/forms';
+import {  AppcomponentService } from './appcomponent.service';
 import {MatDialog} from '@angular/material/dialog';
 import * as jQuery from 'jquery';
 import { Router, RouterLink } from '@angular/router';
 
-//Permette di salvare valori in formato key-value per la sessione seguente (fino a chiusura browser)
-if(sessionStorage.getItem("primoAccesso")==undefined)
+// Permette di salvare valori in formato key-value per la sessione seguente (fino a chiusura browser)
+if (sessionStorage.getItem('primoAccesso') == undefined)
 {
-  sessionStorage.setItem("primoAccesso","true");
+  sessionStorage.setItem('primoAccesso', 'true');
 }
 
-if(sessionStorage.getItem("isInMenu")==undefined)
+if (sessionStorage.getItem('isInMenu') == undefined)
 {
-  sessionStorage.setItem("isInMenu","true");
+  sessionStorage.setItem('isInMenu', 'true');
 }
-
-//Permette di salvare valori in formato key-value localmente sul browser (persistenza finché non rimossi)
-if(localStorage.getItem("mostraResize")==undefined)
+// Permette di salvare valori in formato key-value localmente sul browser (persistenza finché non rimossi)
+if (localStorage.getItem('mostraResize') == undefined)
 {
-  localStorage.setItem("mostraResize","true");
+  localStorage.setItem('mostraResize', 'true');
 }
-
-
-
-
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-
-
 export class AppComponent {
-
-
-  title = 'UninaCorse E-Team';
   constructor(public _appComponentService: AppcomponentService,
               private matDialog: MatDialog, private router: Router, private ngZone: NgZone) {}
 
@@ -52,9 +40,9 @@ export class AppComponent {
    */
    getCurrentUser()
   {
-    this._appComponentService.isLoggedIn().subscribe(value=>{
-      this.showToUser(value)
-    })
+    this._appComponentService.isLoggedIn().subscribe(value => {
+      this.showToUser(value);
+    });
   }
 
   /**
@@ -63,21 +51,20 @@ export class AppComponent {
    */
   showToUser(userIsLogged)
   {
-    if(userIsLogged)
+    if (userIsLogged)
     {
-      this.ngZone.run(()=>{
-        this.router.navigate(['/loggedpage'])
-      })
+      this.ngZone.run(() => {
+        this.router.navigate(['/loggedpage']);
+      });
 
     }
     else
     {
-      this.ngZone.run(()=>{
-        this.router.navigate(['/notloggedpage'])
-      })
+      this.ngZone.run(() => {
+        this.router.navigate(['/notloggedpage']);
+      });
     }
   }
-
 
   /**
    * Disattiva lo scroll della pagina

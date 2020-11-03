@@ -18,7 +18,7 @@ import { AnglesComponent } from './angles/angles.component';
 import { DiagnosticaComponent } from './diagnostica/diagnostica.component';
 import { StoricoComponent } from './storico/storico.component';
 import { CambiaPasswordComponent } from './cambia-password/cambia-password.component';
-import { NotloggedpageComponent } from './notloggedpage/notloggedpage.component';
+import { NotloggedComponent } from './notlogged/notlogged.component';
 import { LoggedpageComponent } from './loggedpage/loggedpage.component';
 
 
@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'storico', component: StoricoComponent },
   { path: 'diagnostica', component: DiagnosticaComponent},
   { path: 'cambiopassword', component: CambiaPasswordComponent},
-  { path: 'notloggedpage', component: NotloggedpageComponent},
+  { path: 'notloggedpage', component: NotloggedComponent},
   { path: 'loggedpage', component: LoggedpageComponent},
   { path: '**', component: PageNotFoundComponent } // ATTENZIONE DEVE ESSERE SEMPRE L'ULTIMA DELL'ARRAY
 ];
@@ -58,5 +58,5 @@ export const routingComponents = [
     StoricoComponent,
     CambiaPasswordComponent,
     LoggedpageComponent,
-    NotloggedpageComponent
+    NotloggedComponent
 ];

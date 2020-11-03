@@ -30,8 +30,9 @@ export class StatoGeneraleComponent implements OnInit, AfterViewInit {
   {
     if (localStorage.getItem('mostraResize') === 'true')
       {
-        const choice = this.showChoiceDialog('La seguente applicazione è ottimizzata per schermi di 32\'\'.',
-        ['Se necessario, effettuare un resize (zoom out) tramite browser della pagina mostrata.']);
+        const choice = this.showDialog('La seguente applicazione è ottimizzata per schermi di 23\'\'.',
+        ['Se necessario, modificare la grandezza della pagina premendo contemporaneamente i tasti ctrl e +, ctrl e -',
+        'fino a quando i 4 rettangoli (in basso a destra), contenenti le temperature dei motori, non sono correttamente contenuti nella pagina.']);
         choice.afterClosed().subscribe(result => {
         if (result === 1){
          localStorage.setItem('mostraResize', 'false');
@@ -45,20 +46,26 @@ export class StatoGeneraleComponent implements OnInit, AfterViewInit {
    * @param titolo Stringa contenente il titolo del messaggio
    * @param corpo  Array di Stringhe contenente il corpo del messaggio
    */
-  showChoiceDialog(titolo: string, corpo: string[]){
+  showDialog(titolo: string, corpo: string[]){
     return this.matDialog.open(MatDialogComponent, {
       maxWidth: '400px',
       maxHeight: '400px',
       data: {
         title: titolo,
         body: corpo,
-        resizeOption: true,
-        isPersonalized: true
+        isChoice: false,
+        isPersonalized: true,
+        choices: [
+          {
+            name: 'Chiudi',
+            returnValue: 1
+          }
+        ]
       },
       disableClose: true,
       position: {
         top: '13%',
-      },
+      }
     });
   }
 }
