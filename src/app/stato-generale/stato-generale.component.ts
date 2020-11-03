@@ -7,13 +7,13 @@ import {MatDialogComponent} from '../mat-dialog/mat-dialog.component';
 
 @Component({
   selector: 'app-article-index-gallery',
-  templateUrl: './article-index-gallery.component.html',
-  styleUrls: ['./article-index-gallery.component.css']
+  templateUrl: './stato-generale.component.html',
+  styleUrls: ['./stato-generale.component.css']
 })
 
 // Classe principale che contiene tutte le componenti della pagina stato generale
 
-export class ArticleIndexGalleryComponent implements OnInit, AfterViewInit {
+export class StatoGeneraleComponent implements OnInit, AfterViewInit {
 
   constructor(private matDialog: MatDialog) {}
 
