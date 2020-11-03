@@ -1,0 +1,20 @@
+<html>
+
+
+    <body>
+
+        <div class="loggedin-div" id="user_div">
+            <object>
+              <embed src="../assets/svg/eteam.svg" width="40%" height="40%">
+            </object>
+          <h3 class="loginHeader">Bentornato</h3>
+            <button class="myButton myHover" mat-raised-button color="primary" routerLink="../uninacorse">Stato Generale</button>
+            <button class="myButton myHover" mat-raised-button color="primary" routerLink="../storico">Storico</button>
+            <button class="myButton myHover" mat-raised-button color="primary" routerLink="../cambiopassword">Account</button>
+            <button class="myButton myHover" mat-raised-button color="primary" (click)="logout()" >Logout</button>
+         
+          </div>
+
+    </body>
+
+</html>
