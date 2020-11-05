@@ -43,6 +43,8 @@ export class CambiaPasswordComponent implements OnInit {
         this.newPswHasError = false;
       }
       if (!this.newPswHasError && !this.confirmNewPswHasError) {this.confirmButtonDisabled = false; }
+      else
+      if(this.newPswHasError || this.confirmNewPswHasError ) {this.confirmButtonDisabled=true;}
     });
   }
 
@@ -61,7 +63,9 @@ export class CambiaPasswordComponent implements OnInit {
       this.confirmNewPswHasError = false;
       }
 
-      if (!this.confirmNewPswHasError && !this.confirmNewPswHasError) {this.confirmButtonDisabled = false; }
+      if (!this.newPswHasError && !this.confirmNewPswHasError) {this.confirmButtonDisabled = false; }
+      else
+      if(this.newPswHasError || this.confirmNewPswHasError ) {this.confirmButtonDisabled=true;}
     });
   }
 
