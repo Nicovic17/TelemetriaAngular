@@ -45,7 +45,7 @@
         <div class="center" *ngIf="canFilter">
           <mat-form-field style="width: 50%; left: 2%">
             <mat-label>Filtraggio Dati</mat-label>
-            <input matInput placeholder="" [formControl]="search" #input>
+            <input matInput placeholder="Ex. Temp - Angolo" [formControl]="search" #input>
             <button mat-icon-button class="clearButton" (click)="search.reset()" [disabled]="input.value.length == 0">
               <mat-icon>close</mat-icon>
             </button>

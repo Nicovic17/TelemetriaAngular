@@ -96,6 +96,7 @@ export class StoricoComponent implements OnInit {
         selezionato dall'utente.
      */
     async startSearch(oraI: Date, oraF: Date){
+        this.search.enable();
         this.canFilter = true;
         // Resetta tutte le strutture per inserire nuovi grafici
         this.searchControl.reset();
@@ -192,7 +193,6 @@ export class StoricoComponent implements OnInit {
     chooseChartType(){
       const matRef = this.showTypeOfChartChoice();
       matRef.afterClosed().subscribe(value => {
-        console.log('value is' + value);
         if (value === 0){
           this.inizializzaGrafici(true);
         }else{
