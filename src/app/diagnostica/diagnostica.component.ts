@@ -1,5 +1,5 @@
-import {Component, Input, NgZone, OnInit, ViewChild} from '@angular/core';
-import {MatListModule, MatListOption, MatSelectionList} from '@angular/material/list';
+import {Component, NgZone, OnInit, ViewChild} from '@angular/core';
+import {MatSelectionList} from '@angular/material/list';
 import {DiagnosticaService} from '../diagnostica.service';
 import {FormControl} from '@angular/forms';
 
@@ -17,17 +17,23 @@ export class DiagnosticaComponent implements OnInit {
   messageMap = new Map(); // Map del tipo <Messaggio>:<Key>
   @ViewChild('msg', {static: true}) private listObj: MatSelectionList;
   messageControl = new FormControl();
-  isLoading = true;
+  isLoading = 0;
 
   ngOnInit(): void {
     this.listUpdate();
   }
+  /**
+   * Seleziona tutti i messaggi
+   */
   selectAll(){
     this.listObj.selectAll();
     this.listObj.selectedOptions.selected.forEach(value => {
       this.selectionChange(value);
     });
   }
+  /**
+   * Deseleziona tutti i messaggi
+   */
   selectNone(){
     this.listObj.selectedOptions.selected.forEach(value => {
       value.selected = false;
@@ -41,7 +47,7 @@ export class DiagnosticaComponent implements OnInit {
    * letto tutti i messaggi già presenti
    */
   async listUpdate(){
-    let messagesNumber = await this._diagService.getMessagesNumber();
+    this.isLoading = await this._diagService.getMessagesNumber();
     let message: string;
     this._diagService.getDiagMessages().subscribe(value => {
       message = this.convertDate(Number(value[0]));
@@ -51,10 +57,7 @@ export class DiagnosticaComponent implements OnInit {
         this.messageListBackup.unshift(message);
       });
       this.messageMap.set(message, value[0]); // L'array conserva l'associazione key-value del db per la cancellazione
-      messagesNumber--;
-      if (messagesNumber === 0){
-        this.isLoading = false;
-      }
+      this.isLoading--;
     });
   }
 

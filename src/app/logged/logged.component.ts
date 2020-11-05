@@ -15,11 +15,11 @@ export class LoggedComponent implements OnInit {
   }
 
  async logout() {
-    let ris= await this._appComponentService.logout();
-    localStorage.setItem("mostraResize","true")
+    const ris = await this._appComponentService.logout();
+    localStorage.setItem('mostraResize','true');
     this.ngZone.run(()=>{
-      this.router.navigate(['/notloggedpage'])
-    })
+      this.router.navigate(['/notloggedpage']);
+    });
     return ris;
   }
 

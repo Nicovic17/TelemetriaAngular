@@ -1,7 +1,7 @@
-import {Component, NgZone, OnInit, ViewChild} from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import * as Highcharts from 'highcharts';
-import {StoricoDueService} from '../storico-due.service';
-import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
+import {StoricoService} from '../storico.service';
+import {MatDialog} from '@angular/material/dialog';
 import {MatDialogComponent} from '../mat-dialog/mat-dialog.component';
 import {FormControl} from '@angular/forms';
 import {debounceTime, startWith, switchMap} from 'rxjs/operators';
@@ -42,11 +42,10 @@ export class StoricoComponent implements OnInit {
     public isLoading = false;
     public canJoinGraph = false; // Stabilisce se il pulsante per unire i grafici è visibile
     public canFilter = false;
-    public availableSensors: StrutturaSensori[];  // Struttura definità dopra il decorator serve per mantenere tutti i dati dei sensori
-    public sensorsMap: Map<string, string>;  // Conserva la mappa dei sensori
-    public listaSensori = [];  // Contiene la lista dei sensori disponibili per l'intervallo di tempo selezionato
-    public idSensoriScelti = [];  // contiene gli id dei sensori selezionati
-    @ViewChild('graph', {static: false}) private graphSection;
+    private availableSensors: StrutturaSensori[];  // Struttura definità dopra il decorator serve per mantenere tutti i dati dei sensori
+    private sensorsMap: Map<string, string>;  // Conserva la mappa dei sensori
+    private listaSensori = [];  // Contiene la lista dei sensori disponibili per l'intervallo di tempo selezionato
+    private idSensoriScelti = [];  // contiene gli id dei sensori selezionati
     search = new FormControl();
     searchControl = new FormControl();
 
@@ -68,7 +67,7 @@ export class StoricoComponent implements OnInit {
       this.searchControl.setValue(value);
     }
 
-    constructor(public _service: StoricoDueService, public ngZone: NgZone, private errDialog: MatDialog) {}
+    constructor(public _service: StoricoService, public ngZone: NgZone, private errDialog: MatDialog) {}
 
     ngOnInit(): void {
       this.maxDate = this.setMaxDate();
@@ -105,9 +104,8 @@ export class StoricoComponent implements OnInit {
         this.canJoinGraph = false;
         this.listaSensori.splice(0, this.listaSensori.length);
         this.idSensoriScelti.splice(0, this.idSensoriScelti.length);
-        //if (this.graphSection !== undefined) { for (let i of this.graphSection.nativeElement.children) { i.remove(); } }
         // Vengono dapprima caricati i dati dei sensori e la mappa in modo Sincrono
-        this.availableSensors = await this._service.getAviableSensors(oraI, oraF);
+        this.availableSensors = await this._service.getAvailableSensors(oraI, oraF);
         this.sensorsMap = await this._service.getSensorsMap();
         // Utilizzando la mappa gli id dei sensori vengono convertiti in nomi
         this.availableSensors.forEach(value => {
@@ -146,13 +144,6 @@ export class StoricoComponent implements OnInit {
         const keys = [...this.sensorsMap.entries()].filter(({ 1: v }) => v === key).map(([k]) => k);
         this.idSensoriScelti.push(keys[0]);
       });
-      // this.listObj.selectedOptions.selected.forEach(value => {
-      //   const key = value.value;
-      //   // Effettua conversione inversa "Nome sensore" -> ID
-      //   const keys = [...this.sensorsMap.entries()].filter(({ 1: v }) => v === key).map(([k]) => k);
-      //   this.idSensoriScelti.push(keys[0]);
-      // });
-      // console.log(this.idSensoriScelti);
       for (const i of this.idSensoriScelti){
         if (i === undefined){
           isFailed = true;
@@ -208,11 +199,6 @@ export class StoricoComponent implements OnInit {
           this.inizializzaGrafici(false);
         }
       });
-    }
-
-    convertDate(time: number): number{
-        const stamp = new Date(time);
-        return stamp.getTime();
     }
 
     toTitleCase = (phrase) => {

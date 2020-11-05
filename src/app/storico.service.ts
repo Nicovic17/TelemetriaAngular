@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { MatDialog } from '@angular/material/dialog';
 
 class StrutturaSensori {
   id: string;
@@ -9,12 +8,12 @@ class StrutturaSensori {
 @Injectable({
   providedIn: 'root'
 })
-export class StoricoDueService {
+export class StoricoService {
   gpsSensorId = '010'; // DOVREBBE ESSERE PRESO DALLA MAPPA DEI SENSORI
   private sensori: Array<StrutturaSensori> = new Array<StrutturaSensori>();
-  constructor(private db: AngularFireDatabase, public dialog: MatDialog) {}
+  constructor(private db: AngularFireDatabase) {}
 
-  async getAviableSensors(oraI: Date, oraF: Date): Promise<StrutturaSensori[]>{
+  async getAvailableSensors(oraI: Date, oraF: Date): Promise<StrutturaSensori[]>{
     this.sensori.splice(0, this.sensori.length);
     const oraInizNum = oraI.getTime();
     const oraFineNum = oraF.getTime();

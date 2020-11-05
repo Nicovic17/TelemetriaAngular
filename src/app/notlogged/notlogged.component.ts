@@ -19,6 +19,7 @@ export class NotloggedComponent implements OnInit {
   hideNewPassword = true;
   emailDisabled = true;
   loginButtonDisabled = true;
+  isLoading = false;
   constructor(public _appComponentService: AppcomponentService, private ngZone: NgZone,
               private router: Router, private matDialog: MatDialog) { }
 
@@ -53,9 +54,9 @@ export class NotloggedComponent implements OnInit {
    * Se la password è errata, mostra un PopUp di errore
    */
   async myLogin(){
-
+    this.isLoading = true;
     const successLogin = await this._appComponentService.myLogin(this.email.value, this.password.value);
-
+    this.isLoading = false;
     if (successLogin)
     {
       this.ngZone.run(() => {

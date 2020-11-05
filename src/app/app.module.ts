@@ -28,7 +28,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { DiagnosticaService } from './diagnostica.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { StoricoDueService } from './storico-due.service';
+import { StoricoService } from './storico.service';
 import { StrRemUnderscore } from './stringformat.pipe';
 import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
 import { AppcomponentService } from './appcomponent.service';
@@ -72,7 +72,7 @@ import { AppcomponentService } from './appcomponent.service';
   ],
   providers: [SpeedometerService,
     BatteryService, BarsService, VolanteService, MapService,
-    EngineService, MatDatepickerModule, DiagnosticaService, StoricoDueService, AppComponent, AppcomponentService],
+    EngineService, MatDatepickerModule, DiagnosticaService, StoricoService, AppComponent, AppcomponentService],
 
   bootstrap: [AppComponent]
 })

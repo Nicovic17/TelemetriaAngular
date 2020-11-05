@@ -1,8 +1,7 @@
 import { Component, NgZone } from '@angular/core';
 import {  AppcomponentService } from './appcomponent.service';
-import {MatDialog} from '@angular/material/dialog';
 import * as jQuery from 'jquery';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 // Permette di salvare valori in formato key-value per la sessione seguente (fino a chiusura browser)
 if (sessionStorage.getItem('primoAccesso') == undefined)
@@ -26,8 +25,7 @@ if (localStorage.getItem('mostraResize') == undefined)
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(public _appComponentService: AppcomponentService,
-              private matDialog: MatDialog, private router: Router, private ngZone: NgZone) {}
+  constructor(public _appComponentService: AppcomponentService, private router: Router, private ngZone: NgZone) {}
 
   ngOnInit()
   {
