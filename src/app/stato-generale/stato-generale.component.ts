@@ -6,7 +6,7 @@ import {MatDialogComponent} from '../mat-dialog/mat-dialog.component';
 
 
 @Component({
-  selector: 'app-article-index-gallery',
+  selector: 'app-stato-generale',
   templateUrl: './stato-generale.component.html',
   styleUrls: ['./stato-generale.component.css']
 })
@@ -17,10 +17,9 @@ export class StatoGeneraleComponent implements OnInit, AfterViewInit {
 
   constructor(private matDialog: MatDialog) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {  }
   ngAfterViewInit(){
-    this.setLocalStorageStatoGenerale()
+    this.setLocalStorageStatoGenerale();
   }
 
   /**

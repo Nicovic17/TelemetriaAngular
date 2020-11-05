@@ -1,5 +1,5 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {BarsService} from "../bars.service";
+import {BarsService} from '../bars.service';
 
 @Component({
   selector: 'app-bars-section',
@@ -8,7 +8,9 @@ import {BarsService} from "../bars.service";
 })
 export class BarsComponent implements OnInit {
   public throttleValue: number;
+  public throttleBarPerc: string;
   public breakValue: number;
+  public breakBarPerc: string;
 
   constructor(private _barsService: BarsService, private ngZone: NgZone) { }
 
@@ -22,9 +24,10 @@ export class BarsComponent implements OnInit {
    */
   ascoltaThrottle()
   {
-    this._barsService.getThrottleValue().subscribe(value=>{
+    this._barsService.getThrottleValue().subscribe(value => {
       this.ngZone.run(() => {
         this.throttleValue = value;
+        this.throttleBarPerc = value + '%';
       });
     });
   }
@@ -37,6 +40,7 @@ export class BarsComponent implements OnInit {
     this._barsService.getBreakValue().subscribe(value => {
       this.ngZone.run(() => {
         this.breakValue = value;
+        this.breakBarPerc = value + '%';
       });
     });
   }

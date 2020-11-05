@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { UninacorseComponent } from './uninacorse/uninacorse.component';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { StatoGeneraleComponent } from './stato-generale/stato-generale.component';
@@ -24,8 +23,8 @@ import { LoggedComponent } from './logged/logged.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full'},
-  { path: 'uninacorse', component: UninacorseComponent },
   { path: 'login', component: AppComponent },
+  { path: 'statogenerale', component: StatoGeneraleComponent },
   { path: 'storico', component: StoricoComponent },
   { path: 'diagnostica', component: DiagnosticaComponent},
   { path: 'cambiopassword', component: CambiaPasswordComponent},
@@ -41,7 +40,6 @@ const routes: Routes = [
 export class AppRoutingModule { }
 
 export const routingComponents = [
-    UninacorseComponent,
     NavBarComponent,
     StatoGeneraleComponent,
     SpeedometerSectionComponent,

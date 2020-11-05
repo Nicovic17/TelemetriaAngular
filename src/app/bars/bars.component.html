@@ -2,11 +2,11 @@
 
     <div class="percentage">
         <li>
-            <h3>Throttle: {{throttleValue | number: '1.0-0'}}%</h3><span class="bar-acc"><span [style.width]="throttleValue"></span></span>
+            <h3>Throttle: {{throttleValue | number: '1.0-0'}}%</h3><span class="bar-acc"><span [style.width]="throttleBarPerc"></span></span>
         </li>
 
         <li>
-            <h3>Break: {{breakValue | number: '1.0-0'}}%</h3><span class="bar-fren"><span [style.width]="breakValue"></span></span>
+            <h3>Break: {{breakValue | number: '1.0-0'}}%</h3><span class="bar-fren"><span [style.width]="breakBarPerc"></span></span>
         </li>
     </div>
 </div>
