@@ -20,7 +20,9 @@ export class DiagnosticaComponent implements OnInit {
   isLoading = 0;
 
   ngOnInit(): void {
-    this.listUpdate();
+    this.listUpdate().then(() => {
+      return null;
+    });
   }
   /**
    * Seleziona tutti i messaggi

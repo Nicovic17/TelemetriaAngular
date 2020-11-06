@@ -29,8 +29,12 @@
             </button>
           </mat-form-field>
         </p>
-       <button id="loginButton" class="myButtonNoHover" disabled mat-raised-button color="primary" *ngIf="loginButtonDisabled">Login</button>
-       <button id="loginButton" class="myButton" mat-raised-button color="primary" (click)="myLogin()" *ngIf="!loginButtonDisabled">Login</button>
+      <div *ngIf="loginButtonDisabled; then disabled else notDisabled"></div>
+      <ng-template #disabled><button  class="myButtonNoHover" disabled mat-raised-button color="primary" *ngIf="loginButtonDisabled">Login</button></ng-template>
+      <ng-template #notDisabled><button  class="myButton" mat-raised-button color="primary" (click)="myLogin()" *ngIf="!loginButtonDisabled">Login</button></ng-template>
+
+
+
       </div>
 
 </body>

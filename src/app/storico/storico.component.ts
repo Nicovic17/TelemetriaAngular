@@ -90,7 +90,7 @@ export class StoricoComponent implements OnInit {
         oraI.setHours(Number(time[0]), Number(time[1]), Number(time[2]) || 0);
         time = val2.split(':'); // divide una stringa in un array tramite il valore di separazione
         oraF.setHours(Number(time[0]), Number(time[1]), Number(time[2]) || 0);
-        if (this.ifValuesFine(oraI,oraF)){
+        if (this.ifValuesFine(oraI, oraF)){
           this.isLoading = true;
           await this.startSearch(oraI, oraF);
           this.isLoading = false;

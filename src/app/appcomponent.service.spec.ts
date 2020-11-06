@@ -21,14 +21,9 @@ describe('AppcomponentService', () => {
  // let service: AppcomponentService;
 
  let appComponent: AppComponent;
-  let matDialogComponent: MatDialogComponent;
-
-  let appComponentService: AppcomponentService;
-
-  let fixture: ComponentFixture<AppComponent>
-  let fixtureMatDialogComp: ComponentFixture<MatDialogComponent>
-
-  let authService;
+ let appComponentService: AppcomponentService;
+ let fixture: ComponentFixture<AppComponent>;
+ let authService;
 
  beforeEach(async(() => {
   TestBed.configureTestingModule({
@@ -44,123 +39,126 @@ describe('AppcomponentService', () => {
       AngularFireModule.initializeApp(environment.firebaseConfig),
       AngularFirestoreModule
     ],
-    providers:[AngularFireAuth, AngularFireDatabase],
-  
+    providers: [AngularFireAuth, AngularFireDatabase],
+
     declarations: [
       AppComponent,
       MatDialogComponent
     ],
-    
+
   })
-  .overrideModule(BrowserDynamicTestingModule,{
-    set:{
-      entryComponents:[MatDialogComponent]
+  .overrideModule(BrowserDynamicTestingModule, {
+    set: {
+      entryComponents: [MatDialogComponent]
     }
   })
-  .compileComponents().then(()=>{
+  .compileComponents().then(() => {
 
-    fixture=TestBed.createComponent(AppComponent)
-    appComponent=fixture.componentInstance
-    authService=TestBed.inject(AngularFireAuth)
-    appComponentService=TestBed.inject(AppcomponentService)
-    
+    fixture = TestBed.createComponent(AppComponent);
+    appComponent = fixture.componentInstance;
+    authService = TestBed.inject(AngularFireAuth);
+    appComponentService = TestBed.inject(AppcomponentService);
+
   });
 
 }));
 
-  //Service test
+  // Service test
 
-  it('#myLogin service success', async ()=>{
-    
-    let email="uninacorse@gmail.com"
-    let password="Uninacorse";
+ it('#myLogin service success', async () => {
+
+    const email = 'uninacorse@gmail.com';
+    const password = 'Uninacorse';
 
 
-    const ris=await appComponentService.myLogin(email,password)
-    expect(ris).toBe(true)
-   
+    const ris = await appComponentService.myLogin(email, password);
+    expect(ris).toBe(true);
 
-  })
 
-  it('#myLogin service failed wrong email', async ()=>{
+  });
 
-    let email="uninacorseee@gmail.com"
-    let password="Uninacorse";
+ it('#myLogin service failed wrong email', async () => {
 
-    const ris=await appComponentService.myLogin(email,password);
+    const email = 'uninacorseee@gmail.com';
+    const password = 'Uninacorse';
+
+    const ris = await appComponentService.myLogin(email, password);
     expect(ris).toBe(false, 'Access failed, wrong email');
 
-  })
+  });
 
-  it('#myLogin service failed wrong password', async ()=>{
+ it('#myLogin service failed wrong password', async () => {
 
-    let email="uninacorse@gmail.com"
-    let password="Uninacorrrse";
+    const email = 'uninacorse@gmail.com';
+    const password = 'Uninacorrrse';
 
-    const ris=await appComponentService.myLogin(email,password);
+    const ris = await appComponentService.myLogin(email, password);
     expect(ris).toBe(false, 'Access failed, wrong password');
 
-  })
+  });
 
-  it('#myLogin service failed, wrong password and email', async ()=>{
+ it('#myLogin service failed, wrong password and email', async () => {
 
-    let email="uninacorseeee@gmail.com"
-    let password="Uninacorrrse";
+    const email = 'uninacorseeee@gmail.com';
+    const password = 'Uninacorrrse';
 
-    const ris=await appComponentService.myLogin(email,password);
+    const ris = await appComponentService.myLogin(email, password);
     expect(ris).toBe(false, 'Access failed, wrong password and email');
-  } )
+  } );
 
-  it('#logout service success', async ()=>{
+ it('#logout service success', async () => {
 
-    let email="uninacorse@gmail.com"
-    let password="Uninacorse";
+    const email = 'uninacorse@gmail.com';
+    const password = 'Uninacorse';
 
-    const ris=await appComponentService.myLogin(email,password);
-    let logOut=null;
-    if(ris)
-    logOut=await appComponent._appComponentService.logout()
+    const ris = await appComponentService.myLogin(email, password);
+    let logOut = null;
+    if (ris) {
+    logOut = await appComponent._appComponentService.logout();
+    }
 
-    expect(logOut).toBe(true)
+    expect(logOut).toBe(true);
 
-  })
+  });
 
 
-  it('#getCurretUser service success', async ()=>{
+ it('#getCurretUser service success', async () => {
 
-    let email="uninacorse@gmail.com"
-    let password="Uninacorse";
+    const email = 'uninacorse@gmail.com';
+    const password = 'Uninacorse';
     let currUser;
-    const ris=await appComponentService.myLogin(email,password);
-    if(ris)
-    currUser= await appComponentService.getCurrentUser()
+    const ris = await appComponentService.myLogin(email, password);
+    if (ris) {
+    currUser = await appComponentService.getCurrentUser();
+    }
 
-    expect(currUser).not.toBeNull()
-  })
+    expect(currUser).not.toBeNull();
+  });
 
-  it('#updatePassword service success',async ()=>{
+ it('#updatePassword service success', async () => {
 
-    let email="uninacorse@gmail.com"
-    let password="Uninacorse";
+    const email = 'uninacorse@gmail.com';
+    const password = 'Uninacorse';
     let ris;
-    const login=await appComponentService.myLogin(email,password);
-    let newPassword="Uninacorse";
+    const login = await appComponentService.myLogin(email, password);
+    const newPassword = 'Uninacorse';
 
-    if(login)
-    ris=await appComponentService.updatePassword(newPassword)
+    if (login) {
+    ris = await appComponentService.updatePassword(newPassword);
+    }
 
-    expect(ris).toBe(true)
+    expect(ris).toBe(true);
 
-  })
+  });
 
-  it('#updatePassword service not success',async ()=>{
+ it('#updatePassword service not success', async () => {
 
-   
+
     let ris;
-    let newPassword="Uninacorse";
-    ris=await appComponentService.updatePassword(newPassword)
-    expect(ris).toBe(false)
+    const newPassword = 'Uninacorse';
+    ris = await appComponentService.updatePassword(newPassword);
+    expect(ris).toBe(false);
 
-  })
+  });
 
 });

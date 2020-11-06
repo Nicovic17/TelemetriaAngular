@@ -32,11 +32,11 @@ export class SpeedometerSectionComponent implements OnInit {
    * Crea elementi grafici per la rappresentazione dello speedometer
    */
   setUpSpeed() {
-    this.c = (document.getElementById("canvas") as HTMLCanvasElement);
+    this.c = (document.getElementById('canvas') as HTMLCanvasElement);
     this.c.width = 300;
     this.c.height = 300;
-    this.ctx = this.c.getContext("2d");
-    //Rescale the size
+    this.ctx = this.c.getContext('2d');
+    // Rescale the size
     this.ctx.scale(1, 1);
 
     this.speedGradient = this.ctx.createLinearGradient(0, 0, 300, 300);
@@ -58,47 +58,47 @@ export class SpeedometerSectionComponent implements OnInit {
     this.ctx.fill();
     this.ctx.save();
     this.ctx.restore();
-    //COLORE CIFRE VELICITà AL CENTRO
-    this.ctx.fillStyle = "#FFF";
+    // COLORE CIFRE VELICITà AL CENTRO
+    this.ctx.fillStyle = '#FFF';
     this.ctx.stroke();
 
     this.ctx.beginPath();
 
     //CERCHIO INTERNO
     this.ctx.arc(150, 150, 60, 0, 2 * Math.PI);
-    this.ctx.strokeStyle = "#333"; //COLORE LINEA CERCHIO PICCOLO
-    this.ctx.lineWidth = 6; //SPESSORE
+    this.ctx.strokeStyle = '#333'; // COLORE LINEA CERCHIO PICCOLO
+    this.ctx.lineWidth = 6; // SPESSORE
 
     this.ctx.stroke();
-    //CREA UN CERCHIO DI CONTORNO INTORNO ALLO SPEEDOMETRO
+    // CREA UN CERCHIO DI CONTORNO INTORNO ALLO SPEEDOMETRO
     this.ctx.beginPath();
     this.ctx.lineWidth = 2;
     this.ctx.arc(150, 150, 145, 0, 2 * Math.PI);
     this.ctx.stroke();
 
     //SPEED TEXT
-    this.ctx.font = "700 40px Open Sans";
-    this.ctx.textAlign = "center";
+    this.ctx.font = '700 40px Open Sans';
+    this.ctx.textAlign = 'center';
     this.ctx.fillText(speed, 150, 150); // posizione testo velocità al centro
-    this.ctx.font = "700 15px Open Sans";
-    this.ctx.fillText("Km/h", 150, 180);
-    this.ctx.fillStyle = "#FFF"; //COLORE NUMERI INDICATI DALLE LANCETTE
-    for (var i = 10; i <= topSpeed; i += 10) {
+    this.ctx.font = '700 15px Open Sans';
+    this.ctx.fillText('Km/h', 150, 180);
+    this.ctx.fillStyle = '#FFF'; //COLORE NUMERI INDICATI DALLE LANCETTE
+    for (const i = 10; i <= topSpeed; i += 10) {
       // Le line multipli di 20 sono + doppie//Fa in modo che vengono scritte solo multipli di 20
       this.drawMiniNeedle(this.calculateSpeedAngle(i / topSpeed, 133.07888, 38.37) * Math.PI, i % 20 == 0 ? 2 : 1, i % 20 == 0 ? i : '');
     }
 
-    //COLORE E ANGOLATURA DELLA STRISCIA LUMINOSA
+    // COLORE E ANGOLATURA DELLA STRISCIA LUMINOSA
     this.ctx.beginPath();
-    this.ctx.strokeStyle = "#41dcf4";
+    this.ctx.strokeStyle = '#41dcf4';
     this.ctx.lineWidth = 16;
     this.ctx.shadowBlur = 5;
-    this.ctx.shadowColor = "#00c6ff";
+    this.ctx.shadowColor = '#00c6ff';
     this.ctx.strokeStyle = this.speedGradient;
-    //this.ctx.arc(x_coord_centr, y_coord_centr, angolo_inizio_striscia, angolo_lancetta)
+    // this.ctx.arc(x_coord_centr, y_coord_centr, angolo_inizio_striscia, angolo_lancetta)
     this.ctx.arc(150, 150, 137, .668 * Math.PI, this.calculateSpeedAngle(speed / topSpeed, 133.07888, 38.37) * Math.PI);
     this.ctx.stroke();
-    //COLORE E ANGOLATURA DELLA LANCETTA
+    // COLORE E ANGOLATURA DELLA LANCETTA
     this.ctx.shadowBlur = 0;
     this.ctx.strokeStyle = '#41dcf4';
     this.speedNeedle(this.calculateSpeedAngle(speed / topSpeed, 133.07888, 38.37) * Math.PI);
@@ -112,8 +112,8 @@ export class SpeedometerSectionComponent implements OnInit {
    * @param b indica da che angolo devono iniziare i valori
    */
   calculateSpeedAngle(x, a, b) {
-    let degree = (a - b) * (x) + b;
-    let radian = (degree * Math.PI) / 180;
+    const degree = (a - b) * (x) + b;
+    const radian = (degree * Math.PI) / 180;
     return radian <= 2.322 ? radian : 2.322;
   }
 
@@ -130,13 +130,13 @@ export class SpeedometerSectionComponent implements OnInit {
     this.ctx.save();
     this.ctx.translate(150, 150);
     this.ctx.rotate(rotation);
-    this.ctx.strokeStyle = "#333";
-    this.ctx.fillStyle = "#333";
+    this.ctx.strokeStyle = '#333';
+    this.ctx.fillStyle = '#333';
     this.ctx.strokeRect(-20 / 2 + 135, -1 / 2, 14, 1);
     this.ctx.restore();
-    let x = (150 + 110 * Math.cos(rotation));
-    let y = (150 + 110 * Math.sin(rotation));
-    this.ctx.font = "700 12px Open Sans";
+    const x = (150 + 110 * Math.cos(rotation));
+    const y = (150 + 110 * Math.sin(rotation));
+    this.ctx.font = '700 12px Open Sans';
     this.ctx.fillText(speed, x, y);
     rotation += Math.PI / 180;
   }

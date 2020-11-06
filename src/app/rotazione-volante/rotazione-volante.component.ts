@@ -26,7 +26,7 @@ export class RotazioneVolanteComponent implements OnInit {
           this.ngZone.run(() => {
               this.gradi = value;
               this.rotation = `rotate(${value}deg)`;
-          })
+          });
       } );
   }
 }

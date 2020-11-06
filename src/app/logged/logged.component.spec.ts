@@ -2,8 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/firestore';
-import { Router, RouterModule } from '@angular/router';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { RouterTestingModule } from '@angular/router/testing';
 import { environment } from 'src/environments/environment';
 import { AppcomponentService } from '../appcomponent.service';
@@ -21,20 +20,20 @@ describe('LoggedComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports:[
+      imports: [
         RouterTestingModule.withRoutes([]),
         AngularFireModule.initializeApp(environment.firebaseConfig),
         AngularFirestoreModule
       ],
       declarations: [ LoggedComponent ],
-      providers:[AngularFireAuth, AngularFireDatabase],
+      providers: [AngularFireAuth, AngularFireDatabase],
     })
-    .compileComponents().then(()=>{
+    .compileComponents().then(() => {
       fixture = TestBed.createComponent(LoggedComponent);
-      component=fixture.componentInstance
+      component = fixture.componentInstance;
 
-      authService=TestBed.inject(AngularFireAuth)
-      appComponentService=TestBed.inject(AppcomponentService)
+      authService = TestBed.inject(AngularFireAuth);
+      appComponentService = TestBed.inject(AppcomponentService);
     });
   }));
 
@@ -44,11 +43,11 @@ describe('LoggedComponent', () => {
     fixture.detectChanges();
   });
 
-  it('#logout ', async()=>{
+  it('#logout ', async () => {
 
-    let ris= await component.logout()
-    expect(localStorage.getItem("mostraResize")).toMatch("true")
+    const ris = await component.logout();
+    expect(localStorage.getItem('mostraResize')).toMatch('true');
     expect(ris).toBe(true);
 
-  })
+  });
 });

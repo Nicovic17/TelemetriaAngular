@@ -1,5 +1,5 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {EngineService} from "../engine.service";
+import {EngineService} from '../engine.service';
 
 @Component({
   selector: 'app-visionemacchina',
@@ -31,12 +31,12 @@ export class VisionemacchinaComponent implements OnInit {
       this.ascoltaIgbt2();
       this.ascoltaIgbt3();
       this.ascoltaIgbt4();
-    })
+    });
 
   }
 
   /**
-   * Si mette in ascolto sul metodo di tipo Observable getTempEngineOne() e aggiorna dati RealTime 
+   * Si mette in ascolto sul metodo di tipo Observable getTempEngineOne() e aggiorna dati RealTime
    */
   ascoltaEng1(){
     this._engineService.getTempEngineOne().subscribe(value => {
@@ -45,7 +45,7 @@ export class VisionemacchinaComponent implements OnInit {
   }
 
   /**
-   * Si mette in ascolto sul metodo di tipo Observable getTempEngineTwo() e aggiorna dati RealTime 
+   * Si mette in ascolto sul metodo di tipo Observable getTempEngineTwo() e aggiorna dati RealTime
    */
   ascoltaEng2(){
     this._engineService.getTempEngineTwo().subscribe(value => {
@@ -54,7 +54,7 @@ export class VisionemacchinaComponent implements OnInit {
   }
 
   /**
-   * Si mette in ascolto sul metodo di tipo Observable getTempEngineThree() e aggiorna dati RealTime 
+   * Si mette in ascolto sul metodo di tipo Observable getTempEngineThree() e aggiorna dati RealTime
    */
   ascoltaEng3(){
     this._engineService.getTempEngineThree().subscribe(value => {
@@ -63,7 +63,7 @@ export class VisionemacchinaComponent implements OnInit {
   }
 
   /**
-   * Si mette in ascolto sul metodo di tipo Observable getTempEngineFour() e aggiorna dati RealTime 
+   * Si mette in ascolto sul metodo di tipo Observable getTempEngineFour() e aggiorna dati RealTime
    */
   ascoltaEng4(){
     this._engineService.getTempEngineFour().subscribe(value => {
@@ -72,7 +72,7 @@ export class VisionemacchinaComponent implements OnInit {
   }
 
   /**
-   * Si mette in ascolto sul metodo di tipo Observable getTempIgbtOne() e aggiorna dati RealTime 
+   * Si mette in ascolto sul metodo di tipo Observable getTempIgbtOne() e aggiorna dati RealTime
    */
   ascoltaIgbt1(){
     this._engineService.getTempIgbtOne().subscribe(value => {
@@ -81,7 +81,7 @@ export class VisionemacchinaComponent implements OnInit {
   }
 
   /**
-   * Si mette in ascolto sul metodo di tipo Observable getTempIgbtTwo() e aggiorna dati RealTime 
+   * Si mette in ascolto sul metodo di tipo Observable getTempIgbtTwo() e aggiorna dati RealTime
    */
   ascoltaIgbt2(){
     this._engineService.getTempIgbtTwo().subscribe(value => {
@@ -90,7 +90,7 @@ export class VisionemacchinaComponent implements OnInit {
   }
 
   /**
-   * Si mette in ascolto sul metodo di tipo Observable getTempIgbtThree() e aggiorna dati RealTime 
+   * Si mette in ascolto sul metodo di tipo Observable getTempIgbtThree() e aggiorna dati RealTime
    */
   ascoltaIgbt3(){
     this._engineService.getTempIgbtThree().subscribe(value => {
@@ -99,7 +99,7 @@ export class VisionemacchinaComponent implements OnInit {
   }
 
   /**
-   * Si mette in ascolto sul metodo di tipo Observable getTempIgbtFour() e aggiorna dati RealTime 
+   * Si mette in ascolto sul metodo di tipo Observable getTempIgbtFour() e aggiorna dati RealTime
    */
   ascoltaIgbt4(){
     this._engineService.getTempIgbtFour().subscribe(value => {

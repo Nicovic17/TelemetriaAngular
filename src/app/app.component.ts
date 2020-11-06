@@ -4,17 +4,17 @@ import * as jQuery from 'jquery';
 import { Router } from '@angular/router';
 
 // Permette di salvare valori in formato key-value per la sessione seguente (fino a chiusura browser)
-if (sessionStorage.getItem('primoAccesso') == undefined)
+if (sessionStorage.getItem('primoAccesso') === undefined)
 {
   sessionStorage.setItem('primoAccesso', 'true');
 }
 
-if (sessionStorage.getItem('isInMenu') == undefined)
+if (sessionStorage.getItem('isInMenu') === undefined)
 {
   sessionStorage.setItem('isInMenu', 'true');
 }
 // Permette di salvare valori in formato key-value localmente sul browser (persistenza finché non rimossi)
-if (localStorage.getItem('mostraResize') == undefined)
+if (localStorage.getItem('mostraResize') === undefined)
 {
   localStorage.setItem('mostraResize', 'true');
 }
@@ -24,7 +24,7 @@ if (localStorage.getItem('mostraResize') == undefined)
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent{
+export class AppComponent implements  OnInit{
   constructor(public _appComponentService: AppcomponentService, private router: Router, private ngZone: NgZone) {}
 
   ngOnInit()
@@ -52,14 +52,18 @@ export class AppComponent{
     if (userIsLogged)
     {
       this.ngZone.run(() => {
-        this.router.navigate(['/loggedpage']);
+        this.router.navigate(['/loggedpage']).then(() => {
+          return null;
+        });
       });
 
     }
     else
     {
       this.ngZone.run(() => {
-        this.router.navigate(['/notloggedpage']);
+        this.router.navigate(['/notloggedpage']).then(() => {
+          return null;
+        });
       });
     }
   }

@@ -1,5 +1,5 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {ControllerService} from "../controller.service";
+import {ControllerService} from '../controller.service';
 
 @Component({
   selector: 'app-angles',
