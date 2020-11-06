@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import {  AppcomponentService } from '../appcomponent.service';
 import {MatDialog} from '@angular/material/dialog';
@@ -18,49 +18,45 @@ export class CambiaPasswordComponent implements OnInit {
   newPswHasError = true;
   confirmNewPswHasError = true;
   confirmPswDisabled = true;
-  newPsw = new FormControl('', [Validators.required, Validators.minLength(6)]);
-  confirmNewPsw = new FormControl('', [Validators.required, Validators.minLength(6)]);
+
+  formGroup= new FormGroup({
+
+    newPsw : new FormControl('', [Validators.required, Validators.minLength(6)]),
+    confirmNewPsw : new FormControl('', [Validators.required, Validators.minLength(6)])
+  })
 
   constructor(public _appComponentService: AppcomponentService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.controllaValFormNewPassword();
-    this.controllaValFormConfirmNewPassword();
+    this.ascoltaFormGroup()
   }
 
   /**
-   * Controlla che nel form NewPsw venga inserita una password che rispetti i parametri settati
+   * Controlla che nel form FormGroup vengano rispettati tutti i vincoli predisposti per ogni formControl
    * Se tutti i form rispettano i parametri, abilita il button per proseguire
    */
-  controllaValFormNewPassword()
+  ascoltaFormGroup()
   {
-    this.newPsw.valueChanges.subscribe(val => {
-      this.newPswHasError = this.newPsw.hasError('required') || this.newPsw.hasError('minlength');
+    this.formGroup.get('newPsw').valueChanges.subscribe(val=>{
+      this.newPswHasError= this.formGroup.get('newPsw').invalid
       this.confirmButtonDisabled = !(!this.newPswHasError && !this.confirmNewPswHasError);
-    });
-  }
+    })
 
-  /**
-   * Controlla che nel form confirmNewPsw venga inserita una password che rispetti i parametri settati
-   * Se tutti i form rispettano i parametri, abilita il button per proseguire
-   */
-  controllaValFormConfirmNewPassword()
-  {
-    this.confirmNewPsw.valueChanges.subscribe(val => {
-      this.confirmNewPswHasError = this.confirmNewPsw.hasError('required') || this.confirmNewPsw.hasError('minlength');
+    this.formGroup.get('confirmNewPsw').valueChanges.subscribe(val=>{
+      this.confirmNewPswHasError= this.formGroup.get('confirmNewPsw').invalid
       this.confirmButtonDisabled = !(!this.newPswHasError && !this.confirmNewPswHasError);
-    });
+    })
   }
 
   /**
    * Mostra messaggio di errore nel form grafico
    */
   getErrorConfirmNewPsw() {
-    if (this.confirmNewPsw.hasError('required')) {
+    if (this.formGroup.get('confirmNewPsw').hasError('required')) {
       return 'Campo obbligatorio';
     }
 
-    if (this.confirmNewPsw.hasError('minlength')) {
+    if (this.formGroup.get('confirmNewPsw').hasError('minlength')) {
       return 'Minimo 6 caratteri';
     }
   }
@@ -69,11 +65,11 @@ export class CambiaPasswordComponent implements OnInit {
    * Mostra messaggio di errore nel form grafico
    */
   getErrorNewPsw() {
-    if (this.newPsw.hasError('required')) {
+    if (this.formGroup.get('newPsw').hasError('required')) {
       return 'Campo obbligatorio';
     }
 
-    if (this.newPsw.hasError('minlength')) {
+    if (this.formGroup.get('newPsw').hasError('minlength')) {
       return 'Minimo 6 caratteri';
     }
   }
@@ -84,8 +80,8 @@ export class CambiaPasswordComponent implements OnInit {
    */
   async updatePassword() {
 
-      const newPassword = this.newPsw.value;
-      const newConfirmPassword = this.confirmNewPsw.value;
+      const newPassword = this.formGroup.get('newPsw').value;
+      const newConfirmPassword = this.formGroup.get('confirmNewPsw').value;
       if (newPassword === newConfirmPassword)
       {
         const ris = await this._appComponentService.updatePassword(newPassword);
@@ -105,8 +101,7 @@ export class CambiaPasswordComponent implements OnInit {
             }
           });
         }
-        this.newPsw.reset();
-        this.confirmNewPsw.reset();
+        this.formGroup.reset();
       }
       else
       {
