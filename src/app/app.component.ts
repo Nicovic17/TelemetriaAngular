@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {  AppcomponentService } from './appcomponent.service';
 import * as jQuery from 'jquery';
 import { Router } from '@angular/router';
@@ -24,7 +24,7 @@ if (localStorage.getItem('mostraResize') == undefined)
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent{
   constructor(public _appComponentService: AppcomponentService, private router: Router, private ngZone: NgZone) {}
 
   ngOnInit()

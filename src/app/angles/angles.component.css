@@ -1,12 +1,14 @@
 .banner-font {
 
-    font-family: Impact;
+    font-family: "Signika", Arial, Helvetica, sans-serif;
+    font-weight: 990;
     position: relative;
     top: -25px;
 }
 .banner-font-small{
-    font-family: Impact;
-    font-size: 20px;
+    font-family: "Signika", Arial, Helvetica, sans-serif;
+    font-weight: 990;
+    font-size: 17px;
     text-align: center;
 }
 .btn {

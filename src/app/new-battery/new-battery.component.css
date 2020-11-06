@@ -1,7 +1,6 @@
 
-  .banner-font{
+.banner-font{
 
-    font-family: Impact;
 
 }
   #battery{
@@ -199,8 +198,10 @@
 }
 
 .title{
-  font-family: Impact, sans-serif;
-    font-size: 30px;
+  font-family: "Signika", Arial, Helvetica, sans-serif;
+  font-weight: 990;
+  font-size: 22px;
+  margin-top: -13px;
 }
 .box{
     position: relative;

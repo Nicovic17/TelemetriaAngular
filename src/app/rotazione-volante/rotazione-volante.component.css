@@ -1,6 +1,7 @@
 .banner-font{
-    font-family: Impact;
-    margin-left: 40px;
+  font-family: "Signika", Arial, Helvetica, sans-serif;
+  font-weight: 990;
+  margin-left: 40px;
 
 }
 
@@ -11,3 +12,12 @@
 .sotto{
     position: absolute;
 }
+.valore{
+  color: cyan;
+  margin-left: 5px;
+}
+/*.corpo{*/
+/*  border: dotted black;*/
+/*  padding: 10px;*/
+/*  width: 240px;*/
+/*}*/
