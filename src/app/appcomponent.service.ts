@@ -16,12 +16,12 @@ export class AppcomponentService {
    /**
     * Si mette in ascolto sull'oggetto auth:AngularFireAuth e restituisce un Observable contenente lo stato dell'utente (Logged/ Not logged)
     */
-  isLoggedIn(): Observable<boolean>{
+  isLoggedIn(): Observable<any>{
     return new Observable(subscriber => {
       this.auth.onAuthStateChanged((user) => {
         if (user)
         {
-          subscriber.next(true);
+          subscriber.next(user);
         }
         else
         {

@@ -51,11 +51,24 @@ export class AppComponent implements  OnInit{
   {
     if (userIsLogged)
     {
-      this.ngZone.run(() => {
-        this.router.navigate(['/loggedpage']).then(() => {
-          return null;
+      if(userIsLogged.email === "uninacorsetestingemail@gmail.com")
+      {
+        console.log("Test in esecuzione");
+        this.ngZone.run(() => {
+          this.router.navigate(['/notloggedpage']).then(() => {
+            return null;
+          });
         });
-      });
+      }
+      else
+      {
+        this.ngZone.run(() => {
+          this.router.navigate(['/loggedpage']).then(() => {
+            return null;
+          });
+        });
+      }
+      
 
     }
     else

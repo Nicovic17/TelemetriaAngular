@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NotloggedComponent } from './notlogged.component';
 import {AppcomponentService} from '../appcomponent.service';
-import {MatDialogModule} from '@angular/material/dialog';
+import {MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatIconModule} from '@angular/material/icon';
@@ -45,7 +45,13 @@ describe('NotloggedComponent', () => {
         AngularFirestoreModule
       ],
       providers: [
-        AngularFireAuth, AngularFireDatabase
+        AngularFireAuth, AngularFireDatabase, 
+        {
+          provide: MAT_DIALOG_DATA, useValue: {}
+        },
+        {
+          provide: MatDialogRef, useValue: {}
+        }
       ],
       declarations: [ NotloggedComponent, LoggedComponent, MatDialogComponent ]
     }).overrideModule(BrowserDynamicTestingModule, {
@@ -71,28 +77,28 @@ describe('NotloggedComponent', () => {
   });
 
   it('#myLogin success', async () => {
-   component.email.setValue('uninacorse@gmail.com');
+   component.email.setValue('uninacorsetestingemail@gmail.com');
    component.password.setValue('Uninacorse');
    await component.myLogin();
    expect(component.successLogin).toBe(true, 'Login successufull access ');
  });
 
   it('#myLogin failed, wrong email and password', async () => {
-    component.email.setValue('uninacorsssse@gmail.com');
+    component.email.setValue('uninacorsetestingemaeeeeil@gmail.com');
     component.password.setValue('Uninaaaacorse');
     await component.myLogin();
     expect(component.successLogin).toBe(false, ' Provided wrong password and email ');
   });
 
   it('#myLogin failed, wrong email', async () => {
-    component.email.setValue('uninacorsssse@gmail.com');
+    component.email.setValue('uninacorsetestingeeeeemail@gmail.com');
     component.password.setValue('Uninacorse');
     await component.myLogin();
     expect(component.successLogin).toBe(false, 'Provided wrong email ');
   });
 
   it('#myLogin failed, wrong password', async () => {
-    component.email.setValue('uninacorse@gmail.com');
+    component.email.setValue('uninacorsetestingemail@gmail.com');
     component.password.setValue('Uninaaaacorse');
     await component.myLogin();
     expect(component.successLogin).toBe(false, ' Provided wrong password ');

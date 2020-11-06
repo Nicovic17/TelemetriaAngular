@@ -70,7 +70,7 @@ describe('AppcomponentService', () => {
 
  it('#myLogin service success', async () => {
 
-    const email = 'uninacorse@gmail.com';
+    const email = 'uninacorsetestingemail@gmail.com';
     const password = 'Uninacorse';
 
 
@@ -82,7 +82,7 @@ describe('AppcomponentService', () => {
 
  it('#myLogin service failed wrong email', async () => {
 
-    const email = 'uninacorseee@gmail.com';
+    const email = 'uninacorsetestingeeeemail@gmail.com';
     const password = 'Uninacorse';
 
     const ris = await appComponentService.myLogin(email, password);
@@ -92,7 +92,7 @@ describe('AppcomponentService', () => {
 
  it('#myLogin service failed wrong password', async () => {
 
-    const email = 'uninacorse@gmail.com';
+    const email = 'uninacorsetestingemail@gmail.com';
     const password = 'Uninacorrrse';
 
     const ris = await appComponentService.myLogin(email, password);
@@ -102,7 +102,7 @@ describe('AppcomponentService', () => {
 
  it('#myLogin service failed, wrong password and email', async () => {
 
-    const email = 'uninacorseeee@gmail.com';
+    const email = 'uninacorsetestingeeeemail@gmail.com';
     const password = 'Uninacorrrse';
 
     const ris = await appComponentService.myLogin(email, password);
@@ -111,7 +111,7 @@ describe('AppcomponentService', () => {
 
  it('#logout service success', async () => {
 
-    const email = 'uninacorse@gmail.com';
+    const email = 'uninacorsetestingemail@gmail.com';
     const password = 'Uninacorse';
 
     const ris = await appComponentService.myLogin(email, password);
@@ -127,7 +127,7 @@ describe('AppcomponentService', () => {
 
  it('#getCurretUser service success', async () => {
 
-    const email = 'uninacorse@gmail.com';
+    const email = 'uninacorsetestingemail@gmail.com';
     const password = 'Uninacorse';
     let currUser;
     const ris = await appComponentService.myLogin(email, password);
@@ -139,7 +139,7 @@ describe('AppcomponentService', () => {
 
  it('#updatePassword service success', async () => {
 
-    const email = 'uninacorse@gmail.com';
+    const email = 'uninacorsetestingemail@gmail.com';
     const password = 'Uninacorse';
     let ris;
     const login = await appComponentService.myLogin(email, password);
