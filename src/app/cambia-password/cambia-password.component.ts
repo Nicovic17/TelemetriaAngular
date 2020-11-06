@@ -18,33 +18,25 @@ export class CambiaPasswordComponent implements OnInit {
   newPswHasError = true;
   confirmNewPswHasError = true;
   confirmPswDisabled = true;
-  newPsw = new FormControl('', [Validators.required, Validators.minLength(5)]);
-  confirmNewPsw = new FormControl('', [Validators.required, Validators.minLength(5)]);
+  newPsw = new FormControl('', [Validators.required, Validators.minLength(6)]);
+  confirmNewPsw = new FormControl('', [Validators.required, Validators.minLength(6)]);
 
   constructor(public _appComponentService: AppcomponentService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.controllaValiditàFormNewPassword()
-    this.controllaValiditàFormConfirmNewPassword()
+    this.controllaValFormNewPassword();
+    this.controllaValFormConfirmNewPassword();
   }
 
   /**
    * Controlla che nel form NewPsw venga inserita una password che rispetti i parametri settati
    * Se tutti i form rispettano i parametri, abilita il button per proseguire
    */
-  controllaValiditàFormNewPassword()
+  controllaValFormNewPassword()
   {
     this.newPsw.valueChanges.subscribe(val => {
-      if (this.newPsw.hasError('required') || this.newPsw.hasError('minlength'))
-      {
-        this.newPswHasError = true;
-      }
-      else {
-        this.newPswHasError = false;
-      }
-      if (!this.newPswHasError && !this.confirmNewPswHasError) {this.confirmButtonDisabled = false; }
-      else
-      if(this.newPswHasError || this.confirmNewPswHasError ) {this.confirmButtonDisabled=true;}
+      this.newPswHasError = this.newPsw.hasError('required') || this.newPsw.hasError('minlength');
+      this.confirmButtonDisabled = !(!this.newPswHasError && !this.confirmNewPswHasError);
     });
   }
 
@@ -52,20 +44,11 @@ export class CambiaPasswordComponent implements OnInit {
    * Controlla che nel form confirmNewPsw venga inserita una password che rispetti i parametri settati
    * Se tutti i form rispettano i parametri, abilita il button per proseguire
    */
-  controllaValiditàFormConfirmNewPassword()
+  controllaValFormConfirmNewPassword()
   {
     this.confirmNewPsw.valueChanges.subscribe(val => {
-      if (this.confirmNewPsw.hasError('required') || this.confirmNewPsw.hasError('minlength'))
-      {
-        this.confirmNewPswHasError = true;
-      }
-      else {
-      this.confirmNewPswHasError = false;
-      }
-
-      if (!this.newPswHasError && !this.confirmNewPswHasError) {this.confirmButtonDisabled = false; }
-      else
-      if(this.newPswHasError || this.confirmNewPswHasError ) {this.confirmButtonDisabled=true;}
+      this.confirmNewPswHasError = this.confirmNewPsw.hasError('required') || this.confirmNewPsw.hasError('minlength');
+      this.confirmButtonDisabled = !(!this.newPswHasError && !this.confirmNewPswHasError);
     });
   }
 
@@ -78,7 +61,7 @@ export class CambiaPasswordComponent implements OnInit {
     }
 
     if (this.confirmNewPsw.hasError('minlength')) {
-      return 'Minimo 5 caratteri';
+      return 'Minimo 6 caratteri';
     }
   }
 
@@ -91,7 +74,7 @@ export class CambiaPasswordComponent implements OnInit {
     }
 
     if (this.newPsw.hasError('minlength')) {
-      return 'Minimo 5 caratteri';
+      return 'Minimo 6 caratteri';
     }
   }
 
@@ -100,15 +83,15 @@ export class CambiaPasswordComponent implements OnInit {
    * Effettua l'aggiornamento della password se i campi sono stati compilati correttamente
    */
   async updatePassword() {
-    
-      let newPassword = this.newPsw.value;
-      let newConfirmPassword = this.confirmNewPsw.value;
+
+      const newPassword = this.newPsw.value;
+      const newConfirmPassword = this.confirmNewPsw.value;
       if (newPassword === newConfirmPassword)
       {
-        let ris = await this._appComponentService.updatePassword(newPassword);
+        const ris = await this._appComponentService.updatePassword(newPassword);
         if (ris)
         {
-          this._appComponentService.logout();
+          await this._appComponentService.logout();
           this.showDialog('Aggiornamento effettuato!',
             ['La password è stata  correttamente aggiornata.', 'Effettua nuovamente l\'accesso.']);
         }
@@ -122,14 +105,13 @@ export class CambiaPasswordComponent implements OnInit {
             }
           });
         }
-        this.newPsw.reset()
-        this.confirmNewPsw.reset()
+        this.newPsw.reset();
+        this.confirmNewPsw.reset();
       }
       else
       {
         this.showDialog('Errore!', ['Le password non corrispondono']);
       }
-    
   }
   /**
    * Apre un messaggio PopUp

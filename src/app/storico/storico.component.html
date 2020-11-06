@@ -26,7 +26,7 @@
           </div>
         </div>
 
-        <div class="center" *ngIf="!canFilter">
+        <div class="center" *ngIf="!canFilter" (keydown.enter)="date.value.length>7 ? prepareValuesForSearch(orain.value,orafin.value,date.value) : null">
             <mat-form-field appearance="fill">
                 <mat-label>Choose a date</mat-label>
               <input matInput #date [matDatepicker]="picker" [max]="maxDate" readonly>
@@ -44,7 +44,7 @@
         <!-- Inizio modulo filtraggio dati -->
         <div class="center" *ngIf="canFilter">
           <mat-form-field style="width: 50%; left: 2%">
-            <mat-label>Filtraggio Dati</mat-label>
+            <mat-label>Filtraggio Nomi Sensori</mat-label>
             <input matInput placeholder="Ex. Temp - Angolo" [formControl]="search" #input>
             <button mat-icon-button class="clearButton" (click)="search.reset()" [disabled]="input.value.length == 0">
               <mat-icon>close</mat-icon>
