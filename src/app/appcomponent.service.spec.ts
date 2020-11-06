@@ -70,7 +70,7 @@ describe('AppcomponentService', () => {
 
  it('#myLogin service success', async () => {
 
-    const email = 'uninacorse@gmail.com';
+    const email = 'uninacorsetestingemail@gmail.com';
     const password = 'Uninacorse';
 
 
@@ -111,7 +111,7 @@ describe('AppcomponentService', () => {
 
  it('#logout service success', async () => {
 
-    const email = 'uninacorse@gmail.com';
+    const email = 'uninacorsetestingemail@gmail.com';
     const password = 'Uninacorse';
 
     const ris = await appComponentService.myLogin(email, password);
@@ -127,7 +127,7 @@ describe('AppcomponentService', () => {
 
  it('#getCurretUser service success', async () => {
 
-    const email = 'uninacorse@gmail.com';
+    const email = 'uninacorsetestingemail@gmail.com';
     const password = 'Uninacorse';
     let currUser;
     const ris = await appComponentService.myLogin(email, password);
@@ -139,7 +139,7 @@ describe('AppcomponentService', () => {
 
  it('#updatePassword service success', async () => {
 
-    const email = 'uninacorse@gmail.com';
+    const email = 'uninacorsetestingemail@gmail.com';
     const password = 'Uninacorse';
     let ris;
     const login = await appComponentService.myLogin(email, password);

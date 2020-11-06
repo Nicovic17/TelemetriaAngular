@@ -71,7 +71,7 @@ describe('NotloggedComponent', () => {
   });
 
   it('#myLogin success', async () => {
-   component.email.setValue('uninacorse@gmail.com');
+   component.email.setValue('uninacorsetestingemail@gmail.com');
    component.password.setValue('Uninacorse');
    await component.myLogin();
    expect(component.successLogin).toBe(true, 'Login successufull access ');

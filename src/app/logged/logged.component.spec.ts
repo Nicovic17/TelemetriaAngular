@@ -48,7 +48,7 @@ describe('LoggedComponent', () => {
 
   it('#logout ', async () => {
 
-    const logRis = await  appComponentService.myLogin('uninacorse@gmail.com', 'Uninacorse');
+    const logRis = await  appComponentService.myLogin('uninacorsetestingemail@gmail.com', 'Uninacorse');
     let ris;
     if (logRis) {
       ris = await component.logout();
