@@ -2,7 +2,7 @@ import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { MatDialogComponent } from './mat-dialog/mat-dialog.component';
-import {  AppcomponentService } from '../app/appcomponent.service'
+import {  AppcomponentService } from '../app/appcomponent.service';
 import {MatDialogModule} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,12 +20,10 @@ describe('AppComponent', () => {
 
 
   let appComponent: AppComponent;
-  let matDialogComponent: MatDialogComponent;
 
   let appComponentService: AppcomponentService;
 
-  let fixture: ComponentFixture<AppComponent>
-  let fixtureMatDialogComp: ComponentFixture<MatDialogComponent>
+  let fixture: ComponentFixture<AppComponent>;
 
   let authService;
 
@@ -43,112 +41,36 @@ describe('AppComponent', () => {
         AngularFireModule.initializeApp(environment.firebaseConfig),
         AngularFirestoreModule
       ],
-      providers:[AngularFireAuth, AngularFireDatabase],
-    
+      providers: [AngularFireAuth, AngularFireDatabase],
+
       declarations: [
         AppComponent,
         MatDialogComponent
       ],
-      
+
     })
-    .overrideModule(BrowserDynamicTestingModule,{
-      set:{
-        entryComponents:[MatDialogComponent]
+    .overrideModule(BrowserDynamicTestingModule, {
+      set: {
+        entryComponents: [MatDialogComponent]
       }
     })
-    .compileComponents().then(()=>{
+    .compileComponents().then(() => {
 
-      fixture=TestBed.createComponent(AppComponent)
-      appComponent=fixture.componentInstance
-      authService=TestBed.inject(AngularFireAuth)
-      appComponentService=TestBed.inject(AppcomponentService)
-      
+      fixture = TestBed.createComponent(AppComponent);
+      appComponent = fixture.componentInstance;
+      authService = TestBed.inject(AngularFireAuth);
+      appComponentService = TestBed.inject(AppcomponentService);
+
     });
 
   }));
 
-  beforeEach(()=>{
-    fixture=TestBed.createComponent(AppComponent)
-    appComponent=fixture.componentInstance
-    fixture.detectChanges()
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    appComponent = fixture.componentInstance;
+    fixture.detectChanges();
 
 
-  })
-
-  /*
-  it('#showToUser mostra il login se utente non loggato',()=>{
-
-    appComponent.showToUser(false);
-
-    expect(document.getElementById("user_div").style.display).toEqual("none")
-    expect(document.getElementById("login_div").style.display).toEqual("block")
-    expect( document.getElementById("router").style.display).toEqual("none")
-
-  })
-
-  it('#showToUser mostra menu principale se utente loggato',()=>{
-    appComponent.showToUser(true);
-
-    expect(document.getElementById("user_div").style.display).toEqual("block")
-    expect(document.getElementById("login_div").style.display).toEqual("none")
-    expect( document.getElementById("router").style.display).toEqual("none")
-
-  })
-
-  
-
-  it('#myLogin in appComponent failed, no email and password provided', async ()=>{
-
-
-    const ris= await appComponent.myLogin();
-    expect(ris).toBe(false);
-
-  })
-
-  it('#myLogin in appComponent success', async ()=>{
-
-    appComponent.email.setValue("uninacorse@gmail.com");
-    appComponent.password.setValue("Uninacorse")
-
-    const ris= await appComponent.myLogin();
-
-    expect(ris).toBe(true);
-
-  })
-
-  it('#myLogin in appComponent failed, wrong email and password', async ()=>{
-
-    appComponent.email.setValue("uninacorsssse@gmail.com");
-    appComponent.password.setValue("Uninaaaacorse")
-
-    const ris= await appComponent.myLogin();
-    expect(ris).toBe(false);
-
-  })
-
-  it('#logout in appComponent', async()=>{
-
-    let ris= await appComponent.logout()
-
-    
-    expect(localStorage.getItem("mostraResize")).toMatch("true")
-
-  })
-
-  it('#handleEvent ,Enter handle success', async ()=>{
-
-   let evento={
-     key:"Enter"
-   }
-
-   appComponent.loginButtonDisabled=false;
-   let handled=appComponent.handleEvent(evento)
-
-   expect(handled).toBe(true)
-
-  })
-*/
-  
-
+  });
 
 });

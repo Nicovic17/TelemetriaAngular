@@ -32,11 +32,11 @@ export class SpeedometerSectionComponent implements OnInit {
    * Crea elementi grafici per la rappresentazione dello speedometer
    */
   setUpSpeed() {
-    this.c = (document.getElementById("canvas") as HTMLCanvasElement);
+    this.c = (document.getElementById('canvas') as HTMLCanvasElement);
     this.c.width = 300;
     this.c.height = 294;
-    this.ctx = this.c.getContext("2d");
-    //Rescale the size
+    this.ctx = this.c.getContext('2d');
+    // Rescale the size
     this.ctx.scale(0.6, 0.6);
 
     this.speedGradient = this.ctx.createLinearGradient(0, 0, 500, 500);
@@ -56,49 +56,49 @@ export class SpeedometerSectionComponent implements OnInit {
     this.ctx.fillStyle = 'rgba(0, 0, 0, .9)';
     this.ctx.arc(250, 250, 240, 0, 2 * Math.PI);
     this.ctx.fill();
-    this.ctx.save()
+    this.ctx.save();
     this.ctx.restore();
-    //COLORE CIFRE VELICITà AL CENTRO
-    this.ctx.fillStyle = "#FFF";
+    // COLORE CIFRE VELICITà AL CENTRO
+    this.ctx.fillStyle = '#FFF';
     this.ctx.stroke();
 
     this.ctx.beginPath();
 
-    //CERCHIO INTERNO
+    // CERCHIO INTERNO
     this.ctx.arc(250, 250, 100, 0, 2 * Math.PI);
-    this.ctx.strokeStyle = "#333"; //COLORE LINEA CERCHIO PICCOLO
-    this.ctx.lineWidth = 10; //SPESSORE
+    this.ctx.strokeStyle = '#333'; // COLORE LINEA CERCHIO PICCOLO
+    this.ctx.lineWidth = 10; // SPESSORE
 
     this.ctx.stroke();
-    //CREA UN CERCHIO DI CONTORNO INTORNO ALLO SPEEDOMETRO
+    // CREA UN CERCHIO DI CONTORNO INTORNO ALLO SPEEDOMETRO
     this.ctx.beginPath();
     this.ctx.lineWidth = 3;
     this.ctx.arc(250, 250, 240, 0, 2 * Math.PI);
     this.ctx.stroke();
 
-    //SPEED TEXT
-    this.ctx.font = "700 70px Open Sans";
-    this.ctx.textAlign = "center";
+    // SPEED TEXT
+    this.ctx.font = '700 70px Open Sans';
+    this.ctx.textAlign = 'center';
     this.ctx.fillText(speed, 250, 260);
-    this.ctx.font = "700 15px Open Sans";
-    this.ctx.fillText("Km/h", 250, 280);
-    this.ctx.fillStyle = "#FFF"; //COLORE NUMERI INDICATI DALLE LANCETTE
-    for (var i = 10; i <= topSpeed; i += 10) {
-      console.log();                                                        //Le line multipli di 20 sono + doppie//Fa in modo che vengono scritte solo multipli di 20
-      this.drawMiniNeedle(this.calculateSpeedAngle(i / topSpeed, 133.07888, 38.37) * Math.PI, i % 20 == 0 ? 3 : 1, i % 20 == 0 ? i : '');
+    this.ctx.font = '700 15px Open Sans';
+    this.ctx.fillText('Km/h', 250, 280);
+    this.ctx.fillStyle = '#FFF'; // COLORE NUMERI INDICATI DALLE LANCETTE
+    for (let i = 10; i <= topSpeed; i += 10) {
+      console.log();                                                        // Le line multipli di 20 sono + doppie//Fa in modo che vengono scritte solo multipli di 20
+      this.drawMiniNeedle(this.calculateSpeedAngle(i / topSpeed, 133.07888, 38.37) * Math.PI, i % 20 === 0 ? 3 : 1, i % 20 === 0 ? i : '');
     }
 
-    //COLORE E ANGOLATURA DELLA STRISCIA LUMINOSA
+    // COLORE E ANGOLATURA DELLA STRISCIA LUMINOSA
     this.ctx.beginPath();
-    this.ctx.strokeStyle = "#41dcf4";
+    this.ctx.strokeStyle = '#41dcf4';
     this.ctx.lineWidth = 25;
     this.ctx.shadowBlur = 20;
-    this.ctx.shadowColor = "#00c6ff";
+    this.ctx.shadowColor = '#00c6ff';
     this.ctx.strokeStyle = this.speedGradient;
-    //this.ctx.arc(x_coord_centr, y_coord_centr, angolo_inizio_striscia, angolo_lancetta)
+    // this.ctx.arc(x_coord_centr, y_coord_centr, angolo_inizio_striscia, angolo_lancetta)
     this.ctx.arc(250, 250, 228, .668 * Math.PI, this.calculateSpeedAngle(speed / topSpeed, 133.07888, 38.37) * Math.PI);
     this.ctx.stroke();
-    //COLORE E ANGOLATURA DELLA LANCETTA
+    // COLORE E ANGOLATURA DELLA LANCETTA
     this.ctx.shadowBlur = 0;
     this.ctx.strokeStyle = '#41dcf4';
     this.speedNeedle(this.calculateSpeedAngle(speed / topSpeed, 133.07888, 38.37) * Math.PI);
@@ -111,8 +111,8 @@ export class SpeedometerSectionComponent implements OnInit {
    * @param b
    */
   calculateSpeedAngle(x, a, b) {
-    let degree = (a - b) * (x) + b;
-    let radian = (degree * Math.PI) / 180;
+    const degree = (a - b) * (x) + b;
+    const radian = (degree * Math.PI) / 180;
     return radian <= 2.322 ? radian : 2.322;
   }
 
@@ -127,13 +127,13 @@ export class SpeedometerSectionComponent implements OnInit {
     this.ctx.save();
     this.ctx.translate(250, 250);
     this.ctx.rotate(rotation);
-    this.ctx.strokeStyle = "#333";
-    this.ctx.fillStyle = "#333";
+    this.ctx.strokeStyle = '#333';
+    this.ctx.fillStyle = '#333';
     this.ctx.strokeRect(-20 / 2 + 220, -1 / 2, 20, 1);
     this.ctx.restore();
-    let x = (250 + 180 * Math.cos(rotation));
-    let y = (250 + 180 * Math.sin(rotation));
-    this.ctx.font = "700 20px Open Sans";
+    const x = (250 + 180 * Math.cos(rotation));
+    const y = (250 + 180 * Math.sin(rotation));
+    this.ctx.font = '700 20px Open Sans';
     this.ctx.fillText(speed, x, y);
     rotation += Math.PI / 180;
   }

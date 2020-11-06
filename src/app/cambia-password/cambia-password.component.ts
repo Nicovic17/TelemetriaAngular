@@ -19,16 +19,16 @@ export class CambiaPasswordComponent implements OnInit {
   confirmNewPswHasError = true;
   confirmPswDisabled = true;
 
-  formGroup= new FormGroup({
+  formGroup = new FormGroup({
 
     newPsw : new FormControl('', [Validators.required, Validators.minLength(6)]),
     confirmNewPsw : new FormControl('', [Validators.required, Validators.minLength(6)])
-  })
+  });
 
   constructor(public _appComponentService: AppcomponentService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.ascoltaFormGroup()
+    this.ascoltaFormGroup();
   }
 
   /**
@@ -37,15 +37,15 @@ export class CambiaPasswordComponent implements OnInit {
    */
   ascoltaFormGroup()
   {
-    this.formGroup.get('newPsw').valueChanges.subscribe(val=>{
-      this.newPswHasError= this.formGroup.get('newPsw').invalid
+    this.formGroup.get('newPsw').valueChanges.subscribe(() => {
+      this.newPswHasError = this.formGroup.get('newPsw').invalid;
       this.confirmButtonDisabled = !(!this.newPswHasError && !this.confirmNewPswHasError);
-    })
+    });
 
-    this.formGroup.get('confirmNewPsw').valueChanges.subscribe(val=>{
-      this.confirmNewPswHasError= this.formGroup.get('confirmNewPsw').invalid
+    this.formGroup.get('confirmNewPsw').valueChanges.subscribe(() => {
+      this.confirmNewPswHasError = this.formGroup.get('confirmNewPsw').invalid;
       this.confirmButtonDisabled = !(!this.newPswHasError && !this.confirmNewPswHasError);
-    })
+    });
   }
 
   /**

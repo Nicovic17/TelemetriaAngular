@@ -1,11 +1,11 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 
-import { BatteryService } from '../battery.service'
+import { BatteryService } from '../battery.service';
 
-//Per utilizzare jQuery in TS
+// Per utilizzare jQuery in TS
 declare var $: any;
 
-//const url="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+// const url="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"
 
 @Component({
     selector: 'app-new-battery',
@@ -13,8 +13,8 @@ declare var $: any;
     styleUrls: ['./new-battery.component.css']
 })
 export class NewBatteryComponent implements OnInit {
-    public dataHV; //Variabile che riferisce alla carica della batteria high voltage
-    public dataLV; //Variabile che riferisce alla carica della batteria low voltage
+    public dataHV; // Variabile che riferisce alla carica della batteria high voltage
+    public dataLV; // Variabile che riferisce alla carica della batteria low voltage
     public correnteHV;
     public correnteLV;
     public tensioneHV;
@@ -44,8 +44,8 @@ export class NewBatteryComponent implements OnInit {
         this._interactionService.getBatteriaHighVoltage().subscribe(data => {
             this.ngZone.run(() => {
                 this.dataHV = Number(data);
-            })
-            this.batUpdateHighVoltage()
+            });
+            this.batUpdateHighVoltage();
         });
     }
 
@@ -56,8 +56,8 @@ export class NewBatteryComponent implements OnInit {
         this._interactionService.getBatteriaLowVoltage().subscribe(data => {
             this.ngZone.run(() => {
                 this.dataLV = Number(data);
-            })
-            this.batUpdateLowVoltage()
+            });
+            this.batUpdateLowVoltage();
         });
     }
 
@@ -80,7 +80,7 @@ export class NewBatteryComponent implements OnInit {
             this.ngZone.run(() => {
                 this.correnteLV = Number(value);
             });
-        })
+        });
     }
 
     /**
@@ -91,7 +91,7 @@ export class NewBatteryComponent implements OnInit {
             this.ngZone.run(() => {
                 this.tensioneHV = Number(value);
             });
-        })
+        });
     }
 
     /**
@@ -102,7 +102,7 @@ export class NewBatteryComponent implements OnInit {
             this.ngZone.run(() => {
                 this.tensioneLV = Number(value);
             });
-        })
+        });
     }
 
     /**
@@ -123,8 +123,8 @@ export class NewBatteryComponent implements OnInit {
         this._interactionService.getTempMediaLowVoltage().subscribe(value => {
             this.ngZone.run(() => {
                 this.tmediaLV = value;
-            })
-        })
+            });
+        });
     }
 
 
@@ -134,23 +134,23 @@ export class NewBatteryComponent implements OnInit {
     batUpdateHighVoltage() {
         if (this.dataHV < 20) {
             // Red - Danger!
-            this.colorHV = ["#750900", "#c6462b", "#b74424", "#df0a00", "#590700"];
+            this.colorHV = ['#750900', '#c6462b', '#b74424', '#df0a00', '#590700'];
         } else if (this.dataHV < 40) {
             // Yellow - Might wanna this.dataHV soon...
-            this.colorHV = ["#754f00", "#f2bb00", "#dbb300", "#df8f00", "#593c00"];
+            this.colorHV = ['#754f00', '#f2bb00', '#dbb300', '#df8f00', '#593c00'];
         } else {
             // Green - All good!
-            this.colorHV = ["#316d08", "#60b939", "#51aa31", "#64ce11", "#255405"];
+            this.colorHV = ['#316d08', '#60b939', '#51aa31', '#64ce11', '#255405'];
         }
 
-        $("#battery").css("background-image", "linear-gradient(to right, transparent 5%, " + this.colorHV[0] + " 5%, " + this.colorHV[0] + " 7%, "
-            + this.colorHV[1] + " 8%, " + this.colorHV[1] + " 10%, " + this.colorHV[2] + " 11%, " + this.colorHV[2] + " " + (this.dataHV - 3) + "%, " + this.colorHV[3] + " " + (this.dataHV - 2) + "%, "
-            + this.colorHV[3] + " " + this.dataHV + "%, " + this.colorHV[4] + " " + this.dataHV + "%, black " + (this.dataHV + 5)
-            + "%, black 95%, transparent 95%), linear-gradient(to bottom, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.4) " +
-            "4%, rgba(255,255,255,0.2) 7%, rgba(255,255,255,0.2) 14%, rgba(255,255,255,0.8) 14%, " +
-            "rgba(255,255,255,0.2) 40%, rgba(255,255,255,0) 41%, rgba(255,255,255,0) 80%, rgba(255,255,255,0.2) 80%, " +
-            "rgba(255,255,255,0.4) 86%, rgba(255,255,255,0.6) 90%, rgba(255,255,255,0.1) 92%, " +
-            "rgba(255,255,255,0.1) 95%, rgba(255,255,255,0.5) 98%)");
+        $('#battery').css('background-image', 'linear-gradient(to right, transparent 5%, ' + this.colorHV[0] + ' 5%, ' + this.colorHV[0] + ' 7%, '
+            + this.colorHV[1] + ' 8%, ' + this.colorHV[1] + ' 10%, ' + this.colorHV[2] + ' 11%, ' + this.colorHV[2] + ' ' + (this.dataHV - 3) + '%, ' + this.colorHV[3] + ' ' + (this.dataHV - 2) + '%, '
+            + this.colorHV[3] + ' ' + this.dataHV + '%, ' + this.colorHV[4] + ' ' + this.dataHV + '%, black ' + (this.dataHV + 5)
+            + '%, black 95%, transparent 95%), linear-gradient(to bottom, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.4) ' +
+            '4%, rgba(255,255,255,0.2) 7%, rgba(255,255,255,0.2) 14%, rgba(255,255,255,0.8) 14%, ' +
+            'rgba(255,255,255,0.2) 40%, rgba(255,255,255,0) 41%, rgba(255,255,255,0) 80%, rgba(255,255,255,0.2) 80%, ' +
+            'rgba(255,255,255,0.4) 86%, rgba(255,255,255,0.6) 90%, rgba(255,255,255,0.1) 92%, ' +
+            'rgba(255,255,255,0.1) 95%, rgba(255,255,255,0.5) 98%)');
     }
 
     /**
@@ -160,23 +160,23 @@ export class NewBatteryComponent implements OnInit {
 
         if (this.dataLV < 20) {
             // Red - Danger!
-            this.colorLV = ["#750900", "#c6462b", "#b74424", "#df0a00", "#590700"];
+            this.colorLV = ['#750900', '#c6462b', '#b74424', '#df0a00', '#590700'];
         } else if (this.dataLV < 40) {
             // Yellow - Might wanna this.dataHV soon...
-            this.colorLV = ["#754f00", "#f2bb00", "#dbb300", "#df8f00", "#593c00"];
+            this.colorLV = ['#754f00', '#f2bb00', '#dbb300', '#df8f00', '#593c00'];
         } else {
             // Green - All good!
-            this.colorLV = ["#316d08", "#60b939", "#51aa31", "#64ce11", "#255405"];
+            this.colorLV = ['#316d08', '#60b939', '#51aa31', '#64ce11', '#255405'];
         }
 
-        $("#battery2").css("background-image", "linear-gradient(to right, transparent 5%, " + this.colorLV[0] + " 5%, " + this.colorLV[0] +
-            " 7%, " + this.colorLV[1] + " 8%, " + this.colorLV[1] + " 10%, " + this.colorLV[2] + " 11%, " + this.colorLV[2] + " " + (this.dataLV - 3) + "%, " + this.colorLV[3] + " "
-            + (this.dataLV - 2) + "%, " + this.colorLV[3] + " " + this.dataLV + "%, " + this.colorLV[4] + " " + this.dataLV + "%, black " + (this.dataLV + 5)
-            + "%, black 95%, transparent 95%), linear-gradient(to bottom, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.4) " +
-            "4%, rgba(255,255,255,0.2) 7%, rgba(255,255,255,0.2) 14%, rgba(255,255,255,0.8) 14%, rgba(255,255,255,0.2) " +
-            "40%, rgba(255,255,255,0) 41%, rgba(255,255,255,0) 80%, rgba(255,255,255,0.2) 80%, rgba(255,255,255,0.4) " +
-            "86%, rgba(255,255,255,0.6) 90%, rgba(255,255,255,0.1) 92%, rgba(255,255,255,0.1) 95%, " +
-            "rgba(255,255,255,0.5) 98%)");
+        $('#battery2').css('background-image', 'linear-gradient(to right, transparent 5%, ' + this.colorLV[0] + ' 5%, ' + this.colorLV[0] +
+            ' 7%, ' + this.colorLV[1] + ' 8%, ' + this.colorLV[1] + ' 10%, ' + this.colorLV[2] + ' 11%, ' + this.colorLV[2] + ' ' + (this.dataLV - 3) + '%, ' + this.colorLV[3] + ' '
+            + (this.dataLV - 2) + '%, ' + this.colorLV[3] + ' ' + this.dataLV + '%, ' + this.colorLV[4] + ' ' + this.dataLV + '%, black ' + (this.dataLV + 5)
+            + '%, black 95%, transparent 95%), linear-gradient(to bottom, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.4) ' +
+            '4%, rgba(255,255,255,0.2) 7%, rgba(255,255,255,0.2) 14%, rgba(255,255,255,0.8) 14%, rgba(255,255,255,0.2) ' +
+            '40%, rgba(255,255,255,0) 41%, rgba(255,255,255,0) 80%, rgba(255,255,255,0.2) 80%, rgba(255,255,255,0.4) ' +
+            '86%, rgba(255,255,255,0.6) 90%, rgba(255,255,255,0.1) 92%, rgba(255,255,255,0.1) 95%, ' +
+            'rgba(255,255,255,0.5) 98%)');
     }
 
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {MapService} from "../map.service";
+import {MapService} from '../map.service';
 
 declare var OpenLayers: any;
 
-const url = "https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js";
+const url = 'https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js';
 
 
 @Component({
@@ -24,11 +24,11 @@ export class MapSectionComponent implements OnInit {
   constructor(private _mapService: MapService) {}
 
   ngOnInit(): void {
-    this.loadScript()
+    this.loadScript();
     this.setUpMap();
 
-    this.ascoltaLatitudine()
-    this.ascoltaLongitudine()
+    this.ascoltaLatitudine();
+    this.ascoltaLongitudine();
   }
 
    /**
@@ -39,7 +39,7 @@ export class MapSectionComponent implements OnInit {
     this._mapService.getLongitude().subscribe(value => {
       this.lon = value;
       this.newMarker();
-    })
+    });
   }
 
   /**
@@ -50,24 +50,24 @@ export class MapSectionComponent implements OnInit {
     this._mapService.getLatitude().subscribe(value => {
       this.lat = value;
       this.newMarker();
-    })
+    });
   }
 
   /**
    * Inizializza la mappa
    */
   public setUpMap() {
-    this.mappa = new OpenLayers.Map("mapdiv");
+    this.mappa = new OpenLayers.Map('mapdiv');
     this.mappa.addLayer(new OpenLayers.Layer.OSM());
     this.lonlat = new OpenLayers.LonLat(this.lonlat, this.zoom)
     .transform(
-      new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+      new OpenLayers.Projection('EPSG:4326'), // transform from WGS 1984
       this.mappa.getProjectionObject() // to Spherical Mercator Projection
     );
 
-    //Distanza visiva dalla mappa
+    // Distanza visiva dalla mappa
     this.zoom = 16;
-    this.markers = new OpenLayers.Layer.Markers("Markers");
+    this.markers = new OpenLayers.Layer.Markers('Markers');
     this.mappa.addLayer(this.markers);
     this.markers.addMarker(new OpenLayers.Marker(this.lonlat));
     this.mappa.setCenter(this.lonlat, this.zoom);
@@ -79,8 +79,8 @@ export class MapSectionComponent implements OnInit {
    * Carica lo script OpenLayers
    */
   public loadScript() {
-    console.log('preparing to load...')
-    let node = document.createElement('script');
+    console.log('preparing to load...');
+    const node = document.createElement('script');
     node.src = url;
     node.type = 'text/javascript';
     node.async = true;
@@ -95,11 +95,11 @@ export class MapSectionComponent implements OnInit {
     this.markers.destroy();
     this.lonlat = new OpenLayers.LonLat(this.lon, this.lat)
       .transform(
-        new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+        new OpenLayers.Projection('EPSG:4326'), // transform from WGS 1984
         this.mappa.getProjectionObject() // to Spherical Mercator Projection
       );
     this.zoom = 30;
-    this.markers = new OpenLayers.Layer.Markers("Markers");
+    this.markers = new OpenLayers.Layer.Markers('Markers');
     this.mappa.addLayer(this.markers);
     this.markers.addMarker(new OpenLayers.Marker(this.lonlat));
     this.mappa.setCenter(this.lonlat, this.zoom);

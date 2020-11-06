@@ -1,5 +1,5 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {GforceService} from "../gforce.service";
+import {GforceService} from '../gforce.service';
 
 @Component({
   selector: 'app-gforce-section',
@@ -38,12 +38,12 @@ export class GforceSectionComponent implements OnInit {
   ascoltaAccLat(){
     this._gforceService.getLateralAcc().subscribe(value => {
       this.ngZone.run(() => {
-        if(value==0){
-          this.latDir='';
-        }else if(value>0){
-          this.latDir='R';
+        if (value === 0){
+          this.latDir = '';
+        }else if (value > 0){
+          this.latDir = 'R';
         }else{
-          this.latDir='L';
+          this.latDir = 'L';
         }
         this.lateral = Math.abs(value);
         this.updateGForce();
@@ -59,7 +59,7 @@ export class GforceSectionComponent implements OnInit {
     const zeroLat = 47;  // est-ovest 47
     const zeroLong = 48;  // nord-sud 48
     let tempLat;
-    if(this.latDir === 'L'){
+    if (this.latDir === 'L'){
       tempLat = this.lateral * -5.30612;
     }else{
       tempLat = this.lateral * 5.30612;
