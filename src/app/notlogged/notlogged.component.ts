@@ -20,6 +20,9 @@ export class NotloggedComponent implements OnInit {
   emailDisabled = true;
   loginButtonDisabled = true;
   isLoading = false;
+
+  public  successLogin: boolean;
+
   constructor(public _appComponentService: AppcomponentService, private ngZone: NgZone,
               private router: Router, private matDialog: MatDialog) { }
 
@@ -55,9 +58,9 @@ export class NotloggedComponent implements OnInit {
    */
   async myLogin(){
     this.isLoading = true;
-    const successLogin = await this._appComponentService.myLogin(this.email.value, this.password.value);
+    this.successLogin = await this._appComponentService.myLogin(this.email.value, this.password.value);
     this.isLoading = false;
-    if (successLogin)
+    if (this.successLogin)
     {
       this.ngZone.run(() => {
         this.router.navigate(['/loggedpage']);

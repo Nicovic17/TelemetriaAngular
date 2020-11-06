@@ -21,7 +21,10 @@ describe('LoggedComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule.withRoutes([]),
+        // Creo Router di testing per simulare cambio pagina
+        RouterTestingModule.withRoutes([
+          { path: 'notloggedpage', component: LoggedComponent}
+        ]),
         AngularFireModule.initializeApp(environment.firebaseConfig),
         AngularFirestoreModule
       ],
@@ -45,9 +48,12 @@ describe('LoggedComponent', () => {
 
   it('#logout ', async () => {
 
-    const ris = await component.logout();
+    const logRis = await  appComponentService.myLogin('uninacorse@gmail.com', 'Uninacorse');
+    let ris;
+    if (logRis) {
+      ris = await component.logout();
+    }
     expect(localStorage.getItem('mostraResize')).toMatch('true');
     expect(ris).toBe(true);
-
   });
 });

@@ -83,7 +83,7 @@ export class SpeedometerSectionComponent implements OnInit {
     this.ctx.font = '700 15px Open Sans';
     this.ctx.fillText('Km/h', 150, 180);
     this.ctx.fillStyle = '#FFF'; //COLORE NUMERI INDICATI DALLE LANCETTE
-    for (const i = 10; i <= topSpeed; i += 10) {
+    for (let i = 10; i <= topSpeed; i += 10) {
       // Le line multipli di 20 sono + doppie//Fa in modo che vengono scritte solo multipli di 20
       this.drawMiniNeedle(this.calculateSpeedAngle(i / topSpeed, 133.07888, 38.37) * Math.PI, i % 20 == 0 ? 2 : 1, i % 20 == 0 ? i : '');
     }

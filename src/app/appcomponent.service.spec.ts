@@ -59,6 +59,9 @@ describe('AppcomponentService', () => {
     authService = TestBed.inject(AngularFireAuth);
     appComponentService = TestBed.inject(AppcomponentService);
 
+    // Effettuo logout prima di eseguire i test
+    appComponentService.logout();
+
   });
 
 }));
@@ -131,7 +134,6 @@ describe('AppcomponentService', () => {
     if (ris) {
     currUser = await appComponentService.getCurrentUser();
     }
-
     expect(currUser).not.toBeNull();
   });
 
@@ -151,14 +153,5 @@ describe('AppcomponentService', () => {
 
   });
 
- it('#updatePassword service not success', async () => {
-
-
-    let ris;
-    const newPassword = 'Uninacorse';
-    ris = await appComponentService.updatePassword(newPassword);
-    expect(ris).toBe(false);
-
-  });
 
 });
