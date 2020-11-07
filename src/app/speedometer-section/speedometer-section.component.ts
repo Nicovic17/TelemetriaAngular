@@ -92,7 +92,7 @@ export class SpeedometerSectionComponent implements OnInit {
     this.ctx.beginPath();
     this.ctx.strokeStyle = '#41dcf4';
     this.ctx.lineWidth = 16;
-    this.ctx.shadowBlur = 5;
+    this.ctx.shadowBlur = 9;
     this.ctx.shadowColor = '#00c6ff';
     this.ctx.strokeStyle = this.speedGradient;
     // this.ctx.arc(x_coord_centr, y_coord_centr, angolo_inizio_striscia, angolo_lancetta)
