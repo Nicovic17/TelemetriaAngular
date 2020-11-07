@@ -22,7 +22,6 @@ export class VisionemacchinaComponent implements OnInit {
     this.ascoltaSensori();
   }
   ascoltaSensori(){
-    this.ngZone.run(() => {
       this.ascoltaEng1();
       this.ascoltaEng2();
       this.ascoltaEng3();
@@ -31,8 +30,6 @@ export class VisionemacchinaComponent implements OnInit {
       this.ascoltaIgbt2();
       this.ascoltaIgbt3();
       this.ascoltaIgbt4();
-    });
-
   }
 
   /**
@@ -40,7 +37,9 @@ export class VisionemacchinaComponent implements OnInit {
    */
   ascoltaEng1(){
     this._engineService.getTempEngineOne().subscribe(value => {
-      this.tempEng1 = value;
+      this.ngZone.run(() =>{
+        this.tempEng1 = value;
+      });
     });
   }
 
@@ -49,7 +48,9 @@ export class VisionemacchinaComponent implements OnInit {
    */
   ascoltaEng2(){
     this._engineService.getTempEngineTwo().subscribe(value => {
-      this.tempEng2 = value;
+      this.ngZone.run(() =>{
+        this.tempEng2 = value;
+      });
     });
   }
 
@@ -58,7 +59,9 @@ export class VisionemacchinaComponent implements OnInit {
    */
   ascoltaEng3(){
     this._engineService.getTempEngineThree().subscribe(value => {
-      this.tempEng3 = value;
+      this.ngZone.run(() =>{
+        this.tempEng3 = value;
+      });
     });
   }
 
@@ -67,7 +70,9 @@ export class VisionemacchinaComponent implements OnInit {
    */
   ascoltaEng4(){
     this._engineService.getTempEngineFour().subscribe(value => {
-      this.tempEng4 = value;
+      this.ngZone.run(() =>{
+        this.tempEng4 = value;
+      });
     });
   }
 
@@ -76,7 +81,9 @@ export class VisionemacchinaComponent implements OnInit {
    */
   ascoltaIgbt1(){
     this._engineService.getTempIgbtOne().subscribe(value => {
-      this.tempIgbt1 = value;
+      this.ngZone.run(() =>{
+        this.tempIgbt1 = value;
+      });
     });
   }
 
@@ -85,7 +92,9 @@ export class VisionemacchinaComponent implements OnInit {
    */
   ascoltaIgbt2(){
     this._engineService.getTempIgbtTwo().subscribe(value => {
-      this.tempIgbt2 = value;
+      this.ngZone.run(() =>{
+        this.tempIgbt2 = value;
+      });
     });
   }
 
@@ -94,7 +103,9 @@ export class VisionemacchinaComponent implements OnInit {
    */
   ascoltaIgbt3(){
     this._engineService.getTempIgbtThree().subscribe(value => {
-      this.tempIgbt3 = value;
+      this.ngZone.run(() =>{
+        this.tempIgbt3 = value;
+      });
     });
   }
 
@@ -103,7 +114,9 @@ export class VisionemacchinaComponent implements OnInit {
    */
   ascoltaIgbt4(){
     this._engineService.getTempIgbtFour().subscribe(value => {
-      this.tempIgbt4 = value;
+      this.ngZone.run(() =>{
+        this.tempIgbt4 = value;
+      });
     });
   }
 

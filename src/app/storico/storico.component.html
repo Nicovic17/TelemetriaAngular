@@ -46,6 +46,9 @@
             </button>
           </mat-form-field>
           <button mat-button color="primary" class="inCenterButton" (click)="this.canFilter = false; this.sensorListDisplayed = false" >Nuova Ricerca</button>
+          <button mat-icon-button #infbutt class="helpButton" *ngIf="chartsListDisplayed" (click)="showDialogChartsInfo();">
+            <mat-icon>help</mat-icon>
+          </button>
         </div>
         <!-- Fine Modulo filtraggio dati-->
         <div class = "center" [hidden]="!sensorListDisplayed && !chartsListDisplayed">

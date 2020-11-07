@@ -6,6 +6,7 @@ import {MatDialogComponent} from '../mat-dialog/mat-dialog.component';
 import {FormControl} from '@angular/forms';
 import {debounceTime, startWith, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
+import {MatButton} from '@angular/material/button';
 
 // Per utilizzare jQuery in TS
 declare var $: any;
@@ -130,7 +131,7 @@ export class StoricoComponent implements OnInit {
           this.showErrorNoData();
         }else{
           this.sensorListDisplayed = true;
-          this.chartsListDisplayed = true;
+          //this.chartsListDisplayed = true;
         }
     }
 
@@ -175,6 +176,7 @@ export class StoricoComponent implements OnInit {
           }
         }
         if (!isFailed) {
+          this.chartsListDisplayed = true;
           this.sensorListDisplayed = false;
           this.search.reset();
           this.search.disable();
@@ -204,8 +206,12 @@ export class StoricoComponent implements OnInit {
           const myOpt = this.createNewChartOption(this.toTitleCase(this.sensorsMap.get(i).replace(/_/g, ' ')),
             false,
             [{name: this.sensorsMap.get(i), data: arrayData}]);
-          $('#grafici').append('<div id=\'' + i + '\'></div>'); // Il metodo ngFor non faceva rendereizzare il grafico
-          Highcharts.chart(String(i), myOpt);
+          const subscription = this.graphSection.changes.subscribe(() => {
+            console.log("Is changed");
+            $('#grafici').append('<div id=\'' + i + '\'></div>'); // Il metodo ngFor non faceva rendereizzare il grafico
+            Highcharts.chart(String(i), myOpt);
+            subscription.unsubscribe();
+          });
           this.canJoinGraph = true;
         }
     }
@@ -224,8 +230,11 @@ export class StoricoComponent implements OnInit {
             newSeries.push({name: this.sensorsMap.get(i), data: arrayData});
         }
         myOpt.series = newSeries;
-        $('#grafici').append('<div id=\'uni\'></div>');
-        Highcharts.chart('uni', myOpt);
+        const subscription = this.graphSection.changes.subscribe(() => {
+          $('#grafici').append('<div id=\'uni\'></div>');
+          Highcharts.chart('uni', myOpt);
+          subscription.unsubscribe();
+        });
         this.showDialogChartsJoined();
         this.canJoinGraph = false;
     }
@@ -341,6 +350,21 @@ export class StoricoComponent implements OnInit {
     }
 
   /**
+   * Mostra un Dialog all'utente per informarlo sull'utilizzo dei grafici
+   */
+    showDialogChartsInfo(){
+      const body = [
+        'E\' possibile selezionare un intervallo di valori del grafico per eseguire uno zoom.',
+        ' ',
+        'Una volta eseguito uno zoom è possibile spostarsi nel grafico tenenedo premuto il tasto Shift e trascinando (il grafico) con il cursore' +
+        ' in una determinata direzione.',
+        ' ',
+        'Sulla parte superiore destra di ogni grafico è presente un menù che permette di esportare i dati in diversi formati.'
+      ];
+      const ref = this.showDialog('Informazioni sui Grafici', body);
+    }
+
+  /**
    * Mostra un Dialog di errore all'utente
    */
     showErrorTimeDialog(){
@@ -371,7 +395,7 @@ export class StoricoComponent implements OnInit {
           title: 'Attenzione!',
           body: [
             'Nell\'intervallo temporale selezionato non sono presenti dati all\'interno del database.',
-            '.',
+            ' ',
             'Visualizzare la sezione tracciato per sapere quali dati sono presenti nel Database.'
           ],
         },

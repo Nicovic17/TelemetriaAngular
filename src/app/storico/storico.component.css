@@ -42,6 +42,11 @@
   margin-left: -5%;
   bottom: 1%;
 }
+.helpButton {
+  position: absolute;
+  margin-left: 280px;
+  margin-top: 46px;
+}
 .buttonDistance {
   margin-left: 10px;
 }

@@ -1,7 +1,5 @@
 <h1 mat-dialog-title>{{title}}</h1>
-<mat-dialog-content *ngFor="let i of body">
-  {{i}}
-</mat-dialog-content>
+<mat-dialog-content *ngFor="let i of body" style="white-space: pre-wrap">{{i}}</mat-dialog-content>
 <mat-dialog-actions align="center">
   <button *ngIf="!isChoice && !isPersonalized" mat-button (click)="closeDialog()">Chiudi</button>
   <button *ngIf="isChoice" mat-button (click)="yesChoice()">Si</button>
