@@ -24,6 +24,9 @@ export class NewBatteryComponent implements OnInit {
     public colorLV;
     public colorHV;
 
+    public tempMediaHVClass="btn bottom"
+    public tempMediaLVClass="btn bottom"
+
     constructor(private _interactionService: BatteryService, private ngZone: NgZone) { }
 
     ngOnInit(): void {
@@ -56,6 +59,8 @@ export class NewBatteryComponent implements OnInit {
         this._interactionService.getBatteriaLowVoltage().subscribe(data => {
             this.ngZone.run(() => {
                 this.dataLV = Number(data);
+
+                
             });
             this.batUpdateLowVoltage();
         });
@@ -112,6 +117,12 @@ export class NewBatteryComponent implements OnInit {
         this._interactionService.getTempMediaHighVoltage().subscribe(value => {
             this.ngZone.run(() => {
                 this.tmediaHV = value;
+
+                if(this.tmediaHV>60)
+                this.tempMediaHVClass="btn red bottom";
+
+                if(this.tmediaHV<=60)
+                this.tempMediaHVClass="btn bottom";
             });
         });
     }
@@ -123,6 +134,12 @@ export class NewBatteryComponent implements OnInit {
         this._interactionService.getTempMediaLowVoltage().subscribe(value => {
             this.ngZone.run(() => {
                 this.tmediaLV = value;
+
+                if(this.tmediaLV>60)
+                this.tempMediaLVClass="btn red bottom";
+
+                if(this.tmediaLV<=60)
+                this.tempMediaLVClass="btn bottom";
             });
         });
     }

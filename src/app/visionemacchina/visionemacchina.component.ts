@@ -8,9 +8,17 @@ import {EngineService} from '../engine.service';
 })
 export class VisionemacchinaComponent implements OnInit {
   public tempEng1;
+  public tempEng1Class="btn";
+
   public tempEng2;
+  public tempEng2Class="btn";
+
   public tempEng3;
+  public tempEng3Class="btn";
+
   public tempEng4;
+  public tempEng4Class="btn";
+
   public tempIgbt1;
   public tempIgbt2;
   public tempIgbt3;
@@ -38,7 +46,14 @@ export class VisionemacchinaComponent implements OnInit {
   ascoltaEng1(){
     this._engineService.getTempEngineOne().subscribe(value => {
       this.ngZone.run(() =>{
+        
         this.tempEng1 = value;
+
+        if(this.tempEng1>80 || this.tempIgbt1>80)
+        this.tempEng1Class="btn red"
+
+        if(this.tempEng1<=80 && this.tempIgbt1<=80)
+        this.tempEng1Class="btn"
       });
     });
   }
@@ -50,6 +65,12 @@ export class VisionemacchinaComponent implements OnInit {
     this._engineService.getTempEngineTwo().subscribe(value => {
       this.ngZone.run(() =>{
         this.tempEng2 = value;
+
+        if(this.tempEng2>80 || this.tempIgbt2>80)
+        this.tempEng2Class="btn red"
+
+        if(this.tempEng2<=80 && this.tempIgbt2<=80)
+        this.tempEng2Class="btn"
       });
     });
   }
@@ -61,6 +82,12 @@ export class VisionemacchinaComponent implements OnInit {
     this._engineService.getTempEngineThree().subscribe(value => {
       this.ngZone.run(() =>{
         this.tempEng3 = value;
+
+        if(this.tempEng3>80 || this.tempIgbt3>80)
+        this.tempEng3Class="btn red"
+
+        if(this.tempEng3<=80 && this.tempIgbt3<=80)
+        this.tempEng3Class="btn"
       });
     });
   }
@@ -72,6 +99,12 @@ export class VisionemacchinaComponent implements OnInit {
     this._engineService.getTempEngineFour().subscribe(value => {
       this.ngZone.run(() =>{
         this.tempEng4 = value;
+
+        if(this.tempEng3>80 || this.tempIgbt3>80)
+        this.tempEng4Class="btn red"
+
+        if(this.tempEng3<=80 && this.tempIgbt3<=80)
+        this.tempEng4Class="btn"
       });
     });
   }
@@ -83,6 +116,13 @@ export class VisionemacchinaComponent implements OnInit {
     this._engineService.getTempIgbtOne().subscribe(value => {
       this.ngZone.run(() =>{
         this.tempIgbt1 = value;
+
+        if(this.tempEng1>80 || this.tempIgbt1>80)
+        this.tempEng1Class="btn red"
+
+        if(this.tempEng1<=80 && this.tempIgbt1<=80)
+        this.tempEng1Class="btn"
+
       });
     });
   }
@@ -94,6 +134,12 @@ export class VisionemacchinaComponent implements OnInit {
     this._engineService.getTempIgbtTwo().subscribe(value => {
       this.ngZone.run(() =>{
         this.tempIgbt2 = value;
+
+        if(this.tempEng2>80 || this.tempIgbt2>80)
+        this.tempEng2Class="btn red"
+
+        if(this.tempEng2<=80 && this.tempIgbt2<=80)
+        this.tempEng2Class="btn"
       });
     });
   }
@@ -105,6 +151,12 @@ export class VisionemacchinaComponent implements OnInit {
     this._engineService.getTempIgbtThree().subscribe(value => {
       this.ngZone.run(() =>{
         this.tempIgbt3 = value;
+
+        if(this.tempEng3>80 || this.tempIgbt3>80)
+        this.tempEng3Class="btn red"
+
+        if(this.tempEng3<=80 && this.tempIgbt3<=80)
+        this.tempEng3Class="btn"
       });
     });
   }
@@ -116,6 +168,12 @@ export class VisionemacchinaComponent implements OnInit {
     this._engineService.getTempIgbtFour().subscribe(value => {
       this.ngZone.run(() =>{
         this.tempIgbt4 = value;
+
+        if(this.tempEng4>80 || this.tempIgbt4>80)
+        this.tempEng4Class="btn red"
+
+        if(this.tempEng4<=80 && this.tempIgbt4<=80)
+        this.tempEng4Class="btn"
       });
     });
   }
