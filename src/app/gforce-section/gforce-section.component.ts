@@ -58,16 +58,34 @@ export class GforceSectionComponent implements OnInit {
   updateGForce(){
     const zeroLat = 47;  // est-ovest 47
     const zeroLong = 48;  // nord-sud 48
+    const latFixer = 33;
+    const longFixer = 34;
+    const x = (latFixer / 20) * this.lateral;
+    const y = longFixer / 20 * this.longitudinal;
+    const fix = Math.abs(this.lateral - this.longitudinal);
+    const latFix = Math.abs((x / 20 * fix) - x);
+    const longFix = Math.abs((y / 20 * fix) - y);
     let tempLat;
+
     if (this.latDir === 'L'){
       tempLat = this.lateral * -5.30612;
     }else{
       tempLat = this.lateral * 5.30612;
     }
     const tempLong = this.longitudinal * -5.30612;
-    this.x_axis = (zeroLat + tempLat) + 'px';
-    this.y_axis = (zeroLong + tempLong) + 'px';
-
+    if ((this.latDir === 'L' || this.latDir === '') && this.longitudinal < 0){
+      this.x_axis = (zeroLat + tempLat + latFix) + 'px';
+      this.y_axis = (zeroLong + tempLong - longFix) + 'px';
+    }else if ((this.latDir === 'L' || this.latDir === '') && this.longitudinal >= 0){
+      this.x_axis = (zeroLat + tempLat + latFix) + 'px';
+      this.y_axis = (zeroLong + tempLong + longFix) + 'px';
+    }else if (this.latDir === 'R' && this.longitudinal < 0){
+      this.x_axis = (zeroLat + tempLat - latFix) + 'px';
+      this.y_axis = (zeroLong + tempLong - longFix) + 'px';
+    }else if (this.latDir === 'R' && this.longitudinal >= 0){
+      this.x_axis = (zeroLat + tempLat - latFix) + 'px';
+      this.y_axis = (zeroLong + tempLong + longFix) + 'px';
+    }
   }
 
 
