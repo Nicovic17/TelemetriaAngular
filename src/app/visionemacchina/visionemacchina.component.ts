@@ -100,10 +100,10 @@ export class VisionemacchinaComponent implements OnInit {
       this.ngZone.run(() =>{
         this.tempEng4 = value;
 
-        if(this.tempEng3>80 || this.tempIgbt3>80)
+        if(this.tempEng4>80 || this.tempIgbt4>80)
         this.tempEng4Class="btn red"
 
-        if(this.tempEng3<=80 && this.tempIgbt3<=80)
+        if(this.tempEng4<=80 && this.tempIgbt4<=80)
         this.tempEng4Class="btn"
       });
     });
