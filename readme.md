@@ -1,11 +1,11 @@
-#How to run project
+#How to run project in localhost
 
-Once clone is done you have to run "npm install" command to let Angular install all the needed libreries.
-Before to run the application you have to download HighChart libreries ( https://www.highcharts.com/blog/download/ clicking on Highchart *.*.*) extract the zip file downloaded and put the content of "code" in this path:
+Clone the repository. 
 
-**/ProjectName/src/assets/js/Highchart/
+Install npm.
 
-If the Highchart folder doesn't exist, create one. Don't forget the upper H in "Highcharts" or the progect would not work.
+Install Angular Client.
+
+Run npm install. 
 
 Enjoy.
-
