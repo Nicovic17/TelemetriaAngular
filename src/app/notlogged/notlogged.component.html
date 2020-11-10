@@ -2,16 +2,25 @@
 
 <body>
 
-    <div class="overlay" *ngIf="isLoading">
-      <div class="overlay__inner">
-        <div class="overlay__content"><span class="spinner"></span></div>
-      </div>
+  <div class="overlay" *ngIf="isLoading">
+    <div class="overlay__inner">
+      <div class="overlay__content"><span class="spinner"></span></div>
     </div>
+  </div>
+
+  <div class="row">
+
     <div class="loggedin-div"  id="login_div">
+      <div class="row">
         <object>
           <embed src="../assets/svg/eteam.svg" width="40%" height="40%">
       </object>
+      </div>
+      <div class="row">
         <h3 class="loginHeader">Autenticazione</h3>
+      </div>
+
+      <div class="row">
         <p>
           <mat-form-field appearance="legacy">
             <mat-label>Username</mat-label>
@@ -19,6 +28,9 @@
             <mat-icon matSuffix>account_circle</mat-icon>
           </mat-form-field>
         </p>
+      </div>
+      
+      <div class="row">
         <p>
           <mat-form-field appearance="legacy">
             <mat-label>Password</mat-label>
@@ -29,13 +41,24 @@
             </button>
           </mat-form-field>
         </p>
-      <div *ngIf="loginButtonDisabled; then disabled else notDisabled"></div>
-      <ng-template #disabled><button  class="myButtonNoHover" disabled mat-raised-button color="primary" *ngIf="loginButtonDisabled">Login</button></ng-template>
-      <ng-template #notDisabled><button  class="myButton" mat-raised-button color="primary" (click)="myLogin()" *ngIf="!loginButtonDisabled">Login</button></ng-template>
-
-
-
       </div>
+
+      <div class="row">
+        <div *ngIf="loginButtonDisabled; then disabled else notDisabled"></div>
+        <ng-template #disabled><button  class="myButtonNoHover" disabled mat-raised-button color="primary" *ngIf="loginButtonDisabled">Login</button></ng-template>
+        <ng-template #notDisabled><button  class="myButton" mat-raised-button color="primary" (click)="myLogin()" *ngIf="!loginButtonDisabled">Login</button></ng-template>
+    
+      </div>
+      
+    
+
+
+    </div>
+
+  </div>
+
+    
+    
 
 </body>
 
