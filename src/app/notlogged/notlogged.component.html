@@ -11,43 +11,53 @@
   <div class="row">
 
     <div class="loggedin-div"  id="login_div">
+          <object>
+            <embed class="imgStyle" src="../assets/svg/eteam.svg">
+        </object>
+        
       <div class="row">
-        <object>
-          <embed src="../assets/svg/eteam.svg" width="40%" height="40%">
-      </object>
-      </div>
-      <div class="row">
-        <h3 class="loginHeader">Autenticazione</h3>
+        <div class="col-sm-12">
+          <h3 class="loginHeader">Autenticazione</h3>
+        </div>
       </div>
 
       <div class="row">
-        <p>
-          <mat-form-field appearance="legacy">
-            <mat-label>Username</mat-label>
-            <input matInput disabled value="Unina Corse">
-            <mat-icon matSuffix>account_circle</mat-icon>
-          </mat-form-field>
-        </p>
+        <div class="col-sm-12">
+          <p>
+            <mat-form-field appearance="legacy">
+              <mat-label>Username</mat-label>
+              <input matInput disabled value="Unina Corse">
+              <mat-icon matSuffix>account_circle</mat-icon>
+            </mat-form-field>
+          </p>
+        </div>
+        
       </div>
       
       <div class="row">
-        <p>
-          <mat-form-field appearance="legacy">
-            <mat-label>Password</mat-label>
-            <input id="inputPassword" (keyup)="handleEvent($event)" matInput [type]="hideNewPassword ? 'password' : 'text'" placeholder="Password" [formControl]="password" required>
-            <button mat-icon-button matSuffix (click)="hideNewPassword = !hideNewPassword"
-            [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideNewPassword">
-            <mat-icon>{{hideNewPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-          </mat-form-field>
-        </p>
+        <div class="col-sm-12">
+          <p>
+            <mat-form-field appearance="legacy">
+              <mat-label>Password</mat-label>
+              <input id="inputPassword" (keyup)="handleEvent($event)" matInput [type]="hideNewPassword ? 'password' : 'text'" placeholder="Password" [formControl]="password" required>
+              <button mat-icon-button matSuffix (click)="hideNewPassword = !hideNewPassword"
+              [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideNewPassword">
+              <mat-icon>{{hideNewPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+          </p>
+        </div>
+        
       </div>
 
       <div class="row">
-        <div *ngIf="loginButtonDisabled; then disabled else notDisabled"></div>
-        <ng-template #disabled><button  class="myButtonNoHover" disabled mat-raised-button color="primary" *ngIf="loginButtonDisabled">Login</button></ng-template>
-        <ng-template #notDisabled><button  class="myButton" mat-raised-button color="primary" (click)="myLogin()" *ngIf="!loginButtonDisabled">Login</button></ng-template>
-    
+        <div class="col-sm-12">
+          <div *ngIf="loginButtonDisabled; then disabled else notDisabled"></div>
+          <ng-template #disabled><button  class="myButtonNoHover" disabled mat-raised-button color="primary" *ngIf="loginButtonDisabled">Login</button></ng-template>
+          <ng-template #notDisabled><button  class="myButton" mat-raised-button color="primary" (click)="myLogin()" *ngIf="!loginButtonDisabled">Login</button></ng-template>
+      
+        </div>
+       
       </div>
       
     

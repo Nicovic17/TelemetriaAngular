@@ -34,7 +34,7 @@ body{
 
     border: 0px;
     border-radius: 5px;
-    padding: 25px;
+    padding: 10px;
     margin-top: 10px;
     display: block;
     width: 100%;
@@ -46,7 +46,7 @@ body{
 .myButton{
     border: 0px;
     border-radius: 5px;
-    padding: 25px;
+    padding: 10px;
     margin-top: 10px;
     display: block;
     width: 100%;
@@ -112,6 +112,11 @@ body{
 
 /*Fine loader*/
 
+.imgStyle{
+  width: 40%;
+  height: 40%;
+}
+
 @media (min-width:320px)  {
     
   /* smartphones, portrait iPhone, portrait 480x320 phones (Android) */ 
@@ -140,6 +145,14 @@ body{
 }
 @media (min-width:480px)  { 
   /* smartphones, Android phones, landscape iPhone */ 
+  .loginHeader{
+    color: aqua;
+    font-size: 25px;
+}
+
+button{
+  font-size: 25px;
+}
   .loggedin-div{
       width: 60%;
       margin: 0px auto;
@@ -161,10 +174,24 @@ body{
       height: 100%; 
       overflow: auto;
   }
+
+  .imgStyle{
+    width: 35%;
+    height: 35%;
+}
 
 }
 @media (min-width:600px)  { 
   /* portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android) */ 
+  .loginHeader{
+    color: yellow;
+    font-size: 25px;
+}
+
+button{
+  font-size: 25px;
+}
+
   .loggedin-div{
       width: 60%;
       margin: 0px auto;
@@ -187,13 +214,23 @@ body{
       overflow: auto;
   }
 
+  .imgStyle{
+    width: 30%;
+    height: 30%;
+}
+
 }
 @media (min-width:801px)  { 
   /* tablet, landscape iPad, lo-res laptops ands desktops */ 
+  
   .loginHeader{
-      color: black;
+      color: green;
+      font-size: 25px;
   }
 
+  button{
+    font-size: 25px;
+}
 
 
   .loggedin-div{
@@ -218,18 +255,25 @@ body{
       height: 100%; 
       overflow: hidden;
   }
+  .imgStyle{
+    width: 30%;
+    height: 30%;
+}
 }
 @media (min-width:1025px) { 
   /* big landscape tablets, laptops, and desktops */ 
   .loginHeader{
-      color: black;
+      color: blue;
   }
 
+  button{
+    font-size: 25px;   
+  }
  
   .loggedin-div{
-      width: 60%;
+      width: 30%;
       margin: 0px auto;
-      margin-top: 150px;
+      margin-top: 50px;
       padding: 20px;
       text-align: center;
       background-color: whitesmoke;
@@ -246,21 +290,25 @@ body{
       height: 100%; 
       overflow: hidden;
   }
+  .imgStyle{
+    width: 30%;
+    height: 30%;
+}
 }
 @media (min-width:1281px) { 
   /* hi-res laptops and desktops */ 
   .loginHeader{
-      color: black;
+      color: red;
       font-size: 30px;
   }
   button{
-      font-size: 25px;
+      font-size: 15px;
   }
 
   .loggedin-div{
       width: 25%;
       margin: 0px auto;
-      margin-top: 150px;
+      margin-top: 50px;
       padding: 20px;
       text-align: center;
       background-color: whitesmoke;

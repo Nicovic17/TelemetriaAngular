@@ -1,0 +1,19 @@
+
+html{
+    margin: 0; 
+    height: 100%; 
+    overflow: auto;
+}
+
+.loginHeader{
+    font-size: 20px;
+}
+body{
+    background: #383140;
+    padding: 0px;
+    margin: 0px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    height: 100%; 
+    overflow: auto;
+}

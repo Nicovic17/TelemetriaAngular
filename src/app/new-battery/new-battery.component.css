@@ -201,12 +201,12 @@
   font-family: "Signika", Arial, Helvetica, sans-serif;
   font-weight: 990;
   font-size: 22px;
-  margin-top: -13px;
+  
 }
 .box{
     position: relative;
-    top: 13px;
-    left: 90px;
+    left: 0;
+    margin-left: 100px;
 }
 .inBox{
     position: relative;

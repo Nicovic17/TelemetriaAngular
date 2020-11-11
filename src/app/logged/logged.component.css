@@ -7,6 +7,7 @@ html{
 
 .loginHeader{
     font-size: 20px;
+    margin-top: 0px !important;
 }
 body{
     background: #383140;
@@ -48,7 +49,7 @@ body{
 .myButton{
     border: 0px;
     border-radius: 5px;
-    padding: 25px;
+    padding: 10px;
     margin-top: 10px;
     display: block;
     width: 100%;
@@ -64,35 +65,20 @@ body{
     cursor: pointer;
 }
 
-@media only screen and (max-width: 600px)
-{
-    .loggedin-div{
-        width: 60%;
-        margin: 0px auto;
-        margin-top: 150px;
-        padding: 20px;
-        text-align: center;
-        background-color: whitesmoke;
-        display: block;
-        border-radius: 3px;
-        overflow: auto;
-    }
-
-    body{
-        background: #383140;
-        padding: 0px;
-        margin: 0px;
-        font-family: 'Open Sans', sans-serif;
-        font-size: 16px;
-        height: 100%; 
-        overflow: auto;
-    }
+.imgStyle{
+    width: 40%;
+    height: 40%;
 }
+
+
 
 
 @media (min-width:320px)  {
     
     /* smartphones, portrait iPhone, portrait 480x320 phones (Android) */ 
+    .loginHeader{
+        color: #5d8ffc;
+    }
     .loggedin-div{
         width: 60%;
         margin: 0px auto;
@@ -118,6 +104,14 @@ body{
 }
 @media (min-width:480px)  { 
     /* smartphones, Android phones, landscape iPhone */ 
+    .loginHeader{
+        color: aqua;
+        font-size: 25px;
+    }
+
+    button{
+        font-size: 25px;
+    }
     .loggedin-div{
         width: 60%;
         margin: 0px auto;
@@ -138,11 +132,25 @@ body{
         font-size: 16px;
         height: 100%; 
         overflow: auto;
+    }
+
+    .imgStyle{
+        width: 30%;
+        height: 30%;
     }
 
 }
 @media (min-width:600px)  { 
     /* portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android) */ 
+    .loginHeader{
+        color: yellow;
+        font-size: 25px;
+    }
+
+    button{
+        font-size: 25px;
+    }
+
     .loggedin-div{
         width: 60%;
         margin: 0px auto;
@@ -163,14 +171,19 @@ body{
         font-size: 16px;
         height: 100%; 
         overflow: auto;
+    }
+
+    .imgStyle{
+        width: 30%;
+        height: 30%;
     }
 
 }
 @media (min-width:801px)  { 
     /* tablet, landscape iPad, lo-res laptops ands desktops */ 
     .loginHeader{
-        color: black;
-        font-size: 25;
+        color: green;
+        font-size: 25px;
     }
 
     button{
@@ -199,11 +212,16 @@ body{
         height: 100%; 
         overflow: hidden;
     }
+
+    .imgStyle{
+        width: 30%;
+        height: 30%;
+    }
 }
 @media (min-width:1025px) { 
     /* big landscape tablets, laptops, and desktops */ 
     .loginHeader{
-        color: black;
+        color: blue;
         font-size: 30px;
     }
 
@@ -231,27 +249,33 @@ body{
         height: 100%; 
         overflow: hidden;
     }
+
+    .imgStyle{
+        width: 30%;
+        height: 30%;
+    }
 }
 @media (min-width:1281px) { 
     /* hi-res laptops and desktops */ 
     .loginHeader{
-        color: black;
+        color: red;
         font-size: 30px;
     }
 
     button{
-        font-size: 25px;
+        font-size: 15px;
     }
 
     .loggedin-div{
-        width: 25%;
+        width: 30%;
         margin: 0px auto;
-        margin-top: 150px;
+        margin-top: 50px;
         padding: 20px;
         text-align: center;
         background-color: whitesmoke;
         display: block;
         border-radius: 3px;
+        overflow: auto;
     }
 
     body{
@@ -261,6 +285,6 @@ body{
         font-family: 'Open Sans', sans-serif;
         font-size: 16px;
         height: 100%; 
-        overflow: hidden;
+        overflow: auto;
     }
 }

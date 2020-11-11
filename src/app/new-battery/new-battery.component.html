@@ -1,19 +1,15 @@
 <div class="box">
+    
     <div class="row">
-        <div class="col">
-            <div class="title">
-                <span>HighVoltage &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LowVoltage</span>
-            </div>
-        </div>
-    </div>
-    <div class="row" style="margin-top: 20px">
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="margin-top: 10px">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            <span class="title">HighVoltage</span>
             <button [class]="tempMediaHVClass" type="button"><span class="spanBar">{{tmediaHV | number: '1.1-2'}}°C</span></button>
             <button class="btn bottom" type="button"><span class="spanBar">{{tensioneHV | number: '1.1-3'}}V</span></button>
             <button class="btn bottom" type="button"><span class="spanBar">{{correnteHV | number: '1.1-3'}}A</span></button>
             <button class="btn bottom" type="button"><span class="spanBar">{{dataHV}}%</span></button>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="margin-top: 10px; margin-left: 85px">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style=" margin-left: 85px">
+            <span class="title">LowVoltage</span>
             <button [class]="tempMediaLVClass" type="button"><span class="spanBar">{{tmediaLV | number: '1.1-2'}}°C</span></button>
             <button class="btn bottom" type="button"><span class="spanBar">{{tensioneLV | number: '1.1-3'}}V</span></button>
             <button class="btn bottom" type="button"><span class="spanBar">{{correnteLV | number: '1.1-3'}}A</span></button>

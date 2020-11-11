@@ -3,25 +3,25 @@
 
     <body>
 
-      <div class="row">
+      <div class="container-fluid">
 
-        <div class="loggedin-div col" id="user_div">
-          <div class="row">
-            <object>
-              <embed src="../assets/svg/eteam.svg" width="40%" height="40%">
-            </object>
-          </div>
+        <div class="loggedin-div" id="user_div">
           
-          <div class="row">
-            <h3 class="loginHeader col">Bentornato</h3>
+              <object>
+                <embed class="imgStyle" src="../assets/svg/eteam.svg">
+              </object>
+            
+            
+          
+          <div class="row myMargin">
+            <div class="col-sm-12">
+              <h3 class="loginHeader">Bentornato</h3>
+            </div>
+            
           </div>
 
         <div class="row">
-          <div class="col">
-
             <button class="myButton myHover" mat-raised-button color="primary" routerLink="../statogenerale">Stato Generale</button>
-          </div>
-
         </div>
         <div class="row">
           <button class="myButton myHover" mat-raised-button color="primary" routerLink="../storico">Storico</button>
@@ -36,6 +36,9 @@
         </div>
 
       </div>
+
+        
+
         
 
     </body>
