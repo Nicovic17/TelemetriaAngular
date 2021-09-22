@@ -1,4 +1,4 @@
-#How to run project in localhost
+# How to run project in localhost
 
 Clone the repository. 
 
